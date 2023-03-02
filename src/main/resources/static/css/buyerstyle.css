@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+#wrap{
+	height: 800px;
+	width:1200px;
+	margin:auto;
+}
+
+header {
+	height: 50px;
+}
+
+
+.signup-section {
+	height:600px;
+	background-color: #E0E0E0;
+}
+
+.signin-section {
+	height:600px;
+}
+
+.buyer-tab {
+	width: 200px;
+}
+
+.seller-tab {
+	width: 200px;
+}
+
+.nav-tabs > .nav-item > .active{
+	background-color: #0D6EFD;
+}
+
+.signup-card {
+	width: 500px;
+}
+
+.signin-title {
+	width: 600px;
+}
+
+.signin-card {
+	width:500px;
+}
+
+.small-signin-card {
+	width: 400px;
+}
+
+.buyerfind-section{
+	height:600px;
+}
+
+.buyerfindidbyphone-card{
+	width: 400px;
+}
+
+.buyerfindidbyemail-card{
+	width: 400px;
+}
+
+.buyerfindid-checkbox{
+	width:500px;
+}
+
+.id-tab {
+	width: 200px;
+}
+.pw-tab {
+	width: 200px;
+}
