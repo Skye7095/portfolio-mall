@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+#wrap{
+	height: 800px;
+	width:1200px;
+}
+
+header {
+	height: 50px;
+}
+
+section {
+	height:600px;
+}
+
+.signup-card {
+	width: 400px;
+}
+footer {
+	height:100px;
+}
+
