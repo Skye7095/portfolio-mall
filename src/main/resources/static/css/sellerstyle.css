@@ -10,7 +10,6 @@ header {
 	height: 50px;
 }
 
-
 .signup-section {
 	height:600px;
 	background-color: #E0E0E0;
@@ -69,4 +68,30 @@ header {
 }
 .pw-tab {
 	width: 200px;
+}
+
+/*seller-personal.jsp*/
+.sellerPersonal-section {
+	height: 800px;
+}
+
+.menu-smallbox {
+	height:50px;
+	width:150px;
+	color: white;
+	font-weight: bold;
+	font-size: medium;
+}
+
+.menu-smallbox:hover{
+	background-color: #dddddd;
+}
+
+.content {
+	height:500px;
+	width: 600px;
+}
+
+.content > .otherbox{
+	width: 500px;
 }

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>구매회원 아이디 찾기</title>
+<title>판매회원 아이디 찾기</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
@@ -22,14 +22,14 @@
 		<c:import url="/WEB-INF/jsp/common/smallheader.jsp"/>
 		<section class="sellerfind-section d-flex justify-content-center align-items-center">
 			<div class="bg-white border border-light signup-card">
-				<h2 class="text-center">구매회원 아이디 찾기</h2>
+				<h2 class="text-center">판매회원 아이디 찾기</h2>
 				<div class="sellerfind-select d-flex justify-content-around">
 					<ul class="nav nav-tabs">
 					  <li class="nav-item id-tab text-center">
-					    <a class="nav-link active" href="/user/seller/findID/view"><span class="text-white font-weight-bold">아이디 찾기</span></a>
+					    <a class="nav-link active" href="/seller/findID/view"><span class="text-white font-weight-bold">아이디 찾기</span></a>
 					  </li>
 					  <li class="nav-item pw-tab text-center">
-					    <a class="nav-link" href="/user/seller/resetPW/view"><span class="text-dark">비밀번호 찾기</span></a>
+					    <a class="nav-link" href="/seller/resetPW/view"><span class="text-dark">비밀번호 찾기</span></a>
 					  </li>
 					</ul>
 				</div>

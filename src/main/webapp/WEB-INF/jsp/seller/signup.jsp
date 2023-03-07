@@ -14,7 +14,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
-<link rel="stylesheet" href="/static/css/style.css" type="text/css">
+<link rel="stylesheet" href="/static/css/sellerstyle.css" type="text/css">
 
 </head>
 <body>
@@ -26,10 +26,10 @@
 				<div class="identify-select d-flex justify-content-around">
 					<ul class="nav nav-tabs">
 					  <li class="nav-item buyer-tab text-center">
-					    <a class="nav-link" aria-current="page" href="/user/buyer/signup/view"><span class="text-dark">구매회원</span></a>
+					    <a class="nav-link" aria-current="page" href="/buyer/signup/view"><span class="text-dark">구매회원</span></a>
 					  </li>
 					  <li class="nav-item seller-tab text-center">
-					    <a class="nav-link active" href="/user/seller/signup/view"><span class="text-white font-weight-bold">판매회원</span></a>
+					    <a class="nav-link active" href="/seller/signup/view"><span class="text-white font-weight-bold">판매회원</span></a>
 					  </li>
 					</ul>
 				</div>
