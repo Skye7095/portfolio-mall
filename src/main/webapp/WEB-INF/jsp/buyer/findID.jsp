@@ -26,10 +26,10 @@
 				<div class="buyerfind-select d-flex justify-content-around">
 					<ul class="nav nav-tabs">
 					  <li class="nav-item id-tab text-center">
-					    <a class="nav-link active" href="/user/buyer/findID/view"><span class="text-white font-weight-bold">아이디 찾기</span></a>
+					    <a class="nav-link active" href="/buyer/findID/view"><span class="text-white font-weight-bold">아이디 찾기</span></a>
 					  </li>
 					  <li class="nav-item pw-tab text-center">
-					    <a class="nav-link" href="/user/buyer/resetPW/view"><span class="text-dark">비밀번호 찾기</span></a>
+					    <a class="nav-link" href="/buyer/resetPW/view"><span class="text-dark">비밀번호 찾기</span></a>
 					  </li>
 					</ul>
 				</div>

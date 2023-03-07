@@ -26,15 +26,15 @@
 				<div class="buyerfind-select d-flex justify-content-around">
 					<ul class="nav nav-tabs">
 					  <li class="nav-item id-tab text-center">
-					    <a class="nav-link" href="/user/buyer/findID/view"><span class="text-dark">아이디 찾기</span></a>
+					    <a class="nav-link" href="/buyer/findID/view"><span class="text-dark">아이디 찾기</span></a>
 					  </li>
 					  <li class="nav-item pw-tab text-center">
-					    <a class="nav-link active" href="/user/buyer/resetPW/view"><span class="text-white font-weight-bold">비밀번호 재설정</span></a>
+					    <a class="nav-link active" href="/buyer/resetPW/view"><span class="text-white font-weight-bold">비밀번호 재설정</span></a>
 					  </li>
 					</ul>
 				</div>
 				
-				<div class="buyerfindid-checkbox d-flex justify-content-around my-3">
+				<div class="buyerfindpw-checkbox d-flex justify-content-around my-3">
 					<div class="form-check">
 					  <input class="form-check-input" type="radio" name="method" value="phoneNumber" checked>
 					  <label class="form-check-label">휴대폰으로 찾기</label>
@@ -45,26 +45,26 @@
 					</div>
 				</div>
 					
-				<div class="buyerfindidbyphone-card container" id="findidbyphone">
+				<div class="buyerfindpwbyphone-card container" id="findidbyphone">
 					<div class="findid-name input-group mt-3 px-3">
 					  <input type="text" class="form-control" placeholder="이름">
 					</div>
 					
-					<div class="findid-phoneNumber input-group my-1 px-3">
+					<div class="findpw-phoneNumber input-group my-1 px-3">
 					  <input type="text" class="form-control" placeholder="휴대폰번호(숫자만 입력)">
 					</div>
 
 					<div class="confirm-btn mt-5 mb-2 d-flex justify-content-center">
-						<button class="btn btn-lg btn-primary" type="button">아이디 찾기</button>
+						<button class="btn btn-lg btn-primary" type="button">비밀번호 리셋하기</button>
 					</div>
 				</div>
 				
-				<div class="buyerfindidbyemail-card container d-none" id="findidbyemail">
+				<div class="buyerfindpwbyemail-card container d-none" id="findidbyemail">
 					<div class="findid-name input-group mt-3 px-3">
 					  <input type="text" class="form-control" placeholder="이름">
 					</div>
 					
-					<div class="findid-email input-group my-1 px-3">
+					<div class="findpw-email input-group my-1 px-3">
 					  <input type="text" class="form-control" placeholder="이메일">
 					</div>
 
