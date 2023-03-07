@@ -18,7 +18,7 @@
 				나의 관심
 				</div>
 			</a>
-			<a class="nav-link" href="/buyer/mybbs/myinquerylist/view">
+			<a class="nav-link" href="/buyer/mybbs/myinquirylist/view">
 				<div class="menu-smallbox d-flex justify-content-start align-items-center">
 				내가 쓴 글
 				</div>

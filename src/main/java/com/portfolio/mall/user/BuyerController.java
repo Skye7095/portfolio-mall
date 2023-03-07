@@ -44,16 +44,16 @@ public class BuyerController {
 		return "/buyer/orderHistory";
 	}
 	
-	// 구매회원 나의관림 페이지
+	// 구매회원 나의관심 페이지
 	@GetMapping("/like/view")
 	public String buyerLike() {
 		return "/buyer/like";
 	}
 	
 	// 구매회원 내가 쓴 글(문의/답변) 페이지
-	@GetMapping("/mybbs/myinquerylist/view")
-	public String buyerInquery() {
-		return "/buyer/inquery";
+	@GetMapping("/mybbs/myinquirylist/view")
+	public String buyerInquiry() {
+		return "/buyer/inquiry";
 	}
 	
 	// 구매회원 내가 쓴 글(상품평) 페이지
@@ -67,5 +67,46 @@ public class BuyerController {
 	public String buyerAttendence() {
 		return "/buyer/attendence";
 	}
-
+	
+	// 비회원 조회 페이지
+	@GetMapping("/non-member/lookup/view")
+	public String non_memberLookupView() {
+		return "/buyer/lookup";
+	}
+	
+	// 비회원 주문비밀버호 페이지
+	@GetMapping("/non-member/lookupPW/view")
+	public String non_memberLookupPWView() {
+		return "/buyer/findOrderPW";
+	}
+	
+	// 비회원 주문정보 페이지
+	@GetMapping("/non-member/purchasedetails/view")
+	public String non_memberPurchaseDetailsView() {
+		return "/buyer/purchaseDetails";
+	}
+	
+	// 장바구니 페이지
+	@GetMapping("/cart/view")
+	public String cartView() {
+		return "/buyer/cart";
+	}
+	
+	// 비회원 주문결제 페이지
+	@GetMapping("/non-member/purchasing/view")
+	public String non_memberPurchasingView() {
+		return "/buyer/nonPurchasing";
+	}
+	
+	// 구매회원 주문결제 페이지
+	@GetMapping("/purchasing/view")
+	public String buyerPurchasingView() {
+		return "/buyer/purchasing";
+	}
+	
+	// 주문완료 페이지
+	@GetMapping("/purchaseCompleted/view")
+	public String purchasingCompletedView() {
+		return "/buyer/purchaseCompleted";
+	}
 }

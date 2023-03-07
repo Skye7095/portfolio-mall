@@ -25,6 +25,7 @@
 				<c:import url="/WEB-INF/jsp/common/buyerPersonalNav.jsp" />
 				
 				<article class="container history-content">
+					<h3 class="mb-3">전체주문내역</h3>
 					<table class="table">
 						<thead class="table-secondary text-center">
 							<tr>

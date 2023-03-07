@@ -106,11 +106,6 @@ header {
 	width: 500px;
 }
 
-/*buyer-orderHistory.jsp*/
-.history-order {
-	width: 700px;
-}
-
 /*buyer-attendence.jsp*/
 .attendence-record{
 	width:400px;
@@ -118,4 +113,29 @@ header {
 
 .calendar-container{
 	width:400px;
+}
+
+/* cart.jsp */
+.amountinput{
+	width:50px;
+}
+
+.simple-paymentinfo1-card{
+	height: auto;
+}
+
+/* nonPurchasing.jsp */
+.simple-paymentinfo2-card{
+	height: auto;
+}
+
+/* purchaseCompleted.jsp */
+.purchaseCompleted-section {
+	width:500px;
+	background-color: #E0E0E0;
+}
+
+/* purchaseCompleted.jsp */
+.purchaseCompleted-section{
+	height: auto;
 }

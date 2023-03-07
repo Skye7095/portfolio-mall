@@ -67,11 +67,11 @@
 						</div>
 						
 						<div class="links d-flex justify-content-center align-items-end">
-						   	<a class="text-dark" href="/user/non-member/lookupPW/view">주문비밀번호 찾기</a>
+						   	<a class="text-dark" href="/non-member/lookupPW/view">주문비밀번호 찾기</a>
 						</div>
 						
 						<div class="signin-info-confirm my-3 d-flex justify-content-center">
-							<button class="btn btn-lg btn-primary" type="button">조회</button>
+							<button class="btn btn-lg btn-primary" type="button" id="lookupBtn">조회</button>
 						</div>
 					</div>
 				</div>
@@ -83,13 +83,17 @@
 	
 	<script>
 		$(document).ready(function(){
+			$("#lookupBtn").on("click", function(){
+				location.href="http://localhost:8080/non-member/purchasedetails/view";
+			});
+			
 			 $("input[name=identity]").on('change', function() {
 	                if($(this).val() == 'buyer') {
-	                	location.href="http://localhost:8080/user/buyer/signin/view";
+	                	location.href="http://localhost:8080/buyer/signin/view";
 	                } else if($(this).val() == 'seller'){
-	                	location.href="http://localhost:8080/user/seller/signin/view";
+	                	location.href="http://localhost:8080/seller/signin/view";
 	                } else{
-	                	location.href="http://localhost:8080/user/non-member/lookup/view";
+	                	location.href="http://localhost:8080/non-member/lookup/view";
 	                }
 	         });
 		})

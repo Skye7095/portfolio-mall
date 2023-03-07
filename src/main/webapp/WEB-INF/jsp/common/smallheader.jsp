@@ -10,6 +10,6 @@
 	<div class="icons d-flex align-items-end">
 		<a class="text-dark" href="/buyer/signin/view">로그인</a>&nbsp; | &nbsp;
 	    <a class="text-dark" href="/buyer/signup/view">회원가입</a>&nbsp; | &nbsp;
-	   	<a class="text-dark" href="#">장바구니</a>
+	   	<a class="text-dark" href="/buyer/cart/view">장바구니</a>
 	</div>
 </header>
