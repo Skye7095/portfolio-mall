@@ -64,9 +64,58 @@ header {
 	width:500px;
 }
 
+.buyerfindpwbyphone-card{
+	width: 400px;
+}
+
+.buyerfindpwbyemail-card{
+	width: 400px;
+}
+
+.buyerfindpw-checkbox{
+	width: 500px;
+}
+
 .id-tab {
 	width: 200px;
 }
 .pw-tab {
 	width: 200px;
+}
+
+/*buyer-personal.jsp*/
+
+.menu-smallbox {
+	height:50px;
+	width:150px;
+	color: white;
+	font-weight: bold;
+	font-size: medium;
+}
+
+.menu-smallbox:hover{
+	background-color: #dddddd;
+}
+
+.content {
+	height:500px;
+	width: 600px;
+}
+
+.content > .otherbox{
+	width: 500px;
+}
+
+/*buyer-orderHistory.jsp*/
+.history-order {
+	width: 700px;
+}
+
+/*buyer-attendence.jsp*/
+.attendence-record{
+	width:400px;
+}
+
+.calendar-container{
+	width:400px;
 }

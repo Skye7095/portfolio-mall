@@ -26,10 +26,10 @@
 				<div class="identify-select d-flex justify-content-around">
 					<ul class="nav nav-tabs">
 					  <li class="nav-item buyer-tab text-center">
-					    <a class="nav-link active" aria-current="page" href="/user/buyer/signup/view"><span class="text-white font-weight-bold">구매회원</span></a>
+					    <a class="nav-link active" aria-current="page" href="/buyer/signup/view"><span class="text-white font-weight-bold">구매회원</span></a>
 					  </li>
 					  <li class="nav-item seller-tab text-center">
-					    <a class="nav-link" href="/user/seller/signup/view"><span class="text-dark">판매회원</span></a>
+					    <a class="nav-link" href="/seller/signup/view"><span class="text-dark">판매회원</span></a>
 					  </li>
 					</ul>
 				</div>
