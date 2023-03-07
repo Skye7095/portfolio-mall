@@ -62,9 +62,9 @@
 						</div>
 						
 						<div class="links d-flex justify-content-center align-items-end">
-							<a class="text-dark" href="/user/buyer/findID/view">아이디찾기</a>&nbsp; | &nbsp;
-						    <a class="text-dark" href="/user/buyer/resetPW/view">비밀번호찾기</a>&nbsp; | &nbsp;
-						   	<a class="text-dark" href="/user/buyer/signup/view">회원가입</a>
+							<a class="text-dark" href="/buyer/findID/view">아이디찾기</a>&nbsp; | &nbsp;
+						    <a class="text-dark" href="/buyer/resetPW/view">비밀번호찾기</a>&nbsp; | &nbsp;
+						   	<a class="text-dark" href="/buyer/signup/view">회원가입</a>
 						</div>
 						
 						<div class="signin-info-confirm my-3 d-flex justify-content-center">
@@ -87,11 +87,11 @@
 		$(document).ready(function(){
 			 $("input[name=identity]").on('change', function() {
 	                if($(this).val() == 'buyer') {
-	                	location.href="http://localhost:8080/user/buyer/signin/view";
+	                	location.href="http://localhost:8080/buyer/signin/view";
 	                } else if($(this).val() == 'seller'){
-	                	location.href="http://localhost:8080/user/seller/signin/view";
+	                	location.href="http://localhost:8080/seller/signin/view";
 	                } else{
-	                	location.href="http://localhost:8080/user/non-member/lookup/view";
+	                	location.href="http://localhost:8080/non-member/lookup/view";
 	                }
 	         });
 		})
