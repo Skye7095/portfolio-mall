@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+#wrap{
+	height: 800px;
+	width:1200px;
+	margin:auto;
+}
+
+/* items.jsp */
+.items-section {
+	width: 1000px;
+}
+
+.payment-info{
+	width: 500px;
+}
+
+.about-section{
+	width: 1000px;
+}
+
+/* main.jsp */
+.navBox{
+	height:300px;
+}
+
+.bannerImg{
+	height: 270px;
+	width: 600px;
+}
+
+.content {
+	width: 300px;
+}
+
+.content > .thumnail{
+	height: 150px;
+	width: 150px;
+}
