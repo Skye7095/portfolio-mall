@@ -17,9 +17,11 @@
 <link rel="stylesheet" href="/static/css/buyerstyle.css" type="text/css">
 
 <!-- 출석체크를 위한 캘린더 라이브러리 -->
-<link rel="stylesheet" href="simple-calendar.css">
-<script src="/path/to/cdn/jquery.min.js"></script>
-<script src="jquery.simple-calendar.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.4/index.global.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.4/index.global.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.4/index.global.min.js'></script>
+<script src='fullcalendar/core/locales/ko.js'></script>
+
 
 </head>
 <body>
@@ -29,7 +31,7 @@
 			<div class="container d-flex justify-content-center align-items-start">
 				
 				<article class="container attendence-content d-flex justify-content-around align-items center">
-					<img width="400" src="https://cdn.bullsonemall.com/dataroom/promotion/1617/roulette_20211129_274428_9V.png">
+					<img width="50%" src="https://cdn.bullsonemall.com/dataroom/promotion/1617/roulette_20211129_274428_9V.png">
 					
 					<div class="attendence-event">
 						<!-- 캘린더 -->
@@ -37,30 +39,9 @@
 							<div class="calendar-header bg-primary">
 								<h4 class="text-white">이번달 나의 출석일수&nbsp; &nbsp;?일</h4>
 							</div>
-							<div class="calendar">
-							df</div>
-						</div>
-						
-						<div class="attendence-record mt-3">
-							<table class="table text-center">
-								<thead>
-									<tr>
-										<th>출석날짜</th>
-										<th>지급캐쉬</th>
-									</tr>
-								</thead>
-								
-								<tbody>
-									<tr>
-										<th>2023-02-01</th>
-										<th>1</th>
-									</tr>
-									<tr>
-										<th>2023-02-01</th>
-										<th>1</th>
-									</tr>
-								</tbody>
-							</table>
+							<div id='calendar'>
+							
+							</div>
 						</div>
 					</div>
 					
@@ -71,9 +52,24 @@
 	</div>
 	
 	<script>
+
+	    
+
+	
 		$(document).ready(function(){
-			$("#calendar").simpleCalendar();
 			
+			var calendarEl = document.getElementById('calendar');
+		    var calendar = new FullCalendar.Calendar(calendarEl, {
+		    	initialView: 'dayGridMonth',
+		    	locale: 'ko',
+		    	selectable: true,
+		    	
+		    	dateClick: function() {
+		    	    alert('출석 성공!');
+		    	}
+		    });
+		    calendar.render();
+		   
 		})
 	</script>
 </body>
