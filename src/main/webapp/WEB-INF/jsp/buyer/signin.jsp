@@ -52,12 +52,12 @@
 						<div class="signin-info-input">
 							<div class="buyer-id input-group my-3">
 							  <label class="input-group-text col-4">아이디</label>
-							  <input type="text" class="form-control">
+							  <input type="text" class="form-control" id="loginIdInput">
 							</div>
 							
 							<div class="buyer-pw input-group mb-3">
 							  <label class="input-group-text col-4">비밀번호</label>
-							  <input type="password" class="form-control">
+							  <input type="password" class="form-control" id="passwordInput">
 							</div>
 						</div>
 						
@@ -68,7 +68,7 @@
 						</div>
 						
 						<div class="signin-info-confirm my-3 d-flex justify-content-center">
-							<button class="btn btn-lg btn-primary" type="button">로그인</button>
+							<button class="btn btn-lg btn-primary" type="button" id="signinBtn">로그인</button>
 						</div>
 					</div>
 				</div>
@@ -85,13 +85,45 @@
 	
 	<script>
 		$(document).ready(function(){
+			
+			$("#signinBtn").on("click", function(){
+				let id = $("#loginIdInput").val();
+				let password = $("#passwordInput").val();
+				
+				if(id == ""){
+					alert("아이디를 입력하세요");
+					return;
+				}
+				
+				if(password == ""){
+					alert("비밀번호를 입력하세요");
+					return;
+				}
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/signin"
+					, data:{"loginId":id, "password":password}
+					, success:function(data){
+						if(data.result == "success"){
+							location.href="/product/main/view";
+						}else{
+							alert("로그인 실패");
+						}
+					}
+					, error:function(){
+						alert("로그인 에러");
+					}
+				})
+			});
+			
 			 $("input[name=identity]").on('change', function() {
 	                if($(this).val() == 'buyer') {
 	                	location.href="http://localhost:8080/buyer/signin/view";
 	                } else if($(this).val() == 'seller'){
 	                	location.href="http://localhost:8080/seller/signin/view";
 	                } else{
-	                	location.href="http://localhost:8080/non-member/lookup/view";
+	                	location.href="http://localhost:8080/buyer/non-member/lookup/view";
 	                }
 	         });
 		})

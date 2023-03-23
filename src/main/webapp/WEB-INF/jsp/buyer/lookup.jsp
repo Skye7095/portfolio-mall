@@ -52,22 +52,22 @@
 						<div class="lookup-info-input">
 							<div class="non-member-name input-group my-3">
 							  <label class="input-group-text col-4">주문자명</label>
-							  <input type="text" class="form-control">
+							  <input type="text" class="form-control" id="nonNameInput">
 							</div>
 							
 							<div class="non-member-phone input-group mb-3">
 							  <label class="input-group-text col-4">전화번호</label>
-							  <input type="password" class="form-control">
+							  <input type="password" class="form-control" id="nonPhoneInput">
 							</div>
 							
 							<div class="non-member-pw input-group mb-3">
 							  <label class="input-group-text col-4">주문비밀번호</label>
-							  <input type="password" class="form-control">
+							  <input type="password" class="form-control" id="nonOrderPWInput">
 							</div>
 						</div>
 						
 						<div class="links d-flex justify-content-center align-items-end">
-						   	<a class="text-dark" href="/non-member/lookupPW/view">주문비밀번호 찾기</a>
+						   	<a class="text-dark" href="/buyer/non-member/lookupPW/view">주문비밀번호 찾기</a>
 						</div>
 						
 						<div class="signin-info-confirm my-3 d-flex justify-content-center">
@@ -84,7 +84,39 @@
 	<script>
 		$(document).ready(function(){
 			$("#lookupBtn").on("click", function(){
-				location.href="http://localhost:8080/non-member/purchasedetails/view";
+				let name = $("#nonNameInput").val();
+				let phoneNumber = $("#nonPhoneInput").val();
+				let orderPassword = $("#nonOrderPWInput").val();
+				
+				if(name == ""){
+					alert("주문자 이름을 입력하세요");
+					return;
+				}
+				if(!phoneNumber.startsWith("010") || phoneNumber.length != 11){
+					alert("010로 시작한 11자리 전화번호를 입력하세요");
+					return;
+				}
+				if(orderPassword == ""){
+					alert("주문 비밀번호를 입력하세요");
+					return;
+				}
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/non-member/lookup"
+					, data:{"name":name, "phoneNumber":phoneNumber, "orderPassword":orderPassword}
+					, success:function(data){
+						if(data.result == "success"){
+							location.href="http://localhost:8080/buyer/non-member/purchasedetails/view";
+						}else{
+							alert("비회원 조회 실패");
+						}
+					}
+					, error:function(){
+						alert("비회원 조회 에러");
+					}
+				});
+				
 			});
 			
 			 $("input[name=identity]").on('change', function() {
@@ -93,7 +125,7 @@
 	                } else if($(this).val() == 'seller'){
 	                	location.href="http://localhost:8080/seller/signin/view";
 	                } else{
-	                	location.href="http://localhost:8080/non-member/lookup/view";
+	                	location.href="http://localhost:8080/buyer/non-member/lookup/view";
 	                }
 	         });
 		})

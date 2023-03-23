@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.portfolio.mall.user.dao.BuyerDAO">
+	<!-- buyer 회원가입 -->
+	<insert id="insertBuyer" parameterType="map">
+		INSERT INTO
+			`buyer`
+		(
+			`loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUE
+		(
+			#{loginId}
+			, #{password}
+			, #{name}
+			, #{phoneNumber}
+			, #{email}
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<!-- buyer 아이디 중복여부 -->
+	<select id="selectCountById" parameterType="string" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`buyer`
+		WHERE
+			`loginId` = #{loginId}
+	</select>
+	
+	<!-- buyer 회원가입시 정보 중복 여부 -->
+	<select id="selectSameBuyer" parameterType="map" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`buyer`
+		WHERE
+			(`name` = #{name} AND `phoneNumber` = #{phoneNumber})
+		OR
+			(`name` = #{name} AND `email` = #{email})
+	</select>
+	
+	<!-- 로그인 -> id과 pw이 일치한 유저만 로그인 가능함 -->
+	<select id="selectBuyerByIdPassword" parameterType="map" resultType="com.portfolio.mall.user.model.Buyer">
+		SELECT
+			`loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`buyer`
+		WHERE
+			`loginId` = #{loginId} AND `password` = #{password}
+	</select>
+	
+	<!-- 전화번호를 통해 id 찾기 -->
+	<select id="selectBuyerByPhone" parameterType="map" resultType="String">
+		SELECT
+			`loginId`
+		FROM
+			`buyer`
+		WHERE
+			`name` = #{name} AND `phoneNumber` = #{phoneNumber}
+	</select>
+	
+	<!-- 이메일을 통해 id 찾기 -->
+	<select id="selectBuyerByEmail" parameterType="map" resultType="String">
+		SELECT
+			`loginId`
+		FROM
+			`buyer`
+		WHERE
+			`name` = #{name} AND `email` = #{email}
+	</select>
+	
+	<!-- 이름과 전화번호를 통해 비번 찾기 -->
+	<select id="selectBuyerPWByPhone" parameterType="map" resultType="com.portfolio.mall.user.model.Buyer">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`buyer`
+		WHERE
+			`name` = #{name} AND `phoneNumber` = #{phoneNumber}
+	</select>
+	
+	<!-- 이름과 이메일을 통해 비번 찾기 -->
+	<select id="selectBuyerPWByEmail" parameterType="map" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`buyer`
+		WHERE
+			`name` = #{name} AND `email` = #{email}
+	</select>
+	
+	<!-- 비밀번호 리셋한 후 update -->
+	<update id="updatedBuyerPW" parameterType="map">
+		UPDATE
+			`buyer`
+		SET
+			`password` = #{newPW}
+		WHERE
+			`id` = #{buyerId}
+	</update>
+	
+	<!-- 비밀번호 리셋 update 후 buyerId로 랜덤된 비번 찾기 -->
+	<select id="updatedBuyerNewPw" parameterType="int" resultType="string">
+		SELECT
+			`password`
+		FROM
+			`buyer`
+		WHERE
+			`id` = #{buyerId}
+	</select>
+	
+	<!-- 비회원 구매내역 찾기 -->
+	<select id="selectNonMember" parameterType="map" resultType="com.portfolio.mall.user.model.NonMember">
+		SELECT
+			`name`
+			, `phoneNumber`
+			, `orderPassword`
+			, `address`
+		FROM
+			`nonmember`
+		WHERE
+			`name` = #{name} AND `phoneNumber` = #{phoneNumber} AND `orderPassword` = #{orderPassword}
+	</select>
+</mapper>
