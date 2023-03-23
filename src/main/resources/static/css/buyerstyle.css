@@ -52,11 +52,7 @@ header {
 	height:600px;
 }
 
-.buyerfindidbyphone-card{
-	width: 400px;
-}
-
-.buyerfindidbyemail-card{
+.buyerfindid-card{
 	width: 400px;
 }
 
@@ -64,15 +60,11 @@ header {
 	width:500px;
 }
 
-.buyerfindpwbyphone-card{
+.buyerresetpw-card{
 	width: 400px;
 }
 
-.buyerfindpwbyemail-card{
-	width: 400px;
-}
-
-.buyerfindpw-checkbox{
+.buyerresetpw-checkbox{
 	width: 500px;
 }
 

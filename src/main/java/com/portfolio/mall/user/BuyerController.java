@@ -4,6 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/buyer")
 public class BuyerController {
@@ -18,6 +21,18 @@ public class BuyerController {
 	@GetMapping("/signin/view")
 	public String buyerSigninView() {
 		return "/buyer/signin";
+	}
+	
+	// 구매회원 로그아웃
+	@GetMapping("/signout")
+	public String signout(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		
+		session.removeAttribute("buyerId");
+		session.removeAttribute("buyerName");
+		
+		return "redirect:/product/main/view";
 	}
 	
 	// 구매회원 아이디 찾기 페이지

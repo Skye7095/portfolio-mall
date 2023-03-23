@@ -37,42 +37,44 @@
 				<div class="bg-white buyer-signup-card" id="buyer-signup-card">
 					<div class="buyer-id input-group mt-3 px-3">
 					  <span class="input-group-text col-3">아이디</span>
-					  <input type="text" class="form-control" placeholder="ID를 입력하세요">
+					  <input type="text" class="form-control" placeholder="ID를 입력하세요" id="loginIdInput">
+					  <button type="button" class="btn btn-info btn-sm ml-2" id="isDuplicateBtn">중복확인</button>
 					</div>
-					
+					<p class="text-success d-none ml-5" id="avaliableId">사용가능한 아이디입니다.</p>
+					<p class="text-danger d-none ml-5" id="isDuplicatedId">중복된 아이디입니다.</p>
 					<div class="buyer-pw input-group my-1 px-3">
 					  <span class="input-group-text col-3">비밀번호</span>
-					  <input type="text" class="form-control" placeholder="비밀번호를 입력하세요">
+					  <input type="password" class="form-control" placeholder="6글자 이상 입력하세요" id="passwordInput">
 					</div>
 					
 					<div class="buyer-pwConfirm input-group my-1 px-3">
 					  <span class="input-group-text col-3">비번 확인</span>
-					  <input type="text" class="form-control" placeholder="위의 비밀번호를 다시 입력하세요">
+					  <input type="password" class="form-control" placeholder="위의 비밀번호를 다시 입력하세요" id="passwordConfirm">
 					</div>
 					
 					<div class="buyer-name input-group my-1 px-3">
 					  <span class="input-group-text col-3">이름</span>
-					  <input type="text" class="form-control" placeholder="이름을 입력하세요">
+					  <input type="text" class="form-control" placeholder="이름을 입력하세요" id="nameInput">
 					</div>
 					
 					<div class="buyer-phoneNumber input-group my-1 px-3">
 					  <span class="input-group-text col-3">전화번호</span>
-					  <input type="text" class="form-control" placeholder="전화번호를 입력하세요">
+					  <input type="text" class="form-control" placeholder="전화번호를 입력하세요" id="phoneNumberInput">
 					</div>
 					
 					<div class="input-group mb-3 px-3">
 					  <span class="input-group-text col-3">이메일</span>
-					  <input type="text" class="form-control">
-					  <button class="btn btn-outline-secondary dropdown-toggle" type="button">직접입력</button>
-					  <ul class="dropdown-menu">
-					    <li><a class="dropdown-item">@naver.com</a></li>
-					    <li><a class="dropdown-item">@daum.net</a></li>
-					    <li><a class="dropdown-item">@gmail.com</a></li>
-					  </ul>
+					  <input type="text" class="form-control" id="emailInput">
+					  <select class="btn btn-outline-secondary dropdown-toggle" id="emailSelect"/>
+					  		<option value="">직접입력</option>
+					  		<option value="n">@naver.com</option>
+					  		<option value="d">@daum.com</option>
+					  		<option value="g">@gmail.com</option>
+					  </select>
 					</div>
 					
 					<div class="confirm-btn mb-2 d-flex justify-content-center">
-						<button class="btn btn-lg btn-primary" type="button">구매회원 가입</button>
+						<button class="btn btn-lg btn-primary" type="button" id="signupBtn">구매회원 가입</button>
 					</div>
 				</div>
 			</div>
@@ -83,6 +85,125 @@
 	<script>
 		$(document).ready(function(){
 			
+			var isDuplicatedCheck = false;
+			var isDuplicatedId = true;
+			
+			$("#isDuplicateBtn").on("click", function(){
+				let id = $("#loginIdInput").val();
+				
+				if(id == ""){
+					alert("아이디를 입력하세요");
+					return;
+				}
+				
+				$.ajax({
+					type:"get"
+					, url:"/buyer/duplicated_id"
+					, data:{"loginId":id}
+					, success:function(data){
+						isDuplicatedCheck = true;
+						
+						if(data.is_duplicated == true){
+							isDuplicatedId = true;
+							$("#isDuplicatedId").removeClass("d-none");
+							$("#avaliableId").addClass("d-none");
+						}else{
+							isDuplicatedId = false;
+							$("#isDuplicatedId").addClass("d-none");
+							$("#avaliableId").removeClass("d-none");
+						}
+					}
+					, error:function(){
+						alert("중복체크 에러");
+					}
+				})
+			});
+			
+			$("#signupBtn").on("click", function(){
+				let id = $("#loginIdInput").val();
+				let password = $("#passwordInput").val();
+				let passwordConfirm = $("#passwordConfirm").val();
+				let name = $("#nameInput").val();
+				let phoneNumber = $("#phoneNumberInput").val();
+				let email = "";
+				let emailInput = $("#emailInput").val();
+				let emailSelect = $("#emailSelect").val();
+				
+				if(id == ""){
+					alert("아이디를 입력하세요");
+					return;
+				}
+				
+				if(isDuplicatedCheck == false){
+					alert("아이디 중복확인하세요");
+					return;
+				}
+				
+				if(isDuplicatedId == true){
+					alert("아이디 중복되었습니다");
+					return;
+				}
+				
+				if(password.length < 6){
+					alert("비밀번호가 6자 이상이어야 해요");
+					return;
+				}
+				
+				if(passwordConfirm != password){
+					alert("비밀번호 다시 확인해주세요");
+					return;
+				}
+				
+				if(name == ""){
+					alert("이름을 입력하세요");
+					return;
+				}
+				
+				if(!phoneNumber.startsWith("010") || phoneNumber.length != 11){
+					alert("010로 시작한 11자리 전화번호를 입력하세요");
+					return;
+				}
+				
+				if(!$.isNumeric(phoneNumber)){
+					alert("전화번호 숫자만 입력하세요");
+					return;
+				}
+				
+				if(emailSelect == ""){
+					if(emailInput.includes("@") == false || emailInput.endsWith(".com") == false){
+						alert("이메일은 @를 포함해야하며 .com로 끝나야 합니다");
+						return;
+					}else{
+						email = emailInput;
+					}
+				}else if(emailSelect == "n"){
+					email = emailInput + "@naver.com";
+				}else if(emailSelect == "g"){
+					email = emailInput + "@gmail.com";
+				}else{
+					email = emailInput + "@daum.com";
+				}
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/signup"
+					, data:{"loginId":id, "password":password, "name":name, "phoneNumber":phoneNumber, "email":email}
+					, success:function(data){
+						if(data.result == "success"){
+							alert("회원가입 성공");
+							location.href = "/buyer/signin/view";
+						}else if(data.result == "exists"){
+							alert("이미 가입했습니다");
+							location.href = "/buyer/signin/view";
+						}else{
+							alert("회원가입 실패");
+						}
+					}
+					, error:function(){
+						alert("회원가입 에러");
+					}
+				});
+			});
 		})
 	</script>
 </body>
