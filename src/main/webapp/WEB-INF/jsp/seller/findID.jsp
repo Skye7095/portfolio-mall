@@ -36,7 +36,7 @@
 				
 				<div class="sellerfindid-checkbox d-flex justify-content-around my-3">
 					<div class="form-check">
-					  <input class="form-check-input" type="radio" name="method" value="phoneNumber" checked>
+					  <input class="form-check-input" type="radio" name="method" value="phone" checked>
 					  <label class="form-check-label">휴대폰으로 찾기</label>
 					</div>
 					<div class="form-check">
@@ -45,31 +45,21 @@
 					</div>
 				</div>
 					
-				<div class="sellerfindidbyphone-card container" id="findidbyphone">
-					<div class="findid-name input-group mt-3 px-3">
-					  <input type="text" class="form-control" placeholder="이름">
+				<div class="sellerfindid-card container">
+					<div class="findidName input-group mt-3 px-3">
+					  <input type="text" class="form-control" placeholder="이름" id="sellerNameInput">
 					</div>
 					
-					<div class="findid-phoneNumber input-group my-1 px-3">
-					  <input type="text" class="form-control" placeholder="휴대폰번호(숫자만 입력)">
-					</div>
-
-					<div class="confirm-btn mt-5 mb-2 d-flex justify-content-center">
-						<button class="btn btn-lg btn-primary" type="button">아이디 찾기</button>
-					</div>
-				</div>
-				
-				<div class="sellerfindidbyemail-card container d-none" id="findidbyemail">
-					<div class="findid-name input-group mt-3 px-3">
-					  <input type="text" class="form-control" placeholder="이름">
+					<div class="findidByPhone input-group my-1 px-3">
+					  <input type="text" class="form-control" placeholder="휴대폰번호(숫자만 입력)" id="sellerPhoneInput">
 					</div>
 					
-					<div class="findid-email input-group my-1 px-3">
-					  <input type="text" class="form-control" placeholder="이메일">
+					<div class="findidByEmail d-none input-group my-1 px-3">
+					  <input type="text" class="form-control" placeholder="이메일" id="sellerEmailInput">
 					</div>
-
+					
 					<div class="confirm-btn mt-5 mb-2 d-flex justify-content-center">
-						<button class="btn btn-lg btn-primary" type="button">아이디 찾기</button>
+						<button class="btn btn-lg btn-primary" type="button" id="findIdBtn">아이디 찾기</button>
 					</div>
 				</div>
 			</div>
@@ -80,15 +70,76 @@
 	<script>
 		$(document).ready(function(){
 			
+			$("#findIdBtn").on("click", function(){
+				let name = $("#sellerNameInput").val();
+				let phoneNumber = $("#sellerPhoneInput").val();
+				let email = $("#sellerEmailInput").val();
+				
+				if($("input[name=method]:checked").val() == "phone"){
+					if(name == ""){
+						alert("이름을 입력하세요");
+						return;
+					}
+					if(phoneNumber == ""){
+						alert("전화번호를 입력하세요");
+						return;
+					}
+					
+					$.ajax({
+						type:"post"
+						, url:"/seller/findId/phone"
+						, data:{"name":name, "phoneNumber":phoneNumber}
+						, success:function(data){
+							if(data == 0){
+								alert("회원정보 확인해주세요");
+							}else{
+								alert("회원아이디: " + data);
+								$("#sellerNameInput").val('');
+								$("#sellerPhoneInput").val('');
+							}
+						}
+						, error:function(){
+							alert("조회 에러");
+						}
+					});
+				}else{
+					if(name == ""){
+						alert("이름을 입력하세요");
+						return;
+					}
+					if(email == ""){
+						alert("이메일을 입력하세요");
+						return;
+					}
+					
+					$.ajax({
+						type:"post"
+						, url:"/seller/findId/email"
+						, data:{"name":name, "email":email}
+						, success:function(data){
+							if(data == 0){
+								alert("회원정보 확인하세요");
+							}else{
+								alert("회원아이디: " + data);
+								$("#sellerNameInput").val('');
+								$("#sellerEmailInput").val('');
+							}
+						}
+						, error:function(){
+							alert("조회 에러");
+						}
+					});
+				}
+			});
 			
 			// ID 찾는 방법에 따라서 관련된 div를 숨기기/나타나기
 			$("input[name=method]").on('change', function() {
-                if($(this).val() == 'phoneNumber') {
-                    $("#findidbyphone").removeClass("d-none");
-                    $("#findidbyemail").addClass("d-none");
-                } else {
-                    $("#findidbyphone").addClass("d-none");
-                    $("#findidbyemail").removeClass("d-none");
+                if($(this).val() == 'phone') {
+                	$(".findidByPhone").removeClass("d-none");
+        			$(".findidByEmail").addClass("d-none");
+                } else{
+                    $(".findidByPhone").addClass("d-none");
+                    $(".findidByEmail").removeClass("d-none");
                 }
             });
 			

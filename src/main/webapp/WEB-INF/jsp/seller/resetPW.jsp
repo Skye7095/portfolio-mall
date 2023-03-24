@@ -36,7 +36,7 @@
 				
 				<div class="sellerfindid-checkbox d-flex justify-content-around my-3">
 					<div class="form-check">
-					  <input class="form-check-input" type="radio" name="method" value="phoneNumber" checked>
+					  <input class="form-check-input" type="radio" name="method" value="phone" checked>
 					  <label class="form-check-label">휴대폰으로 찾기</label>
 					</div>
 					<div class="form-check">
@@ -45,31 +45,21 @@
 					</div>
 				</div>
 					
-				<div class="sellerfindidbyphone-card container" id="findidbyphone">
-					<div class="findid-name input-group mt-3 px-3">
-					  <input type="text" class="form-control" placeholder="이름">
+				<div class="sellerresetpw-card container">
+					<div class="resetpwName input-group mt-3 px-3">
+					  <input type="text" class="form-control" placeholder="이름" id="sellerNameInput">
 					</div>
 					
-					<div class="findid-phoneNumber input-group my-1 px-3">
-					  <input type="text" class="form-control" placeholder="휴대폰번호(숫자만 입력)">
+					<div class="resetpwByPhone input-group my-1 px-3">
+					  <input type="text" class="form-control" placeholder="휴대폰번호(숫자만 입력)" id="sellerPhoneInput">
+					</div>
+					
+					<div class="resetpwByEmail d-none input-group my-1 px-3">
+					  <input type="text" class="form-control" placeholder="이메일" id="sellerEmailInput">
 					</div>
 
 					<div class="confirm-btn mt-5 mb-2 d-flex justify-content-center">
-						<button class="btn btn-lg btn-primary" type="button">비밀번호 리셋하기</button>
-					</div>
-				</div>
-				
-				<div class="sellerfindidbyemail-card container d-none" id="findidbyemail">
-					<div class="findid-name input-group mt-3 px-3">
-					  <input type="text" class="form-control" placeholder="이름">
-					</div>
-					
-					<div class="findid-email input-group my-1 px-3">
-					  <input type="text" class="form-control" placeholder="이메일">
-					</div>
-
-					<div class="confirm-btn mt-5 mb-2 d-flex justify-content-center">
-						<button class="btn btn-lg btn-primary" type="button">비밀번호 리셋하기</button>
+						<button class="btn btn-lg btn-primary" type="button" id="resetpwBtn">비밀번호 리셋하기</button>
 					</div>
 				</div>
 			</div>
@@ -80,15 +70,74 @@
 	<script>
 		$(document).ready(function(){
 			
+			$("#resetpwBtn").on("click", function(){
+				let name = $("#sellerNameInput").val();
+				let phoneNumber = $("#sellerPhoneInput").val();
+				let email = $("#sellerEmailInput").val();
+				
+				if($("input[name=method]:checked").val() == "phone"){
+					if(name == ""){
+						alert("이름을 입력하세요");
+						return;
+					}
+					if(phoneNumber == ""){
+						alert("전화번호를 입력하세요");
+						return;
+					}
+					
+					$.ajax({
+						type:"post"
+						, url:"/seller/resetPW/phone"
+						, data:{"name":name, "phoneNumber":phoneNumber}
+						, success:function(data){
+							if(data.result == "success"){
+								alert("임시비번: " + data.newPW);
+								location.href="/seller/signin/view";
+							}else{
+								alert("비밀번호 리셋 실패")
+							}
+						}
+						, error:function(){
+							alert("비밀번호 리셋 에러");
+						}
+					});
+				}else{
+					if(name == ""){
+						alert("이름을 입력하세요");
+						return;
+					}
+					if(email == ""){
+						alert("이메일을 입력하세요");
+						return;
+					}
+					
+					$.ajax({
+						type:"post"
+						, url:"/seller/resetPW/email"
+						, data:{"name":name, "email":email}
+						, success:function(data){
+							if(data.result == "success"){
+								alert("임시비번: " + data.newPW);
+								location.href="/seller/signin/view";
+							}else{
+								alert("비밀번호 리셋 실패")
+							}
+						}
+						, error:function(){
+							alert("비밀번호 리셋 에러");
+						}
+					});
+				}
+			});
 		
 			// ID 찾는 방법에 따라서 관련된 div를 숨기기/나타나기
 			$("input[name=method]").on('change', function() {
-                if($(this).val() == 'phoneNumber') {
-                    $("#findidbyphone").removeClass("d-none");
-                    $("#findidbyemail").addClass("d-none");
+                if($(this).val() == 'phone') {
+                    $(".resetpwByPhone").removeClass("d-none");
+                    $(".resetpwByEmail").addClass("d-none");
                 } else {
-                    $("#findidbyphone").addClass("d-none");
-                    $("#findidbyemail").removeClass("d-none");
+                    $(".resetpwByPhone").addClass("d-none");
+                    $(".resetpwByEmail").removeClass("d-none");
                 }
             });
 			
