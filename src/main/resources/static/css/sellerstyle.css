@@ -51,16 +51,20 @@ header {
 	height:600px;
 }
 
-.sellerfindidbyphone-card{
-	width: 400px;
-}
-
-.sellerfindidbyemail-card{
+.sellerfindid-card{
 	width: 400px;
 }
 
 .sellerfindid-checkbox{
 	width:500px;
+}
+
+.sellerresetpw-card{
+	width: 400px;
+}
+
+.sellerresetpw-checkbox{
+	width: 500px;
 }
 
 .id-tab {

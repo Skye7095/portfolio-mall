@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.portfolio.mall.user.dao.SellerDAO">
+	<!-- seller 회원가입 -->
+	<insert id="insertSeller" parameterType="map">
+		INSERT INTO
+			`seller`
+		(
+			`loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUE
+		(
+			#{loginId}
+			, #{password}
+			, #{name}
+			, #{phoneNumber}
+			, #{email}
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<!-- seller 회원가입시 정보 중복 여부 -->
+	<select id="selectSameSeller" parameterType="map" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`seller`
+		WHERE
+			(`name` = #{name} AND `phoneNumber` = #{phoneNumber})
+		OR
+			(`name` = #{name} AND `email` = #{email})
+	</select>
+	
+	<!-- seller 회원가입시 중복ID 확인 -->
+	<select id="selectCountById" parameterType="string" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			`seller`
+		WHERE
+			`loginId` = #{loginId}
+	</select>
+	
+	<!-- seller 로그인 -->
+	<select id="selectSellerByIdPassword" parameterType="map" resultType="com.portfolio.mall.user.model.Seller">
+		SELECT
+			`loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`seller`
+		WHERE
+			`loginId` = #{loginId} AND `password` = #{password}
+	</select>
+	
+	<!-- 전화번호를 통해 id 찾기 -->
+	<select id="selectSellerByPhone" parameterType="map" resultType="String">
+		SELECT
+			`loginId`
+		FROM
+			`seller`
+		WHERE
+			`name` = #{name} AND `phoneNumber` = #{phoneNumber}
+	</select>
+	
+	<!-- 이메일을 통해 id 찾기 -->
+	<select id="selectSellerByEmail" parameterType="map" resultType="String">
+		SELECT
+			`loginId`
+		FROM
+			`seller`
+		WHERE
+			`name` = #{name} AND `email` = #{email}
+	</select>
+	
+	<!-- 이름과 전화번호를 통해 비번 찾기 -->
+	<select id="selectSellerPWByPhone" parameterType="map" resultType="com.portfolio.mall.user.model.Seller">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`seller`
+		WHERE
+			`name` = #{name} AND `phoneNumber` = #{phoneNumber}
+	</select>
+	
+	<!-- 이름과 이메일을 통해 비번 찾기 -->
+	<select id="selectSellerPWByEmail" parameterType="map" resultType="com.portfolio.mall.user.model.Seller">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`seller`
+		WHERE
+			`name` = #{name} AND `email` = #{email}
+	</select>
+	
+	<!-- 비밀번호 리셋한 후 update -->
+	<update id="updatedSellerPW" parameterType="map">
+		UPDATE
+			`seller`
+		SET
+			`password` = #{newPW}
+		WHERE
+			`id` = #{sellerId}
+	</update>
+	
+	<!-- 비밀번호 리셋 update 후 buyerId로 랜덤된 비번 찾기 -->
+	<select id="updatedSellerNewPw" parameterType="int" resultType="string">
+		SELECT
+			`password`
+		FROM
+			`seller`
+		WHERE
+			`id` = #{sellerId}
+	</select>
+</mapper>

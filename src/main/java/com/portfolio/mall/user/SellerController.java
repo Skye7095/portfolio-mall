@@ -4,6 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/seller")
 public class SellerController {
@@ -18,6 +21,18 @@ public class SellerController {
 	@GetMapping("/signin/view")
 	public String sellerSigninView() {
 		return "/seller/signin";
+	}
+	
+	// 판매회원 로그아웃
+	@GetMapping("/signout")
+	public String signout(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession();
+		
+		session.removeAttribute("sellerId");
+		session.removeAttribute("sellerName");
+		
+		return "redirect:/product/main/view";
 	}
 	
 	// 판매회원 아이디 찾기 페이지
@@ -53,6 +68,12 @@ public class SellerController {
 	@GetMapping("/productmanager/view")
 	public String sellerProductManager() {
 		return "/seller/productmanager";
+	}
+	
+	// 판매회원 상품업로드 페이지
+	@GetMapping("/upload/view")
+	public String sellerProductUpload() {
+		return "/seller/upload";
 	}
 	
 }
