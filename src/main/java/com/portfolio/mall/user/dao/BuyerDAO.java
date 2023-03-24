@@ -48,7 +48,7 @@ public interface BuyerDAO {
 			, @Param("phoneNumber") String phoneNumber);
 	
 	// buyer 비밀번호 찾기 - phone
-	public int selectBuyerPWByEmail(
+	public Buyer selectBuyerPWByEmail(
 			@Param("name") String name
 			, @Param("email") String email);
 	
@@ -66,4 +66,10 @@ public interface BuyerDAO {
 			@Param("name") String name
 			, @Param("phoneNumber") String phoneNumber
 			, @Param("orderPassword") String orderPassword);
+	
+	// 비회원 주문비번 찾기
+	public NonMember selectNonMemberByOrderId(
+			@Param("name") String name
+			, @Param("phoneNumber") String phoneNumber
+			, @Param("orderId") int orderId);
 }

@@ -57,7 +57,7 @@
 							
 							<div class="non-member-phone input-group mb-3">
 							  <label class="input-group-text col-4">전화번호</label>
-							  <input type="password" class="form-control" id="nonPhoneInput">
+							  <input type="text" class="form-control" id="nonPhoneInput">
 							</div>
 							
 							<div class="non-member-pw input-group mb-3">

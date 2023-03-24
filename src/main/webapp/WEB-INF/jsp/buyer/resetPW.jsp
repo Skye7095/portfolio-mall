@@ -91,7 +91,7 @@
 						, data:{"name":name, "phoneNumber":phoneNumber}
 						, success:function(data){
 							if(data.result == "success"){
-								alert("신규비번: " + data.newPW);
+								alert("임시비번: " + data.newPW);
 								location.href="/buyer/signin/view";
 							}else{
 								alert("비밀번호 리셋 실패")
@@ -117,7 +117,7 @@
 						, data:{"name":name, "email":email}
 						, success:function(data){
 							if(data.result == "success"){
-								alert("신규비번: " + newPW);
+								alert("임시비번: " + data.newPW);
 								location.href="/buyer/signin/view";
 							}else{
 								alert("비밀번호 리셋 실패")

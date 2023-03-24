@@ -9,14 +9,21 @@
 	</div>
 	
 	<div class="d-flex justify-content-between">
-		<a href="/buyer/cart/view">장바구니</a><span>&nbsp|&nbsp</span>
 		<c:choose>
 			<c:when test="${not empty buyerId }">
 				<span>${buyerName }님 환영합니다</span> <a href="/buyer/signout">로그아웃</a>
+				<span>&nbsp|&nbsp</span><a href="/buyer/cart/view">장바구니</a>
 			</c:when>
-			<c:when test="${empty buyerId }">
+			
+			<c:when test="${not empty sellerId }">
+				<span>${sellerName }님 환영합니다</span> <a href="/seller/signout">로그아웃</a>
+			</c:when>
+			
+			<c:when test="${empty buyerId || empty sellerId }">
 				<a href="/buyer/signin/view">로그인</a>
+				<span>&nbsp|&nbsp</span><a href="/buyer/cart/view">장바구니</a>
 			</c:when>
 		</c:choose>
+		
 	</div>
 </header>

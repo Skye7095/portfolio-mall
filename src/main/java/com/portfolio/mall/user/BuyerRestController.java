@@ -130,13 +130,14 @@ public class BuyerRestController {
 	public Map<String, String> resetpwByEmail(
 			@RequestParam("name") String name
 			, @RequestParam("email") String email) {
-		int count = buyerBO.getBuyerPWByEmail(name, email);
+		String newPW = buyerBO.getBuyerPWByEmail(name, email);
 		
 		Map<String, String> result = new HashMap<>();
-		if(count == 1) {
-			result.put("result", "success");
-		}else {
+		if(newPW == "0") {
 			result.put("result", "fail");
+		}else {
+			result.put("result", "success");
+			result.put("newPW", newPW);
 		}
 		
 		return result;
@@ -160,5 +161,27 @@ public class BuyerRestController {
 		}
 		
 		return result;
-	} 
+	}
+	
+	// 비회원 주문비번 찾기
+	@PostMapping("/non-member/findOrderPW")
+	public Map<String, String> nonMemberFindPW(
+			@RequestParam("name") String name
+			, @RequestParam("phoneNumber") String phoneNumber
+			, @RequestParam("orderId") int orderId){
+		
+		NonMember nonMember = buyerBO.getNonMemberByOrderId(name, phoneNumber, orderId);
+		String orderPW = nonMember.getOrderPassword();
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(nonMember != null) {
+			result.put("result", "success");
+			result.put("orderPW", orderPW);
+		}else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+	}
 }

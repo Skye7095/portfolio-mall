@@ -27,42 +27,30 @@
 				<div class="non-member-lookup-card container">
 					<div class="lookup-name input-group mt-3 px-3">
 						<label class="col-4">주문자명</label>
-						<input type="text" class="form-control">
+						<input type="text" class="form-control" id="nameInput">
 					</div>
 					
 					<div class="lookup-phone input-group mt-3 px-3">
 						<label class="col-4">핸드폰번호</label>
-						<input type="text" class="form-control">
+						<input type="text" class="form-control" id="phoneNumberInput">
 					</div>
 					
 					<div class="lookup-orderID input-group mt-3 px-3">
-						<label class="col-4">장바구니번호</label>
-						<input type="text" class="form-control">
+						<label class="col-4">주문서번호</label>
+						<input type="text" class="form-control" id="orderIdInput">
 					</div>
 				</div>
 				
-				<div class="lookup-checkbox container d-flex align-items-center">
-					<label class="col-4 text-center">비밀번호받기</label>
-					<div class="col-8 d-flex justify-content-around my-3">
-						<div class="form-check">
-						  <input class="form-check-input" type="radio" name="method" value="phoneNumber" checked>
-						  <label class="form-check-label">SMS</label>
-						</div>
-						<div class="form-check">
-						  <input class="form-check-input" type="radio" name="method" value="email">
-						  <label class="form-check-label">이메일</label>
-						</div>
-					</div>
-				</div>
 				
-				<div class="lookup-guide container bg-light">
-					<span>• 주문 시 입력한 이메일 주소 또는 휴대폰번호로 임시 비밀번호를 보내 드립니다.</span>
+				
+				<div class="lookup-guide container bg-light mt-3">
+					<span>• 임시 비밀번호를 알람으로 뜹니다.</span>
 					<br>
-					<span>• 전송받기 불가 시 고객센터로 문의바랍니다. (1566-0000)</span>
+					<span>• 확인 불가 시 고객센터로 문의바랍니다. (1566-0000)</span>
 				</div>
 				
 				<div class="confirm-btn mt-5 mb-2 d-flex justify-content-center">
-					<button class="btn btn-lg btn-primary" type="button">전송하기</button>
+					<button class="btn btn-lg btn-primary" type="button" id="confirmBtn">비번 조회하기</button>
 				</div>
 			</div>
 		</section>
@@ -72,7 +60,40 @@
 	<script>
 		$(document).ready(function(){
 			
-			
+			$("#confirmBtn").on("click", function(){
+				let name = $("#nameInput").val();
+				let phoneNumber = $("#phoneNumberInput").val();
+				let orderId = $("#orderIdInput").val();
+				
+				if(name == ""){
+					alert("주문자 이름을 입력하세요");
+					return;
+				}
+				if(phoneNumber == ""){
+					alert("주문자 전화번호를 입력하세요");
+					return;
+				}
+				if(orderId == ""){
+					alert("주문서번호를 입력하세요");
+					return;
+				}
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/non-member/findOrderPW"
+					, data:{"name":name, "phoneNumber":phoneNumber, "orderId":orderId}
+					, success:function(data){
+						if(data.result == "success"){
+							alert("비번: " + data.orderPW);
+						}else{
+							alert("비번 조회 실패");
+						}
+					}
+					, error:function(){
+						alert("비번 조회 오류");
+					}
+				});
+			});
 		})
 	</script>
 </body>

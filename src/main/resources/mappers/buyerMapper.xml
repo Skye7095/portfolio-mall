@@ -106,9 +106,16 @@
 	</select>
 	
 	<!-- 이름과 이메일을 통해 비번 찾기 -->
-	<select id="selectBuyerPWByEmail" parameterType="map" resultType="int">
+	<select id="selectBuyerPWByEmail" parameterType="map" resultType="com.portfolio.mall.user.model.Buyer">
 		SELECT
-			count(1)
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
 		FROM
 			`buyer`
 		WHERE
@@ -142,9 +149,26 @@
 			, `phoneNumber`
 			, `orderPassword`
 			, `address`
+			, `orderId`
+			, `address`
 		FROM
 			`nonmember`
 		WHERE
 			`name` = #{name} AND `phoneNumber` = #{phoneNumber} AND `orderPassword` = #{orderPassword}
+	</select>
+	
+	<!-- 비회원 주문비번 찾기 -->
+	<select id="selectNonMemberByOrderId" parameterType="map" resultType="com.portfolio.mall.user.model.NonMember">
+		SELECT
+			`name`
+			, `phoneNumber`
+			, `orderPassword`
+			, `address`
+			, `orderId`
+			, `address`
+		FROM
+			`nonmember`
+		WHERE
+			`name` = #{name} AND `phoneNumber` = #{phoneNumber} AND `orderId` = #{orderId}
 	</select>
 </mapper>

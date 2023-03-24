@@ -8,7 +8,16 @@ public class NonMember {
 	private String phoneNumber;
 	private String orderPassword;
 	private String address;
+	private int orderId;
 	private Date createdAt;
+	
+	
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 	public int getId() {
 		return id;
 	}

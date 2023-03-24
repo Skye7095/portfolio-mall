@@ -102,14 +102,28 @@ public class BuyerBO {
 	}
 	
 	// buyer 비밀번호 찾기 - email
-	public int getBuyerPWByEmail(
+	public String getBuyerPWByEmail(
 			String name
 			, String email) {
-		int buyerId = buyerDAO.selectBuyerPWByEmail(name, email);
-		// 랜덤 비번 생성
-		String newPW = randomPW.randomNum();
+		// 랜덤비번 생성
+		String randPW = randomPW.randomNum();
+		String encryptNewPW = EncryptUtils.md5(randPW); // 임시비번 암호화
+
+		Buyer buyer =  buyerDAO.selectBuyerPWByEmail(name, email);
+		int buyerId = buyer.getId();
 		
-		return buyerDAO.updatedBuyerPW(buyerId, newPW);
+		// 1단계:update 성공여부 판단하기
+		int count = buyerDAO.updatedBuyerPW(buyerId, encryptNewPW);
+		
+		//  2단계: update된 비밀번호 전달하기
+		String newPW = "0";
+		if(count == 1) {
+			newPW = randPW;
+		}else {
+			newPW = "0";
+		}
+		
+		return newPW;
 	}
 	
 	// 비회원 구매내역 조회
@@ -117,8 +131,16 @@ public class BuyerBO {
 			String name
 			, String phoneNumber
 			, String orderPassword) {
-		String encryptOrderPW = EncryptUtils.md5(orderPassword);
 		
-		return buyerDAO.selectNonMember(name, phoneNumber, encryptOrderPW);
+		return buyerDAO.selectNonMember(name, phoneNumber, orderPassword);
+	}
+	
+	// 비회원 주문비번 찾기
+	public NonMember getNonMemberByOrderId(
+			String name
+			, String phoneNumber
+			, int orderId) {
+		
+		return buyerDAO.selectNonMemberByOrderId(name, phoneNumber, orderId);
 	}
 }
