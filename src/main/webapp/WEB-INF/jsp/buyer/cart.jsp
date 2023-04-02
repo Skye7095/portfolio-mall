@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,89 +34,103 @@
 		
 		
 		<section class="cart-section container">
-			<div class="d-flex align-items-center">
-				<h4><i class="bi bi-check-circle"></i></h4>&nbsp; &nbsp;
-				<a class="text-dark" href="#">전체선택</a>&nbsp; | &nbsp;
-				<a class="text-dark" href="#">선택삭제</a>
-			</div>
+			<article class="container cart-card my-3">	
+				<table class="table">
+					<thead class="table-secondary text-center">
+						<tr>
+							<th>상품명</th>
+							<th>수량</th>
+							<th>단가</th>	
+							<th>배송비</th>
+							<th>총 금액</th>
+							<th></th>
+						</tr>
+					</thead>
+					
+					<tbody class="border cartDetail">
+					<c:forEach var="cartDetail" items="${cartDetailList }">
+						<c:set var="cartId" value="${cartDetail.id }" />
+						<tr>
+							<th class="d-flex">
+								<img width="100" height="100" src="${cartDetail.productImgPath }">
+								<div>
+									<a class="text-dark" href="/product/items/view?id=${cartDetail.productId }">${cartDetail.productName }</a>
+								</div>
+							</th>
+							<th>
+								<div class="d-flex justify-content-center">
+									<h4>${cartDetail.productCount }</h4>
+									<h4>개</h4>
+								</div>
+							</th>
+							<th>
+								<div class="d-flex justify-content-center">
+									<h4>${cartDetail.productPrice }</h4>
+									<h4>원</h4>
+								</div>
+							</th>
+							<th>
+								<div class="d-flex justify-content-center">
+									<h4>${cartDetail.productDeliveryPrice }</h4>
+									<h4>원</h4>
+								</div>
+							</th>
+							<th>
+								<div class="d-flex justify-content-center">
+									<h4>${cartDetail.productCountPrice }</h4>
+									<h4>원</h4>
+								</div>
+							</th>
+							<th>
+								<button class="btn btn-sm btn-danger deleteBtn" data-cart-id="${cartDetail.id }">삭제</button>
+							</th>
+						</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</article>
 			
-			<div class="d-flex mt-3">
-				<article class="container cart-card col-8 mx-3">	
-					<table class="table">
-						<thead class="table-secondary text-center">
-							<tr>
-								<th></th>
-								<th>상품명</th>
-								<th>수량</th>
-								<th>가격</th>		
-							</tr>
-						</thead>
-						
-						<tbody class="border">
-							<tr>
-								<th><h4><i class="bi bi-check-circle"></i></h4></th>
-								<th class="d-flex">
-									<img width="100" height="100" src="https://m.worldwideworld.kr/web/product/tiny/202209/4be7381e5e91bbd41126eb391dd4ee38.jpg">
-									<div>
-										<a class="text-dark" href="#">1+1 1989 뉴욕 자수로고 버킷햇</a>
-									</div>
-								</th>
-								<th >
-									<div class="d-flex">
-										<div>
-											<i class="bi bi-dash-circle"></i>
-										</div>
-										<div class="mx-1">
-											<input class="amountinput" type="text">
-										</div>
-										<div>
-											<i class="bi bi-plus-circle"></i>										
-										</div>
-									</div>
-								</th>
-								<th>
-									<div class="d-flex align-items-center">
-										<h4>9,900원</h4>
-										<button class="btn btn-light"><h5><i class="bi bi-x"></i></h5></button>
-									</div>
-								</th>
-							</tr>
-						</tbody>
-					</table>
-				</article>
-				
-				<div class="simple-paymentinfo1-card col-4 mb-3">
-					<aside class="border border-dark">
-						<div class="container my-3">
-							<div>
-								<h5 class="font-weight-bold">결제정보</h5>				
-							</div>
-							<hr>
-							<div class="d-flex justify-content-between">
+			<div class="simple-paymentinfo1-card container mb-3">
+				<aside class="border border-dark">
+					<div class="container my-3">
+						<h5 class="font-weight-bold">결제정보</h5>				
+						<hr>
+						<div class="d-flex">
+							<div class="d-flex justify-content-between col-6">
 								<div>
 									<p>상품수</p>
 									<p>상품금액</p>
 									<p>배송비</p>
 								</div>
 								<div class="text-right">
-									<p>1개</p>
-									<p>9,900원</p>
-									<p>0원</p>
+									<div class="d-flex justify-content-end">
+										<p>${cartSum.totalAmount}</p>개
+									</div>
+									<div class="d-flex justify-content-end">
+										<p>${cartSum.totalProductPrice}</p>원
+									</div>
+									<div class="d-flex justify-content-end">
+										<p>${cartSum.totalDeliveryPrice}</p>원
+									</div>
 								</div>
 							</div>
-							<hr>
-							<div class="d-flex justify-content-between align-items-center">
-								<h5 class="font-weight-bold">총결제금액</h5>
-								<h3 class="font-weight-bold">9,900원</h3>
+							<div class="align-items-center col-6">
+								<div class="d-flex justify-content-between align-items-end">
+									<h5 class="font-weight-bold">전체 금액</h5>
+									<div class="d-flex justify-content-end align-items-end">
+										<h3 class="font-weight-bold">${cartSum.sum}</h3>
+										<h6>원</h6>
+									</div>
+								</div>
+								<div>
+									<div class="d-flex justify-content-center">
+										<button class="btn btn-primary btn-lg text-white font-weight-bold my-3" type="button" id="orderBtn" data-buyerorder-id="buyerOrderId"><a class="text-white" href="/buyer/purchasing/view">구매하기</a></button>
+									</div>
+								</div>
 							</div>
-							<div class="form-check text-center">
-								<input class="form-check-input" type="checkbox">
-								<label class="form-check-label">비회원으로 주문하기</label>
-							</div>
-							<button class="btn btn-primary btn-block text-white font-weight-bold my-3" type="button">구매하기</button>
 						</div>
-					</aside>
-				</div>
+					</div>
+				</aside>
 			</div>
 		</section>
 		<c:import url="/WEB-INF/jsp/common/footer.jsp" />
@@ -123,8 +138,48 @@
 	
 	<script>
 		$(document).ready(function(){
+			$("#orderBtn").on("click", function(){
+				let cartId = ${cartId};
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/cart/cartDesicion"
+					, data:{"cartId":cartId}
+					, success:function(data){
+						if(data.result == "success"){
+							alert("성공");
+						}else{
+							alert("삭제 실패");
+							return;
+						}
+					}
+					, error:function(){
+						alert("삭제 오류");
+					}
+				})
+				
+			})
 			
-			
+			$(".deleteBtn").on("click", function(){
+				let cartId = $(this).data("cart-id");
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/cart/delete"
+					, data:{"cartId":cartId}
+					, success:function(data){
+						if(data.result == "success"){
+							location.reload();
+						}else{
+							alert("삭제 실패");
+							return;
+						}
+					}
+					, error:function(){
+						alert("삭제 오류");
+					}
+				})
+			})
 		})
 	</script>
 </body>
