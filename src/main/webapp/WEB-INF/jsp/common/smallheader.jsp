@@ -3,9 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header class="d-flex justify-content-between align-items-end">
 	<div class="search-bar d-flex align-items-center">
-		<img class="ml-2" width="50" src="/static/images/logo.png">
-           <input type="text" class="form-control ml-2">
-           <div class="search-icon ml-2" id="searchBtn"><i class="bi bi-search"></i></div>
+		<a href="/product/main/view"><img class="ml-2" width="50" src="/static/images/logo.png" ></a>
+        <input type="text" class="form-control ml-2" id="searchInput">
+        <button class="btn btn-primary ml-2" id="searchBtn">검색</button>
 	</div>
 	
 	<div class="d-flex justify-content-between">
@@ -21,9 +21,20 @@
 			
 			<c:when test="${empty buyerId || empty sellerId }">
 				<a href="/buyer/signin/view">로그인</a>
-				<span>&nbsp|&nbsp</span><a href="/buyer/cart/view">장바구니</a>
 			</c:when>
 		</c:choose>
 		
 	</div>
 </header>
+
+<script>
+	$(document).ready(function(){
+		
+		$("#searchBtn").on("click", function(){
+			let keyword = $("#searchInput").val();
+			
+			
+		})
+		
+	})
+</script>

@@ -1,9 +1,12 @@
 package com.portfolio.mall.user.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.portfolio.mall.user.model.Buyer;
+import com.portfolio.mall.user.model.BuyerOrder;
 import com.portfolio.mall.user.model.BuyerOrderDetail;
 import com.portfolio.mall.user.model.NonMember;
 
@@ -102,4 +105,7 @@ public interface BuyerDAO {
 	
 	// buyerOrderDetail 조회하기
 	public BuyerOrderDetail selectBuyerOrderDetail(@Param("buyerOrderId") String buyerOrderId);
+	
+	// buyerId로 전체 구매내역 list 조회
+	public List<BuyerOrder> selectOrderHistory(@Param("buyerId") int buyerId);
 }

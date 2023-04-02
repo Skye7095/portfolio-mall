@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.portfolio.mall.cart.bo.CartBO;
 import com.portfolio.mall.cart.model.CartDecisionDetail;
-import com.portfolio.mall.cart.model.CartDetail;
-import com.portfolio.mall.product.bo.ProductBO;
 import com.portfolio.mall.user.bo.BuyerBO;
 import com.portfolio.mall.user.model.Buyer;
 import com.portfolio.mall.user.model.BuyerOrderDetail;
@@ -26,9 +24,7 @@ public class BuyerController {
 	
 	@Autowired
 	private BuyerBO buyerBO;
-	
-	@Autowired
-	private ProductBO productBO;
+
 	
 	@Autowired
 	private CartBO cartBO;
@@ -85,57 +81,16 @@ public class BuyerController {
 	
 	// 구매회원 전체주문내역 페이지
 	@GetMapping("/orderhistory/view")
-	public String buyerOrderhistory() {
+	public String buyerOrderhistory(
+			HttpServletRequest request
+			, Model model) {
+		HttpSession session = request.getSession();
+		int buyerId = (Integer)session.getAttribute("buyerId");
+		
+		List<BuyerOrderDetail> buyerOrderDetailList = buyerBO.getOrderHistoryList(buyerId);
+		model.addAttribute("buyerOrderDetailList", buyerOrderDetailList);
 		
 		return "/buyer/orderHistory";
-	}
-	
-	// 구매회원 나의관심 페이지
-	@GetMapping("/like/view")
-	public String buyerLike() {
-		return "/buyer/like";
-	}
-	
-	// 구매회원 내가 쓴 글(문의/답변) 페이지
-	@GetMapping("/mybbs/myinquirylist/view")
-	public String buyerInquiry() {
-		return "/buyer/inquiry";
-	}
-	
-	// 구매회원 내가 쓴 글(상품평) 페이지
-	@GetMapping("/mybbs/myreviewlist/view")
-	public String buyerReview() {
-		return "/buyer/review";
-	}
-	
-	// 구매회원 출석체크 페이지
-	@GetMapping("/attendence/view")
-	public String buyerAttendence() {
-		return "/buyer/attendence";
-	}
-	
-	// 비회원 조회 페이지
-	@GetMapping("/non-member/lookup/view")
-	public String non_memberLookupView() {
-		return "/buyer/lookup";
-	}
-	
-	// 비회원 주문비밀버호 페이지
-	@GetMapping("/non-member/lookupPW/view")
-	public String non_memberLookupPWView() {
-		return "/buyer/findOrderPW";
-	}
-	
-	// 비회원 주문정보 페이지
-	@GetMapping("/non-member/purchasedetails/view")
-	public String non_memberPurchaseDetailsView() {
-		return "/buyer/purchaseDetails";
-	}
-		
-	// 비회원 주문결제 페이지
-	@GetMapping("/non-member/purchasing/view")
-	public String non_memberPurchasingView() {
-		return "/buyer/nonPurchasing";
 	}
 	
 	// 구매회원 주문결제 페이지
@@ -173,7 +128,7 @@ public class BuyerController {
 		return "/buyer/purchasing";
 	}
 	
-	// 주문완료 페이지
+	// buyer주문완료 페이지
 	@GetMapping("/purchaseCompleted/view")
 	public String purchasingCompletedView(
 			@RequestParam(value="buyerOrderId", defaultValue="") String buyerOrderId
@@ -192,4 +147,30 @@ public class BuyerController {
 		
 		return "/buyer/purchaseCompleted";
 	}
+		
+	// 비회원 조회 페이지
+	@GetMapping("/non-member/lookup/view")
+	public String non_memberLookupView() {
+		return "/buyer/lookup";
+	}
+	
+	// 비회원 주문비밀버호 페이지
+	@GetMapping("/non-member/lookupPW/view")
+	public String non_memberLookupPWView() {
+		return "/buyer/findOrderPW";
+	}
+	
+	// 비회원 주문정보 페이지
+	@GetMapping("/non-member/purchasedetails/view")
+	public String non_memberPurchaseDetailsView() {
+		return "/buyer/purchaseDetails";
+	}
+		
+	// 비회원 주문결제 페이지
+	@GetMapping("/non-member/purchasing/view")
+	public String non_memberPurchasingView() {
+		return "/buyer/nonPurchasing";
+	}
+	
+	
 }

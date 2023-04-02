@@ -1,14 +1,20 @@
 package com.portfolio.mall.user.bo;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.portfolio.mall.cart.bo.CartBO;
+import com.portfolio.mall.cart.model.CartDecisionDetail;
 import com.portfolio.mall.common.EncryptUtils;
 import com.portfolio.mall.common.randomPW;
 import com.portfolio.mall.product.dao.ProductDAO;
 import com.portfolio.mall.user.dao.BuyerDAO;
 import com.portfolio.mall.user.model.Buyer;
+import com.portfolio.mall.user.model.BuyerOrder;
 import com.portfolio.mall.user.model.BuyerOrderDetail;
 import com.portfolio.mall.user.model.NonMember;
 
@@ -193,5 +199,49 @@ public class BuyerBO {
 	// buyerOrderId로 구매내역 조회
 	public BuyerOrderDetail getBuyerOrderDetail(String buyerOrderId) {
 		return buyerDAO.selectBuyerOrderDetail(buyerOrderId);
+	}
+	
+	// buyerId로 전체 구매내역 list 조회
+	public List<BuyerOrderDetail> getOrderHistoryList(int buyerId){
+		List<BuyerOrder> buyerOrderList = buyerDAO.selectOrderHistory(buyerId);
+		
+		List<BuyerOrderDetail> buyerOrderDetailList = new ArrayList<>();
+		for(BuyerOrder buyerOrder:buyerOrderList) {
+			BuyerOrderDetail buyerOrderDetail = new BuyerOrderDetail();
+			
+			int id = buyerOrder.getId();
+			buyerOrderDetail.setId(id);
+			
+			String buyerOrderId = buyerOrder.getBuyerOrderId();
+			buyerOrderDetail.setBuyerOrderId(buyerOrderId);
+			
+			String receiverName = buyerOrder.getReceiverName();
+			buyerOrderDetail.setReceiverName(receiverName);
+			
+			String receiverPhoneNumber = buyerOrder.getReceiverPhoneNumber();
+			buyerOrderDetail.setReceiverPhoneNumber(receiverPhoneNumber);
+			
+			String receiverAddress = buyerOrder.getReceiverAddress();
+			buyerOrderDetail.setReceiverAddress(receiverAddress);
+			
+			String depositorName = buyerOrder.getDepositorName();
+			buyerOrderDetail.setDepositorName(depositorName);
+			
+			int sum = buyerOrder.getSum();
+			buyerOrderDetail.setSum(sum);
+			
+			List<CartDecisionDetail> cartDecisionDetailList = cartBO.getCartDecisionDetailList(buyerOrderId);
+			buyerOrderDetail.setCartDecisionDetailList(cartDecisionDetailList);
+			
+			String status = buyerOrder.getStatus();
+			buyerOrderDetail.setStatus(status);
+			
+			Date createdAt = buyerOrder.getCreatedAt();
+			buyerOrderDetail.setCreatedAt(createdAt);
+			
+			buyerOrderDetailList.add(buyerOrderDetail);
+		}
+		
+		return buyerOrderDetailList;
 	}
 }

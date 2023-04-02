@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,60 +31,52 @@
 						<thead class="table-secondary text-center">
 							<tr>
 								<th>날짜</th>
-								<th>상품정보</th>
-								<th>상태</th>
-								<th>확인/신청</th>
+								<th>주문정보</th>
 							</tr>
 						</thead>
-						
+											
 						<tbody>
-							<tr class="border">
+						<c:forEach var="buyerOrderDetail" items="${buyerOrderDetailList }" >
 								<td class="text-center">
-									<span>2023-01-01</span>
-									<div class="mt-2">
-										<button class="btn btn-secondary">주문상세보기</button>
-									</div>
-									<div class="mt-2">
-										<button class="btn btn-secondary">주문내역삭제</button>
-									</div>
+									<span><fmt:formatDate value="${buyerOrderDetail.createdAt }" pattern="yyyy-MM-dd" /></span>
+									<p>주문번호: ${buyerOrderDetail.buyerOrderId }</p>
 								</td>
-								<td class="d-flex">
-									<img width="100" height="100" src="https://m.worldwideworld.kr/web/product/tiny/202209/4be7381e5e91bbd41126eb391dd4ee38.jpg">
-									<div>
-										<div>
-											<div class="d-flex align-items-end">
-												<i class="bi bi-shop-window"></i>
-												<a class="ml-1 text-dark" href="#">지윤이네</a>
-												<button class="btn btn-sm btn-light ml-2">문의하기</button>
+								
+								<td>
+								
+								<table>
+									<thead class="table-secondary text-center">
+										<tr>
+											<th>상품정보</th>
+											<th>상태</th>
+										</tr>
+									</thead>
+									<c:forEach var="cartDecisionDetail" items="${buyerOrderDetail.cartDecisionDetailList }" >
+									<tbody>
+									<tr>
+										<td class="d-flex">
+											<img width="100" height="100" src="${cartDecisionDetail.productImgPath }">
+											<div>
+												<div>
+													<a class="text-dark" href="/product/items/view?id=${cartDecisionDetail.productId }">${cartDecisionDetail.productName }</a>
+													<p>수량: ${cartDecisionDetail.productAmount }개 / ${cartDecisionDetail.productPrice }원</p>
+												</div>
+												<div>
+													<h4>${cartDecisionDetail.productSumPrice }원</h4>
+												</div>
 											</div>
-											<a class="text-dark" href="#">1+1 1989 뉴욕 자수로고 버킷햇</a>
-											<p>수량: 1개 / 주문번호: 0101011000101</p>
-										</div>
-										<div>
-											<button class="btn btn-sm btn-light">옵션전체 보기<i class="bi bi-caret-right-fill"></i></button>
-											<h4>9,900원</h4>
-										</div>
-									</div>
-									
+										</td>	
+										<td class="text-center">
+											<h4>${buyerOrderDetail.status }</h4>
+										</td>
+									</tr>
+									</tbody>
+									</c:forEach>
+								</table>
+								
 								</td>
-								<td class="text-center">
-									<h4>배송완료</h4>
-									<div class="mt-2">
-										<a href="#">배송추적<i class="bi bi-caret-right-fill"></i></a>
-									</div>
-								</td>
-								<td class="text-center">
-									<div class="mt-2">
-										<button class="btn btn-success">리뷰 쓰기</button>
-									</div>
-									<div class="mt-2">
-										<button class="btn btn-light">반품신청</button>
-									</div>
-									<div class="mt-2">
-										<button class="btn btn-light">교환신청</button>
-									</div>
-								</td>
-							</tr>
+
+						</c:forEach>
 						</tbody>
 					</table>
 				</article>

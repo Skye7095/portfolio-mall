@@ -271,4 +271,24 @@
 		WHERE
 			`buyerOrderId` = #{buyerOrderId}
 	</select>
+	
+	<!-- buyerId로 전체 구매내역 list 조회 -->
+	<select id="selectOrderHistory" parameterType="int" resultType="com.portfolio.mall.user.model.BuyerOrder">
+		SELECT
+			`id`
+			, `buyerId`
+			, `buyerOrderId`
+			, `receiverName`
+			, `receiverPhoneNumber`
+			, `receiverAddress`
+			, `depositorName`
+			, `sum`
+			, `status`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`buyerOrder`
+		WHERE
+			`buyerId` = #{buyerId}
+	</select>
 </mapper>
