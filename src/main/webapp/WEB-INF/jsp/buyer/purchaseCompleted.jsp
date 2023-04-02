@@ -33,32 +33,30 @@
 		
 		
 		<section class="purchaseCompleted-section container">
-			<div class="p-3">
+			<div class="p-3" id="buyerOrderId" value="${buyerOrderDetail.buyerOrderId }">
 				<div class="mt-3 text-center display-3"><i class="bi bi-bag-check-fill"></i></div>
-				<h5 class="font-weight-bold text-center mt-3">김지윤님, 주문하신 소중한 상품을 곧 보내 드릴게요!</h5>
-				<div class="d-flex justify-content-around my-3">
-					<button class="btn btn-info">주문내역 보기</button>
-					<button class="btn btn-success">쇼핑 계속하기</button>
+				<h5 class="font-weight-bold text-center mt-3">${buyer.name }님, 주문하신 소중한 상품을 곧 보내 드릴게요!</h5>
+				<div class="d-flex justify-content-center my-3">
+					<button class="btn btn-success" id="mainBtn">쇼핑 계속하기</button>
 				</div>
 				<div class="deliveryinfo container border bg-white">
 					<div class="d-flex justify-content-between align-items-end mt-3">
-						<h4 class="font-weight-bold text-success">김지윤</h4>
+						<h4 class="font-weight-bold text-success">배송정보</h4>
 					</div>
-					<h6 class="font-weight-bold">김지윤 010-0000-0000</h6>
-				  	<h6>서울특별시 강남구 테헤란로</h6>
+					<h6 class="font-weight-bold">${buyerOrderDetail.receiverName } ${buyerOrderDetail.receiverPhoneNumber }</h6>
+				  	<h6>${buyerOrderDetail.receiverAddress }</h6>
 				</div>
 				<div class="paymentinfo container border bg-white my-3">
-					<div class="d-flex justify-content-between align-items-center mt-3">
-						<div class="d-flex align-items-center ">
-							<h5 class="mr-3">총결제금액</h5>
-							<h3>22,800원</h3>
-						</div>
-						<button class="btn btn-info">주문내역</button>
+					<div class="d-flex justify-content-between align-items-end mt-3">
+						<h4 class="font-weight-bold text-success">주문번호</h4>
 					</div>
-					<hr>
 					<div class="d-flex justify-content-between align-items-center mt-3">
-						<p>비씨카드</p>
-						<p>22,800원</p>
+						<h6 class="mr-3">주문번호</h6>
+						<h6>${buyerOrderDetail.buyerOrderId }</h6>
+					</div>
+					<div class="d-flex justify-content-between align-items-center mt-3">
+						<h6 class="mr-3">총결제금액</h6>
+						<h6>${buyerOrderDetail.sum }원</h6>
 					</div>
 				</div>
 			</div>	
@@ -69,6 +67,9 @@
 	<script>
 		$(document).ready(function(){
 			
+			$("#mainBtn").on("click", function(){
+				location.href="/product/main/view";
+			})
 			
 		})
 	</script>

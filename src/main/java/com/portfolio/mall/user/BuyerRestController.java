@@ -1,6 +1,8 @@
 package com.portfolio.mall.user;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.portfolio.mall.cart.bo.CartBO;
+import com.portfolio.mall.cart.model.CartDecision;
+import com.portfolio.mall.product.bo.ProductBO;
 import com.portfolio.mall.user.bo.BuyerBO;
 import com.portfolio.mall.user.model.Buyer;
 import com.portfolio.mall.user.model.NonMember;
@@ -23,6 +28,12 @@ public class BuyerRestController {
 	
 	@Autowired
 	public BuyerBO buyerBO;
+	
+	@Autowired
+	public ProductBO productBO;
+	
+	@Autowired
+	public CartBO cartBO;
 	
 	// buyer 회원가입
 	@PostMapping("/signup")
@@ -183,5 +194,78 @@ public class BuyerRestController {
 		}
 		
 		return result;
+	}
+	
+	// buyer Personal 페이지에서 변경
+	@PostMapping("/personal/update")
+	public Map<String, String> modifyBuyer(
+			@RequestParam("password") String password
+			, @RequestParam("phoneNumber") String phoneNumber
+			, @RequestParam("email") String email
+			, HttpServletRequest request){
+		HttpSession session = request.getSession();
+		int id = (Integer)session.getAttribute("buyerId");
+		
+		int count = buyerBO.updateBuyer(id, password, phoneNumber, email);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		}else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+	}
+	
+	// buyer 결제정보 입력하기
+	@PostMapping("/purchasing/createOrder")
+	public Map<String, String> createBuyerOrder(
+			@RequestParam("buyerOrderId") String buyerOrderId
+			, @RequestParam("receiverName") String receiverName
+			, @RequestParam("receiverPhoneNumber") String receiverPhoneNumber
+			, @RequestParam("receiverAddress") String receiverAddress
+			, @RequestParam("depositorName") String depositorName
+			, @RequestParam("sum") int sum
+			, HttpServletRequest request){
+		HttpSession session = request.getSession();
+		int buyerId = (Integer)session.getAttribute("buyerId");
+		
+		String status = "결제완료";
+		int count = buyerBO.addBuyerOrder(buyerId, buyerOrderId, receiverName, receiverPhoneNumber, receiverAddress, depositorName, sum, status);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == -1) {
+			result.put("result", "exists");
+		}else if(count == 1) {
+			result.put("result", "success");
+		}else {
+			result.put("result", "fail");
+		}
+		
+		return result;		
+	}
+	
+	// buyer가 구매완료 후 장바구니 전체 삭제
+	@PostMapping("/clearAllCart")
+	public Map<String, String> clearAllCart(HttpServletRequest request){
+		
+		HttpSession session = request.getSession();
+		int buyerId = (Integer)session.getAttribute("buyerId");
+		
+		int count = cartBO.allClearCart(buyerId);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count >= 1) {
+			result.put("result", "success");
+		}else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+		
 	}
 }

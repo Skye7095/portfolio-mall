@@ -1,8 +1,21 @@
 package com.portfolio.mall.user;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.portfolio.mall.cart.bo.CartBO;
+import com.portfolio.mall.cart.model.CartDecisionDetail;
+import com.portfolio.mall.cart.model.CartDetail;
+import com.portfolio.mall.product.bo.ProductBO;
+import com.portfolio.mall.user.bo.BuyerBO;
+import com.portfolio.mall.user.model.Buyer;
+import com.portfolio.mall.user.model.BuyerOrderDetail;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -10,6 +23,15 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/buyer")
 public class BuyerController {
+	
+	@Autowired
+	private BuyerBO buyerBO;
+	
+	@Autowired
+	private ProductBO productBO;
+	
+	@Autowired
+	private CartBO cartBO;
 	
 	// 구매회원가입 페이지
 	@GetMapping("/signup/view")
@@ -49,13 +71,22 @@ public class BuyerController {
 	
 	// 구매회원 나의정보 페이지
 	@GetMapping("/personal/view")
-	public String buyerPersonal() {
+	public String buyerPersonal(
+			HttpServletRequest request
+			, Model model) {
+		HttpSession session = request.getSession();
+		int id = (Integer)session.getAttribute("buyerId");
+		
+		Buyer buyerList = buyerBO.getBuyerById(id);
+		model.addAttribute("buyerList", buyerList);
+		
 		return "/buyer/personal";
 	}
 	
 	// 구매회원 전체주문내역 페이지
 	@GetMapping("/orderhistory/view")
 	public String buyerOrderhistory() {
+		
 		return "/buyer/orderHistory";
 	}
 	
@@ -100,13 +131,7 @@ public class BuyerController {
 	public String non_memberPurchaseDetailsView() {
 		return "/buyer/purchaseDetails";
 	}
-	
-	// 장바구니 페이지
-	@GetMapping("/cart/view")
-	public String cartView() {
-		return "/buyer/cart";
-	}
-	
+		
 	// 비회원 주문결제 페이지
 	@GetMapping("/non-member/purchasing/view")
 	public String non_memberPurchasingView() {
@@ -115,13 +140,56 @@ public class BuyerController {
 	
 	// 구매회원 주문결제 페이지
 	@GetMapping("/purchasing/view")
-	public String buyerPurchasingView() {
+	public String buyerPurchasingView(
+			@RequestParam(value="buyerOrderId", defaultValue="") String buyerOrderId
+			, HttpServletRequest request
+			, Model model) {		
+		HttpSession session = request.getSession();
+		int buyerId = (Integer)session.getAttribute("buyerId");
+		
+		Buyer buyer = buyerBO.getBuyerById(buyerId);
+		model.addAttribute("buyer", buyer);
+		
+		List<CartDecisionDetail> cartDecisionDetailList = cartBO.getCartDecisionDetailList(buyerOrderId);
+		model.addAttribute("cartDecisionDetailList", cartDecisionDetailList);
+		
+		int totalAmount = 0;
+		int totalProductPrice = 0;
+		int totalDeliveryPrice = 0;
+		int sum = 0;
+		for(int i = 0; i < cartDecisionDetailList.size(); i++) {
+			totalAmount += cartDecisionDetailList.get(i).getProductAmount();
+			totalProductPrice += cartDecisionDetailList.get(i).getProductSumPrice();
+			totalDeliveryPrice += cartDecisionDetailList.get(i).getProductDeliveryPrice();
+			sum = totalProductPrice + totalDeliveryPrice;
+		}
+		
+		model.addAttribute("totalAmount", totalAmount);
+		model.addAttribute("totalProductPrice", totalProductPrice);
+		model.addAttribute("totalDeliveryPrice", totalDeliveryPrice);
+		model.addAttribute("sum", sum);
+		model.addAttribute("buyerOrderId", buyerOrderId);
+	
 		return "/buyer/purchasing";
 	}
 	
 	// 주문완료 페이지
 	@GetMapping("/purchaseCompleted/view")
-	public String purchasingCompletedView() {
+	public String purchasingCompletedView(
+			@RequestParam(value="buyerOrderId", defaultValue="") String buyerOrderId
+			, HttpServletRequest request
+			, Model model) {
+		HttpSession session = request.getSession();
+		int buyerId = (Integer)session.getAttribute("buyerId");
+		
+		Buyer buyer = buyerBO.getBuyerById(buyerId);
+		model.addAttribute("buyer", buyer);
+		
+		BuyerOrderDetail buyerOrderDetail = buyerBO.getBuyerOrderDetail(buyerOrderId);
+		model.addAttribute("buyerOrderDetail", buyerOrderDetail);
+		
+		model.addAttribute("buyerOrderId", buyerOrderId);
+		
 		return "/buyer/purchaseCompleted";
 	}
 }

@@ -8,6 +8,7 @@ public class Cart {
 	
 	private int id;
 	private int buyerId;
+	private String buyerOrderId;
 	private int productId;
 	private int productAmount;
 	private int productSumPrice;
@@ -15,6 +16,12 @@ public class Cart {
 	private Date createdAt;
 	private Date updatedAt;
 	
+	public String getBuyerOrderId() {
+		return buyerOrderId;
+	}
+	public void setBuyerOrderId(String buyerOrderId) {
+		this.buyerOrderId = buyerOrderId;
+	}
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}

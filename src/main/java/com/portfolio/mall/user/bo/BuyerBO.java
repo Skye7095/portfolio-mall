@@ -1,15 +1,15 @@
 package com.portfolio.mall.user.bo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.portfolio.mall.cart.bo.CartBO;
 import com.portfolio.mall.common.EncryptUtils;
 import com.portfolio.mall.common.randomPW;
+import com.portfolio.mall.product.dao.ProductDAO;
 import com.portfolio.mall.user.dao.BuyerDAO;
 import com.portfolio.mall.user.model.Buyer;
+import com.portfolio.mall.user.model.BuyerOrderDetail;
 import com.portfolio.mall.user.model.NonMember;
 
 @Service
@@ -17,6 +17,12 @@ public class BuyerBO {
 	
 	@Autowired
 	public BuyerDAO buyerDAO;
+	
+	@Autowired
+	public ProductDAO productDAO;
+	
+	@Autowired
+	public CartBO cartBO;
 	
 	// 회원가입시 buyer 정보 입력
 	public int addBuyer(
@@ -67,6 +73,11 @@ public class BuyerBO {
 			String name
 			, String phoneNumber) {
 		return buyerDAO.selectBuyerByPhone(name, phoneNumber);
+	}
+	
+	// buyer 조회
+	public Buyer getBuyerById(int id) {
+		return buyerDAO.selectBuyerById(id);
 	}
 	
 	// buyer 아이디 찾기-email
@@ -142,5 +153,45 @@ public class BuyerBO {
 			, int orderId) {
 		
 		return buyerDAO.selectNonMemberByOrderId(name, phoneNumber, orderId);
+	}
+	
+	// buyer personal 페이지 정보 변경
+	public int updateBuyer(
+			int id
+			, String password
+			, String phoneNumber
+			, String email) {
+		
+		String encryptPW = EncryptUtils.md5(password);
+		
+		return buyerDAO.updateBuyer(id, encryptPW, phoneNumber, email);
+	}
+	
+	// buyer 결제정보
+	public int addBuyerOrder(
+			int buyerId
+			, String buyerOrderId
+			, String receiverName
+			, String receiverPhoneNumber
+			, String receiverAddress
+			, String depositorName
+			, int sum
+			, String status) {
+		int count = 0;
+		
+		if(buyerDAO.sameOrder(buyerId, buyerOrderId) == null) {
+			// 최초 결제
+			count = buyerDAO.insertBuyerOrder(buyerId, buyerOrderId, receiverName, receiverPhoneNumber, receiverAddress, depositorName, sum, status);
+		}else {
+			// 이미 결제했음
+			count = -1;
+		}
+
+		return count;
+	}
+	
+	// buyerOrderId로 구매내역 조회
+	public BuyerOrderDetail getBuyerOrderDetail(String buyerOrderId) {
+		return buyerDAO.selectBuyerOrderDetail(buyerOrderId);
 	}
 }

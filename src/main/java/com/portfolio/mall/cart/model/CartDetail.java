@@ -6,13 +6,21 @@ public class CartDetail {
 	
 	private int id;
 	private int buyerId;
+	private String buyerOrderId;
 	private int productId;
 	private String productImgPath;
 	private String productName;
 	private int productCount;
 	private int productPrice;
 	private int productDeliveryPrice;
-	private int productCountPrice;
+	private int productCountPrice;	
+	
+	public String getBuyerOrderId() {
+		return buyerOrderId;
+	}
+	public void setBuyerOrderId(String buyerOrderId) {
+		this.buyerOrderId = buyerOrderId;
+	}
 	public int getId() {
 		return id;
 	}

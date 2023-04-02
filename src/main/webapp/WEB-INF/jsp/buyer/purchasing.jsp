@@ -35,139 +35,113 @@
 		<section class="purchasing-section container">
 			<div class="d-flex mt-3">
 				<div class="container purchasing-card col-8 mx-3">
-					<article class="border container bg-light">
+					<article class="border container bg-light my-3">
 						<div class="d-flex justify-content-between align-items-end mt-3">
-							<h4 class="font-weight-bold text-success">김지윤</h4>
-							<button class="btn btn-info">배송지 변경</button>
+							<h4 class="font-weight-bold">주문자 정보</h4>
 						</div>
 						
-						<h6 class="font-weight-bold">김지윤 010-0000-0000</h6>
-					  	<h6>서울특별시 강남구 테헤란로</h6>
+						<div class="container d-flex align-items-end mt-3">
+							<h6 class="font-weight-bold col-4">주문자 이름</h6>
+							<h6 id="buyerName">${buyer.name }</h6>
+						</div>
+						<div class="container d-flex align-items-end mt-3">
+							<h6 class="font-weight-bold col-4">주문자 전화번호</h6>
+							<h6 id="buyerPhoneNumber">${buyer.phoneNumber }</h6>
+						</div>
 					</article>
 					
-					<article class="border container my-3 bg-light">
-						<h4 class="font-weight-bold mt-3">캐시 사용</h4>
-						<hr>						
-					  	<div class="my-3">
-					  		<div class="d-flex">
-						  		<div class="col-4 font-weight-bold">
-						    		<label class="col-form-label">나의 캐시 <span class="text-primary">89원</span></label>
-						    	</div>
-						    	<div class="col-8 d-flex">
-					    			<input type="text" class="form-control mr-2">
-					    			<button class="btn btn-success d-none">사용하기</button>
-					    			<button class="btn btn-secondary">전액사용</button>
-					    		</div>
-				    		</div>
-					  	</div>
+					<article class="border container bg-light my-3">
+						<div class="d-flex justify-content-between align-items-end mt-3">
+							<h4 class="font-weight-bold">배송 정보</h4>
+							<div>
+								<input type="checkbox" id="sameCheck" value="same">
+								<label>주문자정보와 일치</label>
+							</div>
+						</div>
+						
+						<div class="container d-flex align-items-end mt-3">
+							<h6 class="font-weight-bold col-4">배송 이름</h6>
+							<input type="text" class="form-control" id="receiverNameInput">
+						</div>
+						<div class="container d-flex align-items-end mt-3">
+							<h6 class="font-weight-bold col-4">배송 전화번호</h6>
+							<input type="text" class="form-control" id="receiverPhoneNumberInput">
+						</div>
+						<div class="container d-flex align-items-end my-3">
+							<h6 class="font-weight-bold col-4">배송 주소</h6>
+							<input type="text" class="form-control" id="receiverAddressInput">
+						</div>
 					</article>
-					
+							
 					<article class="border container mt-3 bg-light">
 						<h4 class="font-weight-bold mt-3">결제수단</h4>
 						<hr>
-						<div class="container my-3 d-flex justify-content-around">
-					    	<div class="text-center">
-					    		<img width="100" src="https://blog.kakaocdn.net/dn/U0ezR/btqzR2cXmFv/4KMeM58bVZK3Qftiue0CtK/img.jpg">
-					    		<p>현대카드</p>
-					    	</div>
-					    	<div class="text-center">
-					    		<img width="100" src="https://blog.kakaocdn.net/dn/U0ezR/btqzR2cXmFv/4KMeM58bVZK3Qftiue0CtK/img.jpg">
-					    		<p>현대카드</p>
-					    	</div>
-					    	<div class="text-center">
-					    		<img width="100" src="https://blog.kakaocdn.net/dn/U0ezR/btqzR2cXmFv/4KMeM58bVZK3Qftiue0CtK/img.jpg">
-					    		<p>현대카드</p>
-					    	</div>
-					    	<div class="text-center">
-					    		<img width="100" src="https://blog.kakaocdn.net/dn/U0ezR/btqzR2cXmFv/4KMeM58bVZK3Qftiue0CtK/img.jpg">
-					    		<p>현대카드</p>
-					    	</div>
+						<div class="container my-3">
+				    		<h4 class="font-weight-bold">무통장 입금</h4>
 					  	</div>
-					  	
-					  	<div class="container my-3 d-flex justify-content-around">
-					    	<div class="text-center">
-					    		<img width="100" src="https://blog.kakaocdn.net/dn/U0ezR/btqzR2cXmFv/4KMeM58bVZK3Qftiue0CtK/img.jpg">
-					    		<p>현대카드</p>
-					    	</div>
-					    	<div class="text-center">
-					    		<img width="100" src="https://blog.kakaocdn.net/dn/U0ezR/btqzR2cXmFv/4KMeM58bVZK3Qftiue0CtK/img.jpg">
-					    		<p>현대카드</p>
-					    	</div>
-					    	<div class="text-center">
-					    		<img width="100" src="https://blog.kakaocdn.net/dn/U0ezR/btqzR2cXmFv/4KMeM58bVZK3Qftiue0CtK/img.jpg">
-					    		<p>현대카드</p>
-					    	</div>
-					    	<div class="text-center">
-					    		<img width="100" src="https://blog.kakaocdn.net/dn/U0ezR/btqzR2cXmFv/4KMeM58bVZK3Qftiue0CtK/img.jpg">
-					    		<p>현대카드</p>
-					    	</div>
+					  	<div class="container my-3 d-flex align-items-end">
+				    		<h6 class="font-weight-bold col-4">입금자명</h6>
+				    		<input type="text" class="form-control" id="depositorNameInput">
 					  	</div>
-					  	
+					  	<div class="container my-3 d-flex align-items-end">
+				    		<p class="col-4">입금계좌</p>
+				    		<p>하나은행: (주식회사)몰 0000000-0000000-00000</p>
+					  	</div>
 					</article>
 				</div>
 				
-				<div class="simple-paymentinfo2-card col-4 mb-3">
+				<div class="simple-paymentinfo2-card col-4 mb-3" id="buyerOrderId" value="${buyerOrderId }">
 					<aside class="border border-dark">
 						<div class="container my-3">
 							<div>
-								<h5 class="font-weight-bold">주문상품 1개</h5>		
+								<h5 class="font-weight-bold">주문상품 ${totalAmount }개</h5>		
 							</div>
 							<hr>
 							<div class="details">
 								<div class="items">
+								<c:forEach var="cartDecisionDetail" items="${cartDecisionDetailList }">
 									<div class="d-flex">
-										<img width="100" height="100" src="https://m.worldwideworld.kr/web/product/tiny/202209/4be7381e5e91bbd41126eb391dd4ee38.jpg">
+										<img width="100" height="100" src="${cartDecisionDetail.productImgPath }">
 										<div>
-											<a class="text-dark" href="#">1+1 1989 뉴욕 자수로고 버킷햇</a>
+											<a class="text-dark" href="/product/items/view?id=${cartDecisionDetail.productId }">${cartDecisionDetail.productName }</a>
 											<div>
-												<span class="font-weight-bold">9,900원</span>
-												<span> / 1개</span>
+												<span class="font-weight-bold">${cartDecisionDetail.productPrice }원</span>
+												<span> / ${cartDecisionDetail.productAmount }개</span>
 											</div>
 										</div>
 									</div>
 									<div class="bg-light d-flex justify-content-between">
-										<span>배송비</span>
-										<span>3,000원</span>
-									</div>
-								</div>
-								<hr>
-								<div class="items">
-									<div class="d-flex">
-										<img width="100" height="100" src="https://m.worldwideworld.kr/web/product/tiny/202209/4be7381e5e91bbd41126eb391dd4ee38.jpg">
-										<div>
-											<a class="text-dark" href="#">1+1 1989 뉴욕 자수로고 버킷햇</a>
-											<div>
-												<span class="font-weight-bold">9,900원</span>
-												<span> / 1개</span>
-											</div>
-										</div>
+										<span>상품금액</span>
+										<span>${cartDecisionDetail.productSumPrice }원</span>
 									</div>
 									<div class="bg-light d-flex justify-content-between">
 										<span>배송비</span>
-										<span>0원</span>
+										<span>${cartDecisionDetail.productDeliveryPrice }원</span>
 									</div>
 								</div>
 								<hr>
+								</c:forEach>
+								
 								<div class="d-flex justify-content-between">
 									<div>
 										<p>상품금액</p>
-										<p>할인금액</p>
 										<p>배송비</p>
 									</div>
 									<div class="text-right">
-										<p>19,800원</p>
-										<p class="text-success">-0원</p>
-										<p>3,000원</p>
+										<p>${totalProductPrice }원</p>
+										<p>${totalDeliveryPrice }원</p>
 									</div>
 								</div>
 							</div>
 							<hr>
 							<div class="d-flex justify-content-between align-items-center">
 								<h5 class="font-weight-bold">총결제금액</h5>
-								<h3 class="font-weight-bold">22,800원</h3>
+								<div class="d-flex">
+									<h3 class="font-weight-bold" id="sum">${sum }</h3>
+									<h3 class="font-weight-bold">원</h3>
+								</div>
 							</div>
-							<p class="text-right">캐시 <span class="text-primary">70원</span> 정립예정</p>
-							<button class="btn btn-primary btn-block text-white font-weight-bold my-3" type="button">결제하기</button>
+							<button class="btn btn-primary btn-block text-white font-weight-bold my-3" type="button" id="purchaseBtn">결제하기</button>
 						</div>
 					</aside>
 				</div>
@@ -178,8 +152,77 @@
 	
 	<script>
 		$(document).ready(function(){
+			$("#sameCheck").on("change", function(){
+				
+				if($(this).is(":checked")){
+					$('input[id=receiverNameInput]').attr("value",$("#buyerName").text());
+					$('input[id=receiverPhoneNumberInput]').attr("value",$("#buyerPhoneNumber").text());
+				}else{
+					$('input[id=receiverNameInput]').attr("value","");
+					$('input[id=receiverPhoneNumberInput]').attr("value","");
+				}
+				
+			})
 			
-			
+			$("#purchaseBtn").on("click", function(){
+				let buyerOrderId = $("#buyerOrderId").attr("value");
+				let receiverName = $("#receiverNameInput").val();
+				let receiverPhoneNumber = $("#receiverPhoneNumberInput").val();
+				let receiverAddress = $("#receiverAddressInput").val();
+				let depositorName = $("#depositorNameInput").val();
+				let sum = $("#sum").text().toString();
+				
+				if(receiverName == ""){
+					alert("배송 이름 입력해주세요");
+					return;
+				}
+				if(receiverPhoneNumber == ""){
+					alert("배송 전화번호 입력해주세요");
+					return;
+				}
+				if(receiverAddress == ""){
+					alert("배송 주소 입력해주세요");
+					return;
+				}
+				if(depositorName == ""){
+					alert("입금자명 입력해주세요");
+					return;
+				}
+
+				$.ajax({
+					type:"post"
+					, url:"/buyer/purchasing/createOrder"
+					, data:{"buyerOrderId":buyerOrderId, "receiverName":receiverName, "receiverPhoneNumber":receiverPhoneNumber, "receiverAddress":receiverAddress, "depositorName":depositorName, "sum":sum}
+					, success:function(data){
+						if(data.result == "success"){
+							location.href="/buyer/purchaseCompleted/view?buyerOrderId=" + buyerOrderId;
+						}else if(data.result == "exists"){
+							alert("이미 결제했습니다");
+							return;
+						}else{
+							alert("결제 실패");
+						}
+					}
+					, error:function(){
+						alert("결제 에러");
+					}
+				})
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/clearAllCart"
+					, data:{}
+					, success:function(data){
+						if(data.result == "success"){
+						}else{
+							alert("장바구니 전체 삭제 실패");
+						}
+					}
+					, error:function(){
+						alert("장바구니 전체삭제 에러");
+					}
+				})
+			})
 		})
 	</script>
 </body>

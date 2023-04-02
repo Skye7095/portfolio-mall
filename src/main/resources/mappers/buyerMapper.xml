@@ -55,7 +55,8 @@
 	<!-- 로그인 -> id과 pw이 일치한 유저만 로그인 가능함 -->
 	<select id="selectBuyerByIdPassword" parameterType="map" resultType="com.portfolio.mall.user.model.Buyer">
 		SELECT
-			`loginId`
+			`id`
+			, `loginId`
 			, `password`
 			, `name`
 			, `phoneNumber`
@@ -66,6 +67,23 @@
 			`buyer`
 		WHERE
 			`loginId` = #{loginId} AND `password` = #{password}
+	</select>
+	
+	<!-- id를 통해 buyer 조회 -->
+	<select id="selectBuyerById" parameterType="int" resultType="com.portfolio.mall.user.model.Buyer">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`buyer`
+		WHERE
+			`id` = #{id}
 	</select>
 	
 	<!-- 전화번호를 통해 id 찾기 -->
@@ -170,5 +188,87 @@
 			`nonmember`
 		WHERE
 			`name` = #{name} AND `phoneNumber` = #{phoneNumber} AND `orderId` = #{orderId}
+	</select>
+	
+	<!-- buyer 개인정보 변경 -->
+	<update id="updateBuyer" parameterType="map">
+		UPDATE
+			`buyer`
+		SET
+			`password` = #{password}
+			, `phoneNumber` = #{phoneNumber}
+			, `email` = #{email}
+			, `updatedAt` = now()
+		WHERE
+			`id`=#{id}
+	</update>
+	
+	<!-- buyer 결제 -->
+	<insert id="insertBuyerOrder" parameterType="map">
+		INSERT INTO
+			`buyerOrder`
+		(
+			`buyerId`
+			, `buyerOrderId`
+			, `receiverName`
+			, `receiverPhoneNumber`
+			, `receiverAddress`
+			, `depositorName`
+			, `sum`
+			, `status`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUE
+		(
+			#{buyerId}
+			, #{buyerOrderId}
+			, #{receiverName}
+			, #{receiverPhoneNumber}
+			, #{receiverAddress}
+			, #{depositorName}
+			, #{sum}
+			, #{status}
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<!-- 같은 orderId가 여러번 결제됐는지 확인 -->
+	<select id="sameOrder" parameterType="map" resultType="Integer">
+		SELECT
+			`buyerId`
+			, `buyerOrderId`
+			, `receiverName`
+			, `receiverPhoneNumber`
+			, `receiverAddress`
+			, `depositorName`
+			, `status`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`buyerOrder`
+		WHERE
+			`buyerId` = #{buyerId} AND `buyerOrderId` = #{buyerOrderId}
+	</select>
+	
+	<!-- buyerOrderDetail 조회 -->
+	<select id="selectBuyerOrderDetail" parameterType="string" resultType="com.portfolio.mall.user.model.BuyerOrderDetail">
+		SELECT
+			`id`
+			, `buyerId`
+			, `buyerOrderId`
+			, `receiverName`
+			, `receiverPhoneNumber`
+			, `receiverAddress`
+			, `depositorName`
+			, `sum`
+			, `status`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`buyerOrder`
+		WHERE
+			`buyerOrderId` = #{buyerOrderId}
 	</select>
 </mapper>

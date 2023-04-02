@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.portfolio.mall.user.model.Buyer;
+import com.portfolio.mall.user.model.BuyerOrderDetail;
 import com.portfolio.mall.user.model.NonMember;
 
 @Repository
@@ -30,6 +31,9 @@ public interface BuyerDAO {
 	public Buyer selectBuyerByIdPassword(
 			@Param("loginId") String loginId
 			, @Param("password") String password);
+	
+	// buyer 조회
+	public Buyer selectBuyerById(@Param("id") int id);
 	
 	// buyer 아이디찾기-phone
 	public String selectBuyerByPhone(
@@ -72,4 +76,30 @@ public interface BuyerDAO {
 			@Param("name") String name
 			, @Param("phoneNumber") String phoneNumber
 			, @Param("orderId") int orderId);
+	
+	// buyer 개인정보 변경
+	public int updateBuyer(
+			@Param("id") int id
+			, @Param("password") String password
+			, @Param("phoneNumber") String phoneNumber
+			, @Param("email") String email);
+	
+	// buyer 결제정보 insert
+	public int insertBuyerOrder(
+			@Param("buyerId") int buyerId
+			, @Param("buyerOrderId") String buyerOrderId
+			, @Param("receiverName") String receiverName
+			, @Param("receiverPhoneNumber") String receiverPhoneNumber
+			, @Param("receiverAddress") String receiverAddress
+			, @Param("depositorName") String depositorName
+			, @Param("sum") int sum
+			, @Param("status") String status);
+	
+	// 같은 orderId가 여러번 결제됐는지 확인
+	public Integer sameOrder(
+			@Param("buyerId") int buyerId
+			, @Param("buyerOrderId") String buyerOrderId);
+	
+	// buyerOrderDetail 조회하기
+	public BuyerOrderDetail selectBuyerOrderDetail(@Param("buyerOrderId") String buyerOrderId);
 }

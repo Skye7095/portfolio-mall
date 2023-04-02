@@ -4,13 +4,23 @@ public class CartDecisionDetail {
 	
 	private int id;
 	private int buyerId;
+	private String buyerOrderId;
 	private int productId;
 	private String productImgPath;
 	private String productName;
-	private int productCount;
 	private int productPrice;
+	private int productAmount;
+	private int productSumPrice;
 	private int productDeliveryPrice;
-	private int productCountPrice;
+	private int productTotalPrice;
+	
+	
+	public int getProductPrice() {
+		return productPrice;
+	}
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
 	public int getId() {
 		return id;
 	}
@@ -22,6 +32,12 @@ public class CartDecisionDetail {
 	}
 	public void setBuyerId(int buyerId) {
 		this.buyerId = buyerId;
+	}
+	public String getBuyerOrderId() {
+		return buyerOrderId;
+	}
+	public void setBuyerOrderId(String buyerOrderId) {
+		this.buyerOrderId = buyerOrderId;
 	}
 	public int getProductId() {
 		return productId;
@@ -41,17 +57,17 @@ public class CartDecisionDetail {
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	public int getProductCount() {
-		return productCount;
+	public int getProductAmount() {
+		return productAmount;
 	}
-	public void setProductCount(int productCount) {
-		this.productCount = productCount;
+	public void setProductAmount(int productAmount) {
+		this.productAmount = productAmount;
 	}
-	public int getProductPrice() {
-		return productPrice;
+	public int getProductSumPrice() {
+		return productSumPrice;
 	}
-	public void setProductPrice(int productPrice) {
-		this.productPrice = productPrice;
+	public void setProductSumPrice(int productSumPrice) {
+		this.productSumPrice = productSumPrice;
 	}
 	public int getProductDeliveryPrice() {
 		return productDeliveryPrice;
@@ -59,12 +75,13 @@ public class CartDecisionDetail {
 	public void setProductDeliveryPrice(int productDeliveryPrice) {
 		this.productDeliveryPrice = productDeliveryPrice;
 	}
-	public int getProductCountPrice() {
-		return productCountPrice;
+	public int getProductTotalPrice() {
+		return productTotalPrice;
 	}
-	public void setProductCountPrice(int productCountPrice) {
-		this.productCountPrice = productCountPrice;
+	public void setProductTotalPrice(int productTotalPrice) {
+		this.productTotalPrice = productTotalPrice;
 	}
+
 	
 	
 }

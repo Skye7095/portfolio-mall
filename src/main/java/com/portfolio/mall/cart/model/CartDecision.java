@@ -6,13 +6,14 @@ public class CartDecision {
 	
 	private int id;
 	private int buyerId;
-	private int buyerOrderId;
+	private String buyerOrderId;
 	private int productId;
 	private int productAmount;
 	private int productSumPrice;
 	private int productTotalPrice;
 	private Date createdAt;
 	private Date updatedAt;
+	
 	public int getId() {
 		return id;
 	}
@@ -25,10 +26,10 @@ public class CartDecision {
 	public void setBuyerId(int buyerId) {
 		this.buyerId = buyerId;
 	}
-	public int getBuyerOrderId() {
+	public String getBuyerOrderId() {
 		return buyerOrderId;
 	}
-	public void setBuyerOrderId(int buyerOrderId) {
+	public void setBuyerOrderId(String buyerOrderId) {
 		this.buyerOrderId = buyerOrderId;
 	}
 	public int getProductId() {

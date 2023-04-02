@@ -49,8 +49,7 @@
 					
 					<tbody class="border cartDetail">
 					<c:forEach var="cartDetail" items="${cartDetailList }">
-						<c:set var="cartId" value="${cartDetail.id }" />
-						<tr>
+						<tr data-cart-id="${cartDetail.id }">
 							<th class="d-flex">
 								<img width="100" height="100" src="${cartDetail.productImgPath }">
 								<div>
@@ -59,7 +58,7 @@
 							</th>
 							<th>
 								<div class="d-flex justify-content-center">
-									<h4>${cartDetail.productCount }</h4>
+									<h4 id="productCount">${cartDetail.productCount }</h4>
 									<h4>개</h4>
 								</div>
 							</th>
@@ -82,7 +81,7 @@
 								</div>
 							</th>
 							<th>
-								<button class="btn btn-sm btn-danger deleteBtn" data-cart-id="${cartDetail.id }">삭제</button>
+								<button class="btn btn-sm btn-danger deleteBtn" data-cart-id="${cartDetail.id }" data-product-id="${cartDetail.productId }">삭제</button>
 							</th>
 						</tr>
 						</c:forEach>
@@ -104,13 +103,13 @@
 								</div>
 								<div class="text-right">
 									<div class="d-flex justify-content-end">
-										<p>${cartSum.totalAmount}</p>개
+										<p id="totalAmount">${totalAmount}</p>개
 									</div>
 									<div class="d-flex justify-content-end">
-										<p>${cartSum.totalProductPrice}</p>원
+										<p id="totalProductPrice">${totalProductPrice}</p>원
 									</div>
 									<div class="d-flex justify-content-end">
-										<p>${cartSum.totalDeliveryPrice}</p>원
+										<p id="totalDeliveryPrice">${totalDeliveryPrice}</p>원
 									</div>
 								</div>
 							</div>
@@ -118,13 +117,13 @@
 								<div class="d-flex justify-content-between align-items-end">
 									<h5 class="font-weight-bold">전체 금액</h5>
 									<div class="d-flex justify-content-end align-items-end">
-										<h3 class="font-weight-bold">${cartSum.sum}</h3>
+										<h3 class="font-weight-bold" id="sum">${sum}</h3>
 										<h6>원</h6>
 									</div>
 								</div>
 								<div>
 									<div class="d-flex justify-content-center">
-										<button class="btn btn-primary btn-lg text-white font-weight-bold my-3" type="button" id="orderBtn" data-buyerorder-id="buyerOrderId"><a class="text-white" href="/buyer/purchasing/view">구매하기</a></button>
+										<button class="btn btn-primary btn-lg text-white font-weight-bold my-3" type="button" id="orderBtn">구매하기</button>
 									</div>
 								</div>
 							</div>
@@ -138,30 +137,59 @@
 	
 	<script>
 		$(document).ready(function(){
+			
 			$("#orderBtn").on("click", function(){
-				let cartId = ${cartId};
+				// buyerOrderId 생성 > B + 오늘날짜 + 난수(6자리)
+				let now = new Date();
+				let year = now.getFullYear().toString();
+				let month = now.getMonth() + 1;
+				let day = now.getDate();
+				
+				// 만약에 월이 1~9월이면 문자열을 반환할 때 앞에 0을 붙여줌. 아니면 그냥 문자열 반환
+				if(month < 10){
+					month = "0" + month.toString();
+				}else{
+					month = month.toString();
+				}
+				
+				// 날짜도 위와 마찬가지 > 결국 yyyyMMdd를 맞춰줌
+				if(day < 10){
+					day = "0" + day.toString();
+				}else{
+					day = day.toString();
+				}
+				
+				// 혹시 buyer가 같은 날에 여러건을 구매할 수 있어서 5자리 난수 생성
+				let random = '';
+			    for (let i = 0; i < 5; i++) {
+			    	random += Math.floor(Math.random() * 10);
+			    }
+				
+			    
+				let buyerOrderId = "BC" + year + month + day + random;
 				
 				$.ajax({
 					type:"post"
-					, url:"/buyer/cart/cartDesicion"
-					, data:{"cartId":cartId}
+					, url:"/buyer/cart/cartDecision"
+					, data:{"buyerOrderId":buyerOrderId}
 					, success:function(data){
 						if(data.result == "success"){
-							alert("성공");
+							location.href="/buyer/purchasing/view?buyerOrderId=" + buyerOrderId;
 						}else{
-							alert("삭제 실패");
+							alert("구매하기 실패");
 							return;
 						}
 					}
 					, error:function(){
-						alert("삭제 오류");
+						alert("구매하기 오류");
 					}
 				})
-				
 			})
+			
 			
 			$(".deleteBtn").on("click", function(){
 				let cartId = $(this).data("cart-id");
+				let productId = $(this).data("product-id");
 				
 				$.ajax({
 					type:"post"
@@ -179,7 +207,21 @@
 						alert("삭제 오류");
 					}
 				})
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/cart/deleteDecision"
+					, data:{"cartId":cartId}
+					, success:function(data){
+						
+					}
+					, error:function(){
+						alert("삭제 오류1");
+					}
+				})
 			})
+			
+			
 		})
 	</script>
 </body>
