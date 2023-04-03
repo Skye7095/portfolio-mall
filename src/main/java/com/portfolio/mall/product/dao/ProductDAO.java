@@ -38,15 +38,14 @@ public interface ProductDAO {
 	// 상품 재고 0으로 수정하기 > seller가 판매중지하고 싶은 경우
 	public int updateProductAmountTo0(@Param("id") int id);
 	
-//	// 상품 수정
-//	public int updateProduct(
-//			@Param("id") int id
-//			, @Param("productImgPath") Long productImgPath
-//			, @Param("category") String category
-//			, @Param("name") String name
-//			, @Param("price") int price
-//			, @Param("amount") int amount
-//			, @Param("deliveryPrice") int deliveryPrice
-//			, @Param("introduction") String introduction
-//			, @Param("detailsImgPath") Long detailsImgPath);
+	// 상품 수정
+	public int updateProduct(
+			@Param("id") int id
+			, @Param("sellerId") int sellerId
+			, @Param("category") String category
+			, @Param("name") String name
+			, @Param("price") int price
+			, @Param("amount") int amount
+			, @Param("deliveryPrice") int deliveryPrice
+			, @Param("introduction") String introduction);
 }

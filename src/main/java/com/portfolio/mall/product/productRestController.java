@@ -56,28 +56,29 @@ public class productRestController {
 		return result;
 	}
 	
-//	// 상품 수정
-//	@PostMapping("/modify")
-//	public Map<String, Object> productModify(
-//			@RequestParam("id") int id
-//			, @RequestParam("productImgPath") Long productImgPath
-//			, @RequestParam("category") String category
-//			, @RequestParam("name") String name
-//			, @RequestParam("price") int price
-//			, @RequestParam("amount") int amount
-//			, @RequestParam("deliveryPrice") int deliveryPrice
-//			, @RequestParam(value="introduction", required=false) String introduction
-//			, @RequestParam("detailsImgPath") Long detailsImgPath){
-//		
-//		int count = productBO.modifyProduct(id, productImgPath, category, name, price, amount, deliveryPrice, introduction, detailsImgPath);
-//		
-//		Map<String, Object> result = new HashMap<>();
-//		if(count == 1) {
-//			result.put("result", "success");
-//		}else {
-//			result.put("result", "fail");
-//		}
-//		
-//		return result;
-//	}
+	// 상품 수정
+	@PostMapping("/modify")
+	public Map<String, Object> productModify(
+			@RequestParam("id") int id
+			, @RequestParam("category") String category
+			, @RequestParam("name") String name
+			, @RequestParam("price") int price
+			, @RequestParam("amount") int amount
+			, @RequestParam("deliveryPrice") int deliveryPrice
+			, @RequestParam(value="introduction", required=false) String introduction
+			, HttpServletRequest request){
+		HttpSession session = request.getSession();
+		int sellerId = (Integer) session.getAttribute("sellerId");
+		
+		int count = productBO.modifyProduct(id, sellerId, category, name, price, amount, deliveryPrice, introduction);
+		
+		Map<String, Object> result = new HashMap<>();
+		if(count == 1) {
+			result.put("result", "success");
+		}else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+	}
 }

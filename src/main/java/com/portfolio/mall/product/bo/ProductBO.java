@@ -55,18 +55,17 @@ public class ProductBO {
 		return productDAO.selectProductByCategory(category);
 	}
 	
-//	// 상품 수정
-//	public int modifyProduct(
-//			int id
-//			, Long productImgPath
-//			, String category
-//			, String name
-//			, int price
-//			, int amount
-//			, int deliveryPrice
-//			, String introduction
-//			, Long detailsImgPath) {
-//		
-//		return productDAO.updateProduct(id, productImgPath, category, name, price, amount, deliveryPrice, introduction, detailsImgPath);
-//	}
+	// 상품 수정
+	public int modifyProduct(
+			int id
+			, int sellerId
+			, String category
+			, String name
+			, int price
+			, int amount
+			, int deliveryPrice
+			, String introduction) {
+		
+		return productDAO.updateProduct(id, sellerId, category, name, price, amount, deliveryPrice, introduction);
+	}
 }

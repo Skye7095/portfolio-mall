@@ -32,7 +32,6 @@
 						<td class="d-flex justify-content-center">
 							<div class="img-upload col-4">
 								<img width="300" id="productImg" src="${product.productImgPath }">
-								<input class="file mt-3" type="file" multiple id="productFileInput">
 							</div>
 						</td>
 					</tr>
@@ -83,8 +82,10 @@
 						<td class="font-weight-bold col-3">상품정보</td>
 						<td>
 							<textarea class="form-control" rows="20" id="introductionInput" value="${product.introduction }"></textarea>
-							<label>상세설명 이미지</label><input class="file mt-3" type="file" multiple id="detailsFileInput">
-							<img width="500" id="detailsImg" src="${product.detailsImgPath }">
+							<div>
+								<p>상세설명 이미지</p>
+								<img width="500" id="detailsImg" src="${product.detailsImgPath }">
+							</div>
 						</td>
 					</tr>
 				</tbody>	
@@ -99,31 +100,7 @@
 </body>
 <script>
 	$(document).ready(function(){
-		
-		$("#productFileInput").on("change", function(){
-			var file = event.target.files[0];
-
-		    var reader = new FileReader(); 
-		    reader.onload = function(e) {
-
-		        $("#productImg").attr("src", e.target.result);
-		    }
-
-		    reader.readAsDataURL(file);
-		})
-		
-		$("#detailsFileInput").on("change", function(){
-			var file = event.target.files[0];
-
-		    var reader = new FileReader(); 
-		    reader.onload = function(e) {
-
-		        $("#detailsImg").attr("src", e.target.result);
-		    }
-
-		    reader.readAsDataURL(file);
-		})
-		
+				
 		$("#modifyBtn").on("click", function(){
 			var id = ${product.id};
 			
@@ -134,8 +111,8 @@
 			let amount = $("#amountInput").val();
 			let deliveryPrice = $("#deliveryPriceInput").val();
 			let introduction = $("#introductionInput").val();
+			
 			let productImgPath = $("#productImg").attr("src");
-			let detailsImgPath = $("#detailsImg").attr("src");
 			
 			if(categorySelect == "1"){
 				category = "패션·의류·잡화";
@@ -163,17 +140,12 @@
 				alert("배달비용을 입력하세요");
 				return;
 			}
-			if(productImgPath == ""){
-				alert("상품 사진 업로드해주세요");
-				return;
-			}
-
 			
 			$.ajax({
 				type:"post"
 				, url:"/product/modify"
-				, data:{"id":id, "productImgPath":productImgPath, "category":category, "name":name, "price":price, "amount":amount, "deliveryPrice":deliveryPrice, "introduction":introduction, "detailsImgPath":detailsImgPath}
-				, success:function(data){
+					, data:{"id":id, "category":category, "name":name, "price":price, "amount":amount, "deliveryPrice":deliveryPrice, "introduction":introduction}
+					, success:function(data){
 					if(data.result == "success"){
 						location.href = "/seller/productmanager/view";
 					}else{

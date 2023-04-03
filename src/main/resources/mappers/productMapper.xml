@@ -134,16 +134,14 @@
 		UPDATE
 			`product`
 		SET
-			`productImgPath`= #{productImgPath}
-			, `category` = #{category}
+			`category` = #{category}
 			, `name` = #{name}
 			, `price` = #{price}
 			, `amount` = #{amount}
 			, `deliveryPrice` = #{deliveryPrice}
 			, `introduction` = #{introduction}
-			, `detailsImgPath`= #{detailsImgPath}
 			, `updatedAt` = now()
 		WHERE
-			`id`=#{id}
+			`id`=#{id} AND `sellerId` = #{sellerId}
 	</update>
 </mapper>

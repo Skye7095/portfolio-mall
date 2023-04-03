@@ -75,9 +75,7 @@
 		$(".modifyBtn").on("click", function(){
 			let productId = $(this).data("product-id");
 			
-			alert("작업중입니다.");
-			return;
-			/* location.href="/seller/productmodify/view?id=" + productId; */
+			location.href="/seller/productmodify/view?id=" + productId;
 		})
 		
 		$(".deleteBtn").on("click", function(){
