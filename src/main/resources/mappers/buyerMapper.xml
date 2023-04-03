@@ -291,4 +291,31 @@
 		WHERE
 			`buyerId` = #{buyerId}
 	</select>
+	
+	<!-- buyer 개별상품 주문하기 -->
+	<insert id="insertBuyerOrderByPI" parameterType="map">
+		INSERT INTO
+			`cartDecision`
+		(
+			`buyerId`
+			, `buyerOrderId`
+			, `productId`
+			, `productAmount`
+			, `productSumPrice`
+			, `productTotalPrice`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUE
+		(
+			#{buyerId}
+			, #{buyerOrderId}
+			, #{productId}
+			, #{productAmount}
+			, #{productSumPrice}
+			, #{productTotalPrice}
+			, now()
+			, now()
+		)
+	</insert>
 </mapper>

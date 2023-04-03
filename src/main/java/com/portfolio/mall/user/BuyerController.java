@@ -147,30 +147,4 @@ public class BuyerController {
 		
 		return "/buyer/purchaseCompleted";
 	}
-		
-	// 비회원 조회 페이지
-	@GetMapping("/non-member/lookup/view")
-	public String non_memberLookupView() {
-		return "/buyer/lookup";
-	}
-	
-	// 비회원 주문비밀버호 페이지
-	@GetMapping("/non-member/lookupPW/view")
-	public String non_memberLookupPWView() {
-		return "/buyer/findOrderPW";
-	}
-	
-	// 비회원 주문정보 페이지
-	@GetMapping("/non-member/purchasedetails/view")
-	public String non_memberPurchaseDetailsView() {
-		return "/buyer/purchaseDetails";
-	}
-		
-	// 비회원 주문결제 페이지
-	@GetMapping("/non-member/purchasing/view")
-	public String non_memberPurchasingView() {
-		return "/buyer/nonPurchasing";
-	}
-	
-	
 }

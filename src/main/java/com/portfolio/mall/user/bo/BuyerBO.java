@@ -244,4 +244,15 @@ public class BuyerBO {
 		
 		return buyerOrderDetailList;
 	}
+	
+	// buyer 개별상품 주문하기
+	public int addBuyerOrderByPI(
+			int buyerId
+			, String buyerOrderId
+			, int productId
+			, int productAmount
+			, int productSumPrice
+			, int productTotalPrice) {
+		return buyerDAO.insertBuyerOrderByPI(buyerId, buyerOrderId, productId, productAmount, productSumPrice, productTotalPrice);
+	}
 }

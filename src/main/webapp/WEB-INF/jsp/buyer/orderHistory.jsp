@@ -37,23 +37,17 @@
 											
 						<tbody>
 						<c:forEach var="buyerOrderDetail" items="${buyerOrderDetailList }" >
-								<td class="text-center">
-									<span><fmt:formatDate value="${buyerOrderDetail.createdAt }" pattern="yyyy-MM-dd" /></span>
-									<p>주문번호: ${buyerOrderDetail.buyerOrderId }</p>
-								</td>
-								
-								<td>
-								
+						<tr>
+							<td class="text-center">
+								<span><fmt:formatDate value="${buyerOrderDetail.createdAt }" pattern="yyyy-MM-dd" /></span>
+								<p>주문번호: ${buyerOrderDetail.buyerOrderId }</p>
+							</td>
+						
+							<td>
 								<table>
-									<thead class="table-secondary text-center">
-										<tr>
-											<th>상품정보</th>
-											<th>상태</th>
-										</tr>
-									</thead>
 									<c:forEach var="cartDecisionDetail" items="${buyerOrderDetail.cartDecisionDetailList }" >
 									<tbody>
-									<tr>
+
 										<td class="d-flex">
 											<img width="100" height="100" src="${cartDecisionDetail.productImgPath }">
 											<div>
@@ -69,13 +63,11 @@
 										<td class="text-center">
 											<h4>${buyerOrderDetail.status }</h4>
 										</td>
-									</tr>
 									</tbody>
 									</c:forEach>
 								</table>
-								
-								</td>
-
+							</td>
+						</tr>
 						</c:forEach>
 						</tbody>
 					</table>

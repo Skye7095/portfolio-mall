@@ -108,4 +108,14 @@ public interface BuyerDAO {
 	
 	// buyerId로 전체 구매내역 list 조회
 	public List<BuyerOrder> selectOrderHistory(@Param("buyerId") int buyerId);
+	
+	// buyer 개별상품 주문하기
+	public int insertBuyerOrderByPI(
+			@Param("buyerId") int buyerId
+			, @Param("buyerOrderId") String buyerOrderId
+			, @Param("productId") int productId
+			, @Param("productAmount") int productAmount
+			, @Param("productSumPrice") int productSumPrice
+			, @Param("productTotalPrice") int productTotalPrice);
+
 }

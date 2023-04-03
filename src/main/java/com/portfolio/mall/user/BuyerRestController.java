@@ -265,7 +265,31 @@ public class BuyerRestController {
 			result.put("result", "fail");
 		}
 		
-		return result;
+		return result;	
+	}
+	
+	// buyer개별상품 구매
+	@PostMapping("/purchasing/createdOrderByPI")
+	public Map<String, String> createBuyerOrderByPI(
+			@RequestParam("buyerOrderId") String buyerOrderId
+			, @RequestParam("productId") int productId
+			, @RequestParam("productAmount") int productAmount
+			, @RequestParam("productSumPrice") int productSumPrice
+			, @RequestParam("productTotalPrice") int productTotalPrice
+			, HttpServletRequest request){
+		HttpSession session = request.getSession();
+		int buyerId = (Integer)session.getAttribute("buyerId");
 		
+		int count = buyerBO.addBuyerOrderByPI(buyerId, buyerOrderId, productId, productAmount,productSumPrice, productTotalPrice);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		}else {
+			result.put("result", "fail");
+		}
+		
+		return result;		
 	}
 }
