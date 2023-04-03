@@ -91,7 +91,7 @@
 			var isDuplicatedId = true;
 			
 			$("#isDuplicateBtn").on("click", function(){
-let id = $("#loginIdInput").val();
+				let id = $("#loginIdInput").val();
 				
 				if(id == ""){
 					alert("아이디를 입력하세요");

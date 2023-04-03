@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,7 +28,7 @@
 				<aside class="container productmanager-content">
 					<div class="d-flex justify-content-between">
 						<h3>상품관리</h3>
-						<button class="btn btn-primary">상품 업로드</button>
+						<button class="btn btn-primary" id="goToBtn">상품 업로드</button>
 					</div>
 					<table class="table mt-3">
 						<thead class="table-secondary text-center">
@@ -37,22 +38,28 @@
 								<th>재고</th>
 								<th>단가</th>
 								<th></th>
+								<th></th>
 							</tr>
 						<thead>
 						
 						<tbody class="border">
+						<c:forEach var="product" items="${productList }">
 							<tr>
-								<th class="text-center">00020012</th>
+								<th class="text-center">${product.id }</th>
 								<th class="d-flex align-items-start">
-									<img width="50" height="50" src="https://m.worldwideworld.kr/web/product/tiny/202209/4be7381e5e91bbd41126eb391dd4ee38.jpg">
-									<a href="#">1+1 1989 뉴욕 자수로고 버킷햇</a>
+									<img width="50" height="50" src="${product.productImgPath }">
+									<a href="http://localhost:8080/product/items/view?id=${product.id }">${product.name }</a>
 								</th>
-								<th class="text-center">3</th>
-								<th class="text-center">9,900원</th>
+								<th class="text-center">${product.amount }</th>
+								<th class="text-center"><fmt:formatNumber value="${product.price }" />원</th>
 								<th class="text-center">
-									<button class="btn btn-danger">판매중지</button>
+									<button class="btn btn-danger modifyBtn" data-product-id="${product.id }">수정</button>
+								</th>
+								<th class="text-center">
+									<button class="btn btn-danger deleteBtn" data-product-id="${product.id }">판매종료</button>
 								</th>
 							</tr>
+						</c:forEach>
 						</tbody>
 					</table>
 				</aside>
@@ -61,4 +68,46 @@
 		<c:import url="/WEB-INF/jsp/common/footer.jsp" />
 	</div>
 </body>
+
+<script>
+	$(document).ready(function(){
+		
+		$(".modifyBtn").on("click", function(){
+			let productId = $(this).data("product-id");
+			
+			alert("작업중입니다.");
+			return;
+			/* location.href="/seller/productmodify/view?id=" + productId; */
+		})
+		
+		$(".deleteBtn").on("click", function(){
+			let productId = $(this).data("product-id");
+
+			if(!confirm("판매종료되면 해당 상품 더이상 판매할 수 없습니다. 진짜 판매종료하시겠어요?")){
+				return;
+			}else{
+				$.ajax({
+					type:"post"
+					, url:"/seller/productmanager/salesEnd"
+					, data:{"productId": productId}
+					, success:function(data){
+						if(data.result="success"){
+							location.reload();
+						}else{
+							alert("실패");
+						}
+					}
+					, error:function(data){
+						alert("에러");
+					}
+				})
+			}
+			
+		})
+		
+		$("#goToBtn").on("click", function(){
+			location.href="/product/upload/view";
+		});
+	})
+</script>
 </html>
