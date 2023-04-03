@@ -1,8 +1,6 @@
 package com.portfolio.mall.user;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portfolio.mall.cart.bo.CartBO;
-import com.portfolio.mall.cart.model.CartDecision;
 import com.portfolio.mall.product.bo.ProductBO;
 import com.portfolio.mall.user.bo.BuyerBO;
 import com.portfolio.mall.user.model.Buyer;
-import com.portfolio.mall.user.model.NonMember;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
+
 
 @RestController
 @RequestMapping("/buyer")
@@ -154,48 +152,6 @@ public class BuyerRestController {
 		return result;
 	}
 
-	// 비회원 구매내역 조회
-	@PostMapping("/non-member/lookup")
-	public Map<String, String> nonMemberLookup(
-			@RequestParam("name") String name
-			, @RequestParam("phoneNumber") String phoneNumber
-			, @RequestParam("orderPassword") String orderPassword){
-		
-		NonMember nonMember = buyerBO.getNonMember(name, phoneNumber, orderPassword);
-		
-		Map<String, String> result = new HashMap<>();
-		
-		if(nonMember != null) {
-			result.put("result", "success");
-		}else {
-			result.put("result", "fail");
-		}
-		
-		return result;
-	}
-	
-	// 비회원 주문비번 찾기
-	@PostMapping("/non-member/findOrderPW")
-	public Map<String, String> nonMemberFindPW(
-			@RequestParam("name") String name
-			, @RequestParam("phoneNumber") String phoneNumber
-			, @RequestParam("orderId") int orderId){
-		
-		NonMember nonMember = buyerBO.getNonMemberByOrderId(name, phoneNumber, orderId);
-		String orderPW = nonMember.getOrderPassword();
-		
-		Map<String, String> result = new HashMap<>();
-		
-		if(nonMember != null) {
-			result.put("result", "success");
-			result.put("orderPW", orderPW);
-		}else {
-			result.put("result", "fail");
-		}
-		
-		return result;
-	}
-	
 	// buyer Personal 페이지에서 변경
 	@PostMapping("/personal/update")
 	public Map<String, String> modifyBuyer(

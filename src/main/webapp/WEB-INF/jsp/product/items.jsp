@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,23 +24,23 @@
 			<div class="d-flex justify-content-center">
 				<div class="items-section">
 					<div class="section-header text-right">
-						<span>상품번호: 0020202020202</span>
+						<span>상품번호: ${product.id }</span>
 					</div>
 					
 					<article class="d-flex justify-content-around align-items-start">
 						<div class="items-img d-flex justify-content-center">
-							<img width="80%" src="https://cdn.pixabay.com/photo/2015/06/24/01/15/coffee-819362_960_720.jpg">
+							<img width="500" height="500" src="${product.productImgPath }">
 						</div>
 						
 						<div class="payment-info ml-3">
 							<btn class="btn btn-white">
 								<i class="bi bi-shop-window"></i>
-								<span>지윤이네</span>
+								<span>${seller.name }</span>
 							</btn>
 							<hr>
 							<div class="items-info d-flex">
 								<div class="col-9">
-									<h4>스텐 304 냉장고 물병 2P세트 외 주방 S/S신상 시리즈</h4>
+									<h4>${product.name }</h4>
 									<div class="stars">
 										<i class="bi bi-star-fill"></i>
 										<i class="bi bi-star-fill"></i>
@@ -48,7 +49,11 @@
 										<i class="bi bi-star"></i>
 										<span>(3.5)</span>
 									</div>
-									<h2>22,900원</h2>
+									<div class="d-flex">
+										<h2> <fmt:formatNumber value="${product.price }" /></h2>
+										<h4>원</h4>
+									</div>
+									
 								</div>
 								<div class="like col-3 d-flex justify-content-center align-items-center">
 									<btn class="btn btn-white btn-lg rounded-circle border border-dark"><i class="bi bi-heart"></i></btn>
@@ -58,33 +63,17 @@
 							
 							<div class="delivery-info d-flex p-2">
 								<i class="bi bi-truck"></i>
-								<p class="ml-3">배송비: 3,000원</p>
+								<div class="d-flex">
+									<p class="ml-3">배송비: </p>
+									<p><fmt:formatNumber value="${product.deliveryPrice }" /></p>
+									<p>원</p>
+								</div>
+							</div>
+							<div class="amount-info d-flex p-2">
+								<i class="bi bi-box"></i>
+								<p class="ml-3">재고: <fmt:formatNumber value="${product.amount }" />개</p>
 							</div>
 							<hr>
-							
-							<div class="option-info bg-light border">
-								<div class="items d-flex justify-content-around">
-									<h6 class="col-8">스텐 304 냉장고 물병 2P세트 외 주방 S/S신상 시리즈</h6>
-									<button class="btn">X</button>
-								</div>
-								<hr>
-								<div class="d-flex justify-content-around mb-3">
-									<div class="amount d-flex align-items-end">
-										<div>
-											<i class="bi bi-dash-circle"></i>
-										</div>
-										<div class="mx-1">
-											<input class="amountinput" type="text">
-										</div>
-										<div>
-											<i class="bi bi-plus-circle"></i>										
-										</div>
-									</div>
-									<div class="price">
-										<h6 class="font-weight-bold">22,900원</h6>
-									</div>
-								</div>
-							</div>
 						</div>		
 					</article>
 				</div>
@@ -97,11 +86,6 @@
 							<ul class="nav nav-pills">
 							  <li class="nav-item">
 							    <button class="btn btn-light btn-lg" id="detailsBtn">상세설명</button>
-							  <li class="nav-item">
-							    <button class="btn btn-light btn-lg" id="reviewBtn">상품리뷰</button>
-							  </li>
-							  <li class="nav-item">
-							    <button class="btn btn-light btn-lg" id="inquiryBtn">상품문의</button>
 							  </li>
 							  <li class="nav-item">
 							    <button class="btn btn-light btn-lg" id="cancelBtn">교환/반품</button>
@@ -112,73 +96,17 @@
 							<div id="detailsBox" class="my-3">
 								<p class="font-weight-bold">상품설명</p>
       							<hr>
-								<img width="100%" src="https://cdn.pixabay.com/photo/2023/02/26/14/04/deer-7815910_960_720.jpg">
+      							<p>${product.introduction }</p>
+								<img width="100%" src="${product.detailsImgPath }">
 							</div>
-      						<div id="reviewBox" class="my-3">
-      							<p class="font-weight-bold">상품리뷰</p>
-      							<table class="table text-center">
-      								<thead>
-      									<tr>
-      										<th width="100"></th>
-      										<th>리뷰내용</th>
-      										<th>작성자</th>
-      										<th>작성일</th>
-      									</tr>
-      								</thead>
-      								
-      								<tbody>
-      									<tr height="100">
-      										<td width="100" class="bg-info d-flex justify-content-center align-items-center"></td>
-      										<td>빼송 빠름</td>
-      										<td>맛있장러</td>
-      										<td>2023.02.09</td>
-      									</tr>
-      									<tr height="100">
-      										<td width="100" class="bg-info"></td>
-      										<td>빼송 빠름</td>
-      										<td>맛있장러</td>
-      										<td>2023.02.09</td>
-      									</tr>
-      								</tbody>
-      							</table>
-      						</div>
-      						<div id="inquiryBox" class="my-3">
-      							<p class="font-weight-bold">상품문의</p>
-      							<hr>
-      							<div class="d-flex justify-content-end mb-3">
-      								<button class="btn btn-light">문의하기</button>
-      								<button class="btn btn-light">전체 문의보기</button>
-      							</div>
-      							
-      							<table class="table text-center">
-      								<thead>
-      									<tr>
-      										<th>번호</th>
-      										<th>답변상태</th>
-      										<th>제목</th>
-      										<th>문의자</th>
-      										<th>등록일</th>
-      									</tr>
-      								</thead>
-      								
-      								<tbody>
-      									<tr>
-      										<td>1</td>
-      										<td>진행중</td>
-      										<td>상품 문의합니다</td>
-      										<td>ohm***</td>
-      										<td>2023.03.10</td>
-      									</tr>
-      								</tbody>
-      							</table>
-							</div>
+      						
       						<div id="cancelBox" class="my-3">
       							<div class="cancelinfo">
       								<p class="font-weight-bold">교환/반품 정보</p>
       								<hr>
       								<div class="small">
-      									<div>· <span class="font-weight-bold">반품배송비(편도):&nbsp;</span>3,000원</div>
-      									<div>· <span class="font-weight-bold">교환배송비(완보):&nbsp;</span>6,000원</div>
+      									<div>· <span class="font-weight-bold">반품배송비(편도):&nbsp;</span><fmt:formatNumber value="${product.deliveryPrice }" />원</div>
+      									<div>· <span class="font-weight-bold">교환배송비(완보):&nbsp;</span><fmt:formatNumber value="${product.deliveryPrice *2 }" />원</div>
       									<div>· <span class="font-weight-bold">보내실곳:&nbsp;</span>대전광역시 유성구</div>
       									<div>· 단, 교환/반품 비용은 상품 및 교환/반품 사유에 따라 변경될 수 있으므로 교환/반품 신청 화면 확인 부탁드립니다.
       								</div>
@@ -216,11 +144,9 @@
       								<p class="font-weight-bold">판매자 정보</p>
       								<hr>
       								<div class="small">
-      									<div>· 상호명: 지윤이네</div>
-      									<div>· 대표자: 신진욱</div>
-      									<div>· 연락처: 010-0202-0202</div>
-      									<div>· 사업장소재지: 대전 유성구</div>
-      									<div>· 이메일: envlkdjf@gmail.com</div>
+      									<div>· 상호명: ${seller.name }</div>
+      									<div>· 연락처: ${seller.phoneNumber }</div>
+      									<div>· 이메일: ${seller.email }</div>
       								</div>
       							</div>
       						</div>
@@ -232,42 +158,53 @@
 							<div class="container my-3">
 								<div class="details">
 									<div class="items">
-										<div class="d-flex">
-											<img width="100" height="100" src="https://m.worldwideworld.kr/web/product/tiny/202209/4be7381e5e91bbd41126eb391dd4ee38.jpg">
+										<div class="d-flex mb-2">
+											<img width="100" height="100" src="${product.productImgPath }">
 											<div>
-												<a class="text-dark" href="#">1+1 1989 뉴욕 자수로고 버킷햇</a>
+												<a class="text-dark" href="#">${product.name }</a>
 											</div>
 										</div>
 										<div class="d-flex justify-content-around mb-3">
 											<div class="amount d-flex align-items-end">
-												<div>
-													<i class="bi bi-dash-circle"></i>
-												</div>
-												<div class="mx-1">
-													<input class="amountinput" type="text">
-												</div>
-												<div>
-													<i class="bi bi-plus-circle"></i>										
-												</div>
+												<input type="number" value="1" min="1" max="${product.amount }" id="productAmountInput">
+												<button class="btn btn-sm" id="numberConfirmBtn">선택</button>
 											</div>
 										</div>
 										<div class="price bg-light d-flex justify-content-between">
 												<h6>가격</h6>
-												<h6 class="font-weight-bold">22,900원</h6>
-											</div>
+												<div class="d-flex">
+													<h6 class="font-weight-bold" id="productSumPrice"></h6>
+													<h6>원</h6>
+												</div>
+										</div>
 										<div class="bg-light d-flex justify-content-between">
 											<span>배송비</span>
-											<span>3,000원</span>
+											<span>${product.deliveryPrice }원</span>
 										</div>
 									</div>
 									<hr>
 								</div>
 								<div class="d-flex justify-content-between align-items-center">
 									<h5 class="font-weight-bold">총 금액</h5>
-									<h3 class="font-weight-bold">22,800원</h3>
+									<div class="d-flex align-items-end">
+										<h3 class="font-weight-bold" id="productTotalPrice"></h3>
+										<h6>원</h6>
+									</div>
 								</div>
-								<button class="btn btn-light btn-block border text-dark font-weight-bold my-3" type="button">장바구니</button>
-								<button class="btn btn-primary btn-block text-white font-weight-bold my-3" type="button">결제하기</button>
+								<c:choose>
+									<c:when test="${not empty buyerId }">
+										<button class="btn btn-light btn-block border text-dark font-weight-bold my-3" type="button" id="buyerCartBtn">장바구니</button>
+										<button class="btn btn-primary btn-block text-white font-weight-bold my-3" type="button" id="buyerPurchaseBtn">결제하기</button>
+									</c:when>
+									<c:when test="${not empty sellerId }">
+										<button class="btn btn-light btn-block border text-dark font-weight-bold my-3" type="button" id="sellerCartBtn">장바구니</button>
+										<button class="btn btn-primary btn-block text-white font-weight-bold my-3" type="button" id="sellerPurchaseBtn">결제하기</button>
+									</c:when>
+									<c:otherwise>
+										<button class="btn btn-light btn-block border text-dark font-weight-bold my-3" type="button" id="nonCartBtn">장바구니</button>
+										<button class="btn btn-primary btn-block text-white font-weight-bold my-3" type="button" id="nonPurchaseBtn">결제하기</button>	
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</aside>
 					</div>
@@ -279,59 +216,191 @@
 </body>
 
 <script>
-	$(document).ready(function(){
+	$(document).ready(function(){		
+		
+		var numberChecked = false;
+
+		var productPrice = ${product.price };
+		$("#productSumPrice").text(productPrice);
+		var productDeliveryPrice = ${product.deliveryPrice };
+		var productTotalPrice = productPrice + productDeliveryPrice;
+		$("#productTotalPrice").text(productTotalPrice);
+		
+		$("#numberConfirmBtn").on("click", function(){			
+			let productAmount = $("#productAmountInput").val();
+			let productSumPrice = productPrice * productAmount;
+			$("#productSumPrice").text(productSumPrice);
+			let productTotalPrice = productSumPrice + productDeliveryPrice;
+			$("#productTotalPrice").text(productTotalPrice);
+			
+			numberChecked = true;
+		})
+		
+		$("#productAmountInput").on("change", function(){
+			numberChecked = false;
+		})	
+		
+		$("#nonPurchaseBtn").on("click", function(){
+			if(!confirm("구매회원만 사용가능한 기능입니다. 구매회원으로 로그인하시겠어요?")){
+				return;
+			}else{
+				location.href="/buyer/signin/view";
+			}
+		})
+		
+		$("#nonCartBtn").on("click", function(){
+			if(!confirm("구매회원만 사용가능한 기능입니다. 구매회원으로 로그인하시겠어요?")){
+				return;
+			}else{
+				location.href="/buyer/signin/view";
+			}
+		})
+		
+		$("#sellerPurchaseBtn").on("click", function(){
+			if(!confirm("구매회원만 사용가능한 기능입니다. 구매회원으로 로그인하시겠어요?")){
+				return;
+			}else{
+				location.href="/buyer/signin/view";
+			}
+		})
+		
+		$("#sellerCartBtn").on("click", function(){
+			if(!confirm("구매회원만 사용가능한 기능입니다. 구매회원으로 로그인하시겠어요?")){
+				return;
+			}else{
+				location.href="/buyer/signin/view";
+			}
+		})
+		
+		$("#buyerPurchaseBtn").on("click", function(){
+			
+			if(numberChecked == false){
+				alert("수량 확인해주세요");
+				return;
+			}
+			
+			// buyerOrderId 생성 > B + 오늘날짜 + 난수(6자리)
+			let now = new Date();
+			let year = now.getFullYear().toString();
+			let month = now.getMonth() + 1;
+			let day = now.getDate();
+			
+			// 만약에 월이 1~9월이면 문자열을 반환할 때 앞에 0을 붙여줌. 아니면 그냥 문자열 반환
+			if(month < 10){
+				month = "0" + month.toString();
+			}else{
+				month = month.toString();
+			}
+			
+			// 날짜도 위와 마찬가지 > 결국 yyyyMMdd를 맞춰줌
+			if(day < 10){
+				day = "0" + day.toString();
+			}else{
+				day = day.toString();
+			}
+			
+			// 혹시 buyer가 같은 날에 여러건을 구매할 수 있어서 5자리 난수 생성
+			let random = '';
+		    for (let i = 0; i < 5; i++) {
+		    	random += Math.floor(Math.random() * 10);
+		    }
+			
+		    
+			let buyerOrderId = "B" + year + month + day + random;
+			
+			let productId = ${product.id};
+			let productAmount = $("#productAmountInput").val();
+			let productSumPrice = $("#productSumPrice").text();
+			let productTotalPrice = $("#productTotalPrice").text();
+			
+			
+			$.ajax({
+				type:"post"
+				, url:"/buyer/purchasing/createdOrderByPI"
+				, data:{"buyerOrderId":buyerOrderId, "productId":productId, "productAmount":productAmount, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
+				, success:function(data){
+					if(data.result =="success"){
+						location.href="/buyer/purchasing/view?buyerOrderId=" + buyerOrderId;
+					}else{
+						alert("구매 실패");
+					}
+				}
+				, error:function(){
+					alert("구매 에러");
+				}
+			})
+		})
+		
+		$("#buyerCartBtn").on("click", function(){
+
+			let productId = ${product.id};
+			let productAmount = $("#productAmountInput").val();
+			let productSumPrice = $("#productSumPrice").text();
+			let productTotalPrice = $("#productTotalPrice").text();
+			
+			
+			if(numberChecked == false){
+				alert("수량 확인해주세요");
+				return;
+			}
+
+			$.ajax({
+				type:"post"
+				, url:"/buyer/cart/add"
+				, data:{"productId":productId, "productAmount":productAmount, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
+				, success:function(data){
+					if(data.result =="success"){
+						if(!confirm("장바구니에 추가성공. 장바구니로 이동하시겠어요?")){
+							return;
+						}else{
+							location.href="/buyer/cart/view";
+						}
+					}else if(data.result == "exists"){
+						if(!confirm("이미 추가했습니다. 장바구니로 이동하시겠어요?")){
+							return;
+						}else{
+							location.href="/buyer/cart/view";
+						}
+					}else{
+						alert("추가 실패");
+					}
+				}
+				, error:function(){
+					alert("에러");
+				}
+			})
+			
+			$.ajax({
+				type:"post"
+					, url:"/buyer/cart/addDecision"
+					, data:{"buyerOrderId":"0", "productId":productId, "productAmount":productAmount, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
+					, success:function(data){
+						
+					}
+					, error:function(){
+						alert("에러1");
+					}
+			})
+		})
+		
 		$("#detailsBox").show();
-		$("#reviewBox").hide();
-		$("#inquiryBox").hide();
 		$("#cancelBox").hide();
 		
 		$("#detailsBtn").css("background-color","#3B71CA");
 		
 		$("#detailsBtn").on("click", function(){
 			$("#detailsBox").show();
-			$("#reviewBox").hide();
-			$("#inquiryBox").hide();
 			$("#cancelBox").hide();
 			
 			$("#detailsBtn").css("background-color","#3B71CA");
-			$("#reviewBtn").css("background-color","#FBFBFB");
-			$("#inquiryBtn").css("background-color","#FBFBFB");
-			$("#cancelBtn").css("background-color","#FBFBFB");
-		});
-		
-		$("#reviewBtn").on("click", function(){
-			$("#detailsBox").hide();
-			$("#reviewBox").show();
-			$("#inquiryBox").hide();
-			$("#cancelBox").hide();
-			
-			$("#detailsBtn").css("background-color","#FBFBFB");
-			$("#reviewBtn").css("background-color","#3B71CA");
-			$("#inquiryBtn").css("background-color","#FBFBFB");
-			$("#cancelBtn").css("background-color","#FBFBFB");
-		});
-		
-		$("#inquiryBtn").on("click", function(){
-			$("#detailsBox").hide();
-			$("#reviewBox").hide();
-			$("#inquiryBox").show();
-			$("#cancelBox").hide();
-			
-			$("#detailsBtn").css("background-color","#FBFBFB");
-			$("#reviewBtn").css("background-color","#FBFBFB");
-			$("#inquiryBtn").css("background-color","#3B71CA");
 			$("#cancelBtn").css("background-color","#FBFBFB");
 		});
 		
 		$("#cancelBtn").on("click", function(){
 			$("#detailsBox").hide();
-			$("#reviewBox").hide();
-			$("#inquiryBox").hide();
 			$("#cancelBox").show();
 			
 			$("#detailsBtn").css("background-color","#FBFBFB");
-			$("#reviewBtn").css("background-color","#FBFBFB");
-			$("#inquiryBtn").css("background-color","#FBFBFB");
 			$("#cancelBtn").css("background-color","#3B71CA");
 		});
 	})

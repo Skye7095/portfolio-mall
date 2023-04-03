@@ -16,7 +16,6 @@ import com.portfolio.mall.user.dao.BuyerDAO;
 import com.portfolio.mall.user.model.Buyer;
 import com.portfolio.mall.user.model.BuyerOrder;
 import com.portfolio.mall.user.model.BuyerOrderDetail;
-import com.portfolio.mall.user.model.NonMember;
 
 @Service
 public class BuyerBO {
@@ -142,25 +141,7 @@ public class BuyerBO {
 		
 		return newPW;
 	}
-	
-	// 비회원 구매내역 조회
-	public NonMember getNonMember(
-			String name
-			, String phoneNumber
-			, String orderPassword) {
 		
-		return buyerDAO.selectNonMember(name, phoneNumber, orderPassword);
-	}
-	
-	// 비회원 주문비번 찾기
-	public NonMember getNonMemberByOrderId(
-			String name
-			, String phoneNumber
-			, int orderId) {
-		
-		return buyerDAO.selectNonMemberByOrderId(name, phoneNumber, orderId);
-	}
-	
 	// buyer personal 페이지 정보 변경
 	public int updateBuyer(
 			int id

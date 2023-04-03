@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.portfolio.mall.user.model.Buyer;
 import com.portfolio.mall.user.model.BuyerOrder;
 import com.portfolio.mall.user.model.BuyerOrderDetail;
-import com.portfolio.mall.user.model.NonMember;
 
 @Repository
 public interface BuyerDAO {
@@ -67,19 +66,7 @@ public interface BuyerDAO {
 	// buyer의 비밀번호 리셋하고 update된 비번 불러오기
 	public String updatedBuyerNewPw(
 			@Param("buyerId") int buyerId);
-	
-	// 비회원 구매내역 조회
-	public NonMember selectNonMember(
-			@Param("name") String name
-			, @Param("phoneNumber") String phoneNumber
-			, @Param("orderPassword") String orderPassword);
-	
-	// 비회원 주문비번 찾기
-	public NonMember selectNonMemberByOrderId(
-			@Param("name") String name
-			, @Param("phoneNumber") String phoneNumber
-			, @Param("orderId") int orderId);
-	
+		
 	// buyer 개인정보 변경
 	public int updateBuyer(
 			@Param("id") int id

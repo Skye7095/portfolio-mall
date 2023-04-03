@@ -42,10 +42,6 @@
 						  <input class="form-check-input" type="radio" name="identity" value="seller">
 						  <label class="form-check-label">판매회원</label>
 						</div>
-						<div class="form-check">
-						  <input class="form-check-input" type="radio" name="identity" value="non-member">
-						  <label class="form-check-label">비회원</label>
-						</div>
 					</div>
 					
 					<div class="signin-info">
@@ -75,8 +71,8 @@
 			</div>
 			
 			<div class="other-signin d-flex justify-content-center">
-				<button class="btn btn-lg btn-warning mx-3" type="button">카카오로 시작하기</button>
-				<button class="btn btn-lg btn-success mx-3" type="button">네이버로 시작하기</button>
+				<button class="btn btn-lg btn-warning mx-3" type="button" id="kakaoSignin">카카오로 시작하기</button>
+				<button class="btn btn-lg btn-success mx-3" type="button" id="naverSignin">네이버로 시작하기</button>
 			</div>
 		</section>
 		
@@ -85,6 +81,16 @@
 	
 	<script>
 		$(document).ready(function(){
+			
+			$("#kakaoSignin").on("click", function(){
+				alert("아직 작업중입니다. 회원가입으로 진행해주세요");
+				return;
+			})
+			
+			$("#naverSignin").on("click", function(){
+				alert("아직 작업중입니다. 회원가입으로 진행해주세요");
+				return;
+			})
 			
 			$("#signinBtn").on("click", function(){
 				let id = $("#loginIdInput").val();
