@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.portfolio.mall.product.dao.ProductDAO">
+	<insert id="insertProduct" parameterType="map">
+		INSERT INTO
+			`product`
+		(	
+			`sellerId`
+			, `productImgPath`
+			, `category`
+			, `name`
+			, `price`
+			, `amount`
+			, `deliveryPrice`
+			, `introduction`
+			, `detailsImgPath`
+			, `createdAt`
+			, `updatedAt`
+		)
+		VALUE
+		(
+			#{sellerId}
+			, #{productImgPath}
+			, #{category}
+			, #{name}
+			, #{price}
+			, #{amount}
+			, #{deliveryPrice}
+			, #{introduction}
+			, #{detailsImgPath}
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<select id="selectProductById" parameterType="int" resultType="com.portfolio.mall.product.model.Product">
+		SELECT
+			`id`
+			, `sellerId`
+			, `productImgPath`
+			, `category`
+			, `name`
+			, `price`
+			, `amount`
+			, `deliveryPrice`
+			, `introduction`
+			, `detailsImgPath`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`product`
+		WHERE
+			`id` = #{id}
+	</select>
+	
+	<select id="selectProductList" parameterType="int" resultType="com.portfolio.mall.product.model.Product">
+		SELECT
+			`id`
+			, `sellerId`
+			, `productImgPath`
+			, `category`
+			, `name`
+			, `price`
+			, `amount`
+			, `deliveryPrice`
+			, `introduction`
+			, `detailsImgPath`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`product`
+		WHERE
+			`sellerId` = #{sellerId}
+	</select>
+	
+	<!-- 메인페이지 -->
+	<select id="selectProduct" resultType="com.portfolio.mall.product.model.Product">
+		SELECT
+			`id`
+			, `sellerId`
+			, `productImgPath`
+			, `category`
+			, `name`
+			, `price`
+			, `amount`
+			, `deliveryPrice`
+			, `introduction`
+			, `detailsImgPath`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`product`
+		ORDER BY `id` DESC LIMIT 4;
+	</select>
+	
+	<!-- 카테고리 -->
+	<select id="selectProductByCategory" parameterType="String" resultType="com.portfolio.mall.product.model.Product">
+		SELECT
+			`id`
+			, `sellerId`
+			, `productImgPath`
+			, `category`
+			, `name`
+			, `price`
+			, `amount`
+			, `deliveryPrice`
+			, `introduction`
+			, `detailsImgPath`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`product`
+		WHERE 
+			`category` = #{category}
+	</select>
+	
+	<!-- 상품 잔고 0으로 처리 -->
+	<update id="updateProductAmountTo0" parameterType="int">
+		UPDATE
+			`product`
+		SET
+			`amount` = 0
+			, `updatedAt` = now()
+		WHERE
+			`id`=#{id}
+	</update>
+	
+	<!-- 상품 수정하기 -->
+	<update id="updateProduct" parameterType="map">
+		UPDATE
+			`product`
+		SET
+			`productImgPath`= #{productImgPath}
+			, `category` = #{category}
+			, `name` = #{name}
+			, `price` = #{price}
+			, `amount` = #{amount}
+			, `deliveryPrice` = #{deliveryPrice}
+			, `introduction` = #{introduction}
+			, `detailsImgPath`= #{detailsImgPath}
+			, `updatedAt` = now()
+		WHERE
+			`id`=#{id}
+	</update>
+</mapper>

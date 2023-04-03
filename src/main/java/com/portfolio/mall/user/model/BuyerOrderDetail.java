@@ -22,9 +22,6 @@ public class BuyerOrderDetail {
 	private Date updatedAt;
 	
 	
-
-	
-	
 	public List<CartDecisionDetail> getCartDecisionDetailList() {
 		return cartDecisionDetailList;
 	}
