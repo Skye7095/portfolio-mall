@@ -166,8 +166,10 @@
 										</div>
 										<div class="d-flex justify-content-around mb-3">
 											<div class="amount d-flex align-items-end">
-												<input type="number" value="1" min="1" max="${product.amount }" id="productAmountInput">
-												<button class="btn btn-sm" id="numberConfirmBtn">선택</button>
+												<c:if test="${product.amount ne 0 }">
+													<input type="number" value="1" min="1" max="${product.amount }" id="productAmountInput">
+													<button class="btn btn-sm" id="numberConfirmBtn">선택</button>
+												</c:if>												
 											</div>
 										</div>
 										<div class="price bg-light d-flex justify-content-between">

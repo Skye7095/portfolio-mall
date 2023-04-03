@@ -26,11 +26,22 @@
 
 .bannerImg{
 	height: 270px;
-	width: 600px;
+	width: 800px;
 }
 
 .content {
 	width: 300px;
+}
+
+.content > .thumnail{
+	height: 150px;
+	width: 150px;
+}
+
+/* category */
+.itemContent{
+	height:300px;
+	width:300px;
 }
 
 .content > .thumnail{
