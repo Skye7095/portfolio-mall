@@ -30,8 +30,35 @@
 					<table class="table">
 						<thead class="table-secondary text-center">
 							<tr>
-								<th>날짜</th>
-								<th>주문정보</th>
+								<th>
+									<table width="100%">
+										<thead class="text-center">
+											<tr>
+												주문날짜
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>주문번호</td>
+											</tr>
+										</tbody>
+									</table>
+								</th>
+								<th>
+									<table width="100%">
+										<thead class="text-center">
+											<tr>
+												주문정보
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>상품정보</td>
+												<td>주문상태</td>
+											</tr>
+										</tbody>
+									</table>
+								</th>
 							</tr>
 						</thead>
 											
@@ -44,7 +71,7 @@
 							</td>
 						
 							<td>
-								<table>
+								<table width="100%">
 									<c:forEach var="cartDecisionDetail" items="${buyerOrderDetail.cartDecisionDetailList }" >
 									<tbody>
 

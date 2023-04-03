@@ -176,8 +176,11 @@
 						if(data.result == "success"){
 							location.href="/buyer/purchasing/view?buyerOrderId=" + buyerOrderId;
 						}else{
-							alert("구매하기 실패");
-							return;
+							if(!confirm("미결제 주문건이 있습니다. 해당 주문건으로 넘어가겠어요?")){
+								alert("장바구니에 계속 담고 싶으시면 기존에 있던 장바구니를 모두 삭제하신 후 담아주세요!");
+							}else{
+								location.href="/buyer/purchasing/view?buyerOrderId=" + buyerOrderId;
+							}
 						}
 					}
 					, error:function(){

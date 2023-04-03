@@ -64,4 +64,5 @@ public class productController {
 		
 		return "/product/category";
 	}
+	
 }
