@@ -13,11 +13,7 @@
 				판매 내역
 				</div>
 			</a>
-			<a class="nav-link" href="/seller/inquirylist/view">
-				<div class="menu-smallbox d-flex justify-content-start align-items-center">
-				문의 내역
-				</div>
-			</a>
+
 			<a class="nav-link" href="/seller/productmanager/view">
 				<div class="menu-smallbox d-flex justify-content-start align-items-center">
 				상품 관리

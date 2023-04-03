@@ -59,4 +59,14 @@ public interface SellerDAO {
 	// seller의 비밀번호 리셋하고 update된 비번 불러오기
 	public String updatedSellerNewPw(
 			@Param("sellerId") int sellerId);
+	
+	// seller 조회
+	public Seller selectSeller(@Param("sellerId") int sellerId);
+	
+	// seller 개인정보 수정
+	public int updateSeller(
+			@Param("id") int id
+			, @Param("password") String password
+			, @Param("phoneNumber") String phoneNumber
+			, @Param("email") String email);
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.portfolio.mall.product.bo.ProductBO;
 import com.portfolio.mall.user.bo.SellerBO;
 import com.portfolio.mall.user.model.Seller;
 
@@ -139,5 +140,47 @@ public class SellerRestController {
 		}
 		
 		return result;
+	}
+	
+	// seller의 개인정보 수정
+	@PostMapping("/personal/update")
+	public Map<String, String> modifySeller(
+			@RequestParam("password") String password
+			, @RequestParam("phoneNumber") String phoneNumber
+			, @RequestParam("email") String email
+			, HttpServletRequest request){
+		HttpSession session = request.getSession();
+		int id = (Integer)session.getAttribute("sellerId");
+		
+		int count = sellerBO.updateSeller(id, password, phoneNumber, email);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		}else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+	}
+	
+	// seller 상품관리페이지 판매중지 --> 재고를 0으로 만듦
+	@PostMapping("/productmanager/salesEnd")
+	public Map<String, String> salesEnd(
+			@RequestParam("productId") int productId){
+		
+		int count = sellerBO.udpateProductAmountTo0(productId);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count == 1) {
+			result.put("result", "success");
+		}else {
+			result.put("result", "fail");
+		}
+		
+		return result;
+		
 	}
 }

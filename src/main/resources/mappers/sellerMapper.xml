@@ -55,7 +55,8 @@
 	<!-- seller 로그인 -->
 	<select id="selectSellerByIdPassword" parameterType="map" resultType="com.portfolio.mall.user.model.Seller">
 		SELECT
-			`loginId`
+			`id`
+			, `loginId`
 			, `password`
 			, `name`
 			, `phoneNumber`
@@ -141,4 +142,32 @@
 		WHERE
 			`id` = #{sellerId}
 	</select>
+	
+	<!-- seller 조회 -->
+	<select id="selectSeller" parameterType="int" resultType="com.portfolio.mall.user.model.Seller">
+		SELECT
+			`id`
+			, `loginId`
+			, `password`
+			, `name`
+			, `phoneNumber`
+			, `email`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`seller`
+	</select>
+	
+	<!-- seller 개인정보 변경 -->
+	<update id="updateSeller" parameterType="map">
+		UPDATE
+			`seller`
+		SET
+			`password` = #{password}
+			, `phoneNumber` = #{phoneNumber}
+			, `email` = #{email}
+			, `updatedAt` = now()
+		WHERE
+			`id`=#{id}
+	</update>
 </mapper>

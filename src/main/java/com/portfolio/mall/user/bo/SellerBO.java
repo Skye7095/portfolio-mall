@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.portfolio.mall.common.EncryptUtils;
 import com.portfolio.mall.common.randomPW;
+import com.portfolio.mall.product.dao.ProductDAO;
 import com.portfolio.mall.user.dao.SellerDAO;
-import com.portfolio.mall.user.model.Buyer;
 import com.portfolio.mall.user.model.Seller;
 
 @Service
@@ -14,6 +14,9 @@ public class SellerBO {
 	
 	@Autowired
 	public SellerDAO sellerDAO;
+	
+	@Autowired
+	public ProductDAO productDAO;
 	
 	// seller 회원가입
 	public int addSeller(
@@ -119,5 +122,27 @@ public class SellerBO {
 		}
 		
 		return newPW;
+	}
+	
+	// seller 조회
+	public Seller getSeller(int sellerId) {
+		return sellerDAO.selectSeller(sellerId);
+	}
+	
+	// seller 개인정보 수정
+	public int updateSeller(
+			int id
+			, String password
+			, String phoneNumber
+			, String email) {
+		
+		String encryptPW = EncryptUtils.md5(password);
+		
+		return sellerDAO.updateSeller(id, encryptPW, phoneNumber, email);
+	}
+	
+	// 상품관리페이지에서  판매중지 버튼 누르면 잔고가 0으로 수정 > 그럼 해당 상품페이지에서 수량 체크 못하고 구매 못함
+	public int udpateProductAmountTo0(int id) {
+		return productDAO.updateProductAmountTo0(id);
 	}
 }
