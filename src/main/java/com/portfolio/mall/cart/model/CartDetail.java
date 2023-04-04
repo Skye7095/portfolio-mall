@@ -3,23 +3,39 @@ package com.portfolio.mall.cart.model;
 import java.util.Date;
 
 public class CartDetail {
-	
 	private int id;
 	private int buyerId;
-	private String buyerOrderId;
+	private int sellerId;
 	private int productId;
+	private int productOriginPrice;
 	private String productImgPath;
-	private String productName;
-	private int productCount;
+	private String productOriginName;
 	private int productPrice;
+	private int productAmount;
 	private int productDeliveryPrice;
-	private int productCountPrice;	
+	private int productSumPrice;
+	private int productTotalPrice;
+	private Date createdAt;
+	private Date updatedAt;
 	
-	public String getBuyerOrderId() {
-		return buyerOrderId;
+	
+	public int getSellerId() {
+		return sellerId;
 	}
-	public void setBuyerOrderId(String buyerOrderId) {
-		this.buyerOrderId = buyerOrderId;
+	public void setSellerId(int sellerId) {
+		this.sellerId = sellerId;
+	}
+	public int getProductTotalPrice() {
+		return productTotalPrice;
+	}
+	public void setProductTotalPrice(int productTotalPrice) {
+		this.productTotalPrice = productTotalPrice;
+	}
+	public String getProductImgPath() {
+		return productImgPath;
+	}
+	public void setProductImgPath(String productImgPath) {
+		this.productImgPath = productImgPath;
 	}
 	public int getId() {
 		return id;
@@ -39,23 +55,17 @@ public class CartDetail {
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
-	public String getProductImgPath() {
-		return productImgPath;
+	public int getProductOriginPrice() {
+		return productOriginPrice;
 	}
-	public void setProductImgPath(String productImgPath) {
-		this.productImgPath = productImgPath;
+	public void setProductOriginPrice(int productOriginPrice) {
+		this.productOriginPrice = productOriginPrice;
 	}
-	public String getProductName() {
-		return productName;
+	public String getProductOriginName() {
+		return productOriginName;
 	}
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-	public int getProductCount() {
-		return productCount;
-	}
-	public void setProductCount(int productCount) {
-		this.productCount = productCount;
+	public void setProductOriginName(String productOriginName) {
+		this.productOriginName = productOriginName;
 	}
 	public int getProductPrice() {
 		return productPrice;
@@ -63,17 +73,36 @@ public class CartDetail {
 	public void setProductPrice(int productPrice) {
 		this.productPrice = productPrice;
 	}
+	public int getProductAmount() {
+		return productAmount;
+	}
+	public void setProductAmount(int productAmount) {
+		this.productAmount = productAmount;
+	}
 	public int getProductDeliveryPrice() {
 		return productDeliveryPrice;
 	}
 	public void setProductDeliveryPrice(int productDeliveryPrice) {
 		this.productDeliveryPrice = productDeliveryPrice;
 	}
-	public int getProductCountPrice() {
-		return productCountPrice;
+	public int getProductSumPrice() {
+		return productSumPrice;
 	}
-	public void setProductCountPrice(int productCountPrice) {
-		this.productCountPrice = productCountPrice;
+	public void setProductSumPrice(int productSumPrice) {
+		this.productSumPrice = productSumPrice;
 	}
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	
 	
 }

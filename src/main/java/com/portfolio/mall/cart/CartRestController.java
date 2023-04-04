@@ -1,7 +1,6 @@
 package com.portfolio.mall.cart;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.portfolio.mall.cart.bo.CartBO;
-import com.portfolio.mall.cart.model.Cart;
-import com.portfolio.mall.cart.model.CartDetail;
+import com.portfolio.mall.product.bo.ProductBO;
+import com.portfolio.mall.product.model.Product;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,12 +22,17 @@ public class CartRestController {
 	
 	@Autowired
 	public CartBO cartBO;
+	
+	@Autowired
+	public ProductBO productBO;
 
 	// buyer가 개별상품을 장바구니에 담기
 	@PostMapping("/add")
 	public Map<String, String> buyerAddCart(
 			@RequestParam("productId") int productId
+			, @RequestParam("productPrice") int productPrice
 			, @RequestParam("productAmount") int productAmount
+			, @RequestParam("productDeliveryPrice") int productDeliveryPrice
 			, @RequestParam("productSumPrice") int productSumPrice
 			, @RequestParam("productTotalPrice") int productTotalPrice
 			, HttpServletRequest request){
@@ -36,34 +40,10 @@ public class CartRestController {
 		HttpSession session = request.getSession();
 		int buyerId = (Integer)session.getAttribute("buyerId");
 		
-		int addCount = cartBO.addCart(buyerId, productId, productAmount, productSumPrice, productTotalPrice);
-
-		Map<String, String> result = new HashMap<>();
-		if(addCount == -1) {
-			result.put("result", "exists");
-		}else if(addCount == 1) {
-			result.put("result", "success");
-		}else {
-			result.put("result", "fail");
-		}
-
-		return result;	
-	}
-	
-	// buyer가 개별상품을 장바구니에 담기
-	@PostMapping("/addDecision")
-	public Map<String, String> buyerAddCartDecision(
-			@RequestParam("productId") int productId
-			, @RequestParam("buyerOrderId") String buyerOrderId
-			, @RequestParam("productAmount") int productAmount
-			, @RequestParam("productSumPrice") int productSumPrice
-			, @RequestParam("productTotalPrice") int productTotalPrice
-			, HttpServletRequest request){
-
-		HttpSession session = request.getSession();
-		int buyerId = (Integer)session.getAttribute("buyerId");
+		Product product = productBO.getProductById(productId);
+		int sellerId = product.getSellerId();
 		
-		int addCount = cartBO.addCartDecision(buyerId, buyerOrderId, productId, productAmount, productSumPrice, productTotalPrice);
+		int addCount = cartBO.addCart(buyerId, sellerId, productId, productPrice, productAmount, productDeliveryPrice, productSumPrice, productTotalPrice);
 
 		Map<String, String> result = new HashMap<>();
 		if(addCount == -1) {
@@ -93,33 +73,14 @@ public class CartRestController {
 		return result;	
 	}
 	
-	// 장바구니 개별 삭제 > cartDecision테이블에서
-	@PostMapping("/deleteDecision")
-	public Map<String, String> deleteCartDecision(@RequestParam("cartId") int cartId){
-
-		int count = cartBO.deleteCartDecision(cartId);
-
-		Map<String, String> result = new HashMap<>();
-		if(count == 1) {
-			result.put("result", "success");
-		}else {
-			result.put("result", "fail");
-		}
-
-		return result;	
-	}
-		
-	// 장바구니페이지에서 구매버튼 누르면 order생성하기 > 현재 페이지의 있는 모든 cart정보를 모두 cartDesicion테이블로 insert
-	@PostMapping("/cartDecision")
-	public Map<String, String> addCartDesicion(
+	// 결제완료할 때 장바구니 list를 모두 buyerOrderDetail테이블에 insert
+	@PostMapping("/createOrder")
+	public Map<String, String> createOrder(
 			@RequestParam("buyerOrderId") String buyerOrderId
-			, HttpServletRequest request){
-
-		HttpSession session = request.getSession();
-		int buyerId = (Integer)session.getAttribute("buyerId");
+			, @RequestParam("status") String status){
 		
-		int count = cartBO.updateCartDecision(buyerId, buyerOrderId);
-		
+		int count = cartBO.addBuyerOrderDetail(buyerOrderId, status);
+				
 		Map<String, String> result = new HashMap<>();
 		if(count >= 1) {
 			result.put("result", "success");
@@ -127,6 +88,6 @@ public class CartRestController {
 			result.put("result", "fail");
 		}
 
-		return result;		
+		return result;	
 	}
 }

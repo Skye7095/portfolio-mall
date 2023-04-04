@@ -2,31 +2,27 @@ package com.portfolio.mall.cart.model;
 
 import java.util.Date;
 
-import com.portfolio.mall.product.model.Product;
 
 public class Cart {
 	
 	private int id;
 	private int buyerId;
-	private String buyerOrderId;
+	private int sellerId;
 	private int productId;
+	private int productPrice;
 	private int productAmount;
+	private int productDeliveryPrice;
 	private int productSumPrice;
 	private int productTotalPrice;
 	private Date createdAt;
 	private Date updatedAt;
 	
-	public String getBuyerOrderId() {
-		return buyerOrderId;
+	
+	public int getSellerId() {
+		return sellerId;
 	}
-	public void setBuyerOrderId(String buyerOrderId) {
-		this.buyerOrderId = buyerOrderId;
-	}
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
+	public void setSellerId(int sellerId) {
+		this.sellerId = sellerId;
 	}
 	public int getId() {
 		return id;
@@ -46,11 +42,23 @@ public class Cart {
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
+	public int getProductPrice() {
+		return productPrice;
+	}
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
+	}
 	public int getProductAmount() {
 		return productAmount;
 	}
 	public void setProductAmount(int productAmount) {
 		this.productAmount = productAmount;
+	}
+	public int getProductDeliveryPrice() {
+		return productDeliveryPrice;
+	}
+	public void setProductDeliveryPrice(int productDeliveryPrice) {
+		this.productDeliveryPrice = productDeliveryPrice;
 	}
 	public int getProductSumPrice() {
 		return productSumPrice;
@@ -70,7 +78,12 @@ public class Cart {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 	
 	
-
 }

@@ -33,8 +33,8 @@ public class CartController {
 			, Model model) {
 		HttpSession session = request.getSession();
 		int buyerId = (Integer)session.getAttribute("buyerId");
-
-		List<CartDetail> cartDetailList = cartBO.getCartDetailList(buyerId);		
+		
+		List<CartDetail> cartDetailList = cartBO.getCartDetailList(buyerId);
 		model.addAttribute("cartDetailList", cartDetailList);
 		
 		int totalAmount = 0;
@@ -42,12 +42,11 @@ public class CartController {
 		int totalDeliveryPrice = 0;
 		int sum = 0;
 		for(int i = 0; i < cartDetailList.size(); i++) {
-			totalAmount += cartDetailList.get(i).getProductCount();
-			totalProductPrice += cartDetailList.get(i).getProductCountPrice();
+			totalAmount += cartDetailList.get(i).getProductAmount();
+			totalProductPrice += cartDetailList.get(i).getProductSumPrice();
 			totalDeliveryPrice += cartDetailList.get(i).getProductDeliveryPrice();
 			sum = totalProductPrice + totalDeliveryPrice;
 		}
-		
 		model.addAttribute("totalAmount", totalAmount);
 		model.addAttribute("totalProductPrice", totalProductPrice);
 		model.addAttribute("totalDeliveryPrice", totalDeliveryPrice);
