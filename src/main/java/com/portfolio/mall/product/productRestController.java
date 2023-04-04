@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.portfolio.mall.product.bo.ProductBO;
-import com.portfolio.mall.user.bo.SellerBO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -22,10 +21,7 @@ public class productRestController {
 	
 	@Autowired
 	private ProductBO productBO;
-	
-	@Autowired
-	private SellerBO sellerBO;
-	
+		
 	// 상품 업로드
 	@PostMapping("/upload")
 	public Map<String, Object> productUpload(

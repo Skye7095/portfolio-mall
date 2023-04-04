@@ -42,7 +42,7 @@
 							<th>수량</th>
 							<th>단가</th>	
 							<th>배송비</th>
-							<th>총 금액</th>
+							<th>상품 총금액</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -53,12 +53,12 @@
 							<th class="d-flex">
 								<img width="100" height="100" src="${cartDetail.productImgPath }">
 								<div>
-									<a class="text-dark" href="/product/items/view?id=${cartDetail.productId }">${cartDetail.productName }</a>
+									<a class="text-dark" href="/product/items/view?id=${cartDetail.productId }">${cartDetail.productOriginName }</a>
 								</div>
 							</th>
 							<th>
 								<div class="d-flex justify-content-center">
-									<h4 id="productCount">${cartDetail.productCount }</h4>
+									<h4 id="productCount">${cartDetail.productAmount }</h4>
 									<h4>개</h4>
 								</div>
 							</th>
@@ -76,7 +76,7 @@
 							</th>
 							<th>
 								<div class="d-flex justify-content-center">
-									<h4>${cartDetail.productCountPrice }</h4>
+									<h4>${cartDetail.productSumPrice }</h4>
 									<h4>원</h4>
 								</div>
 							</th>
@@ -123,7 +123,7 @@
 								</div>
 								<div>
 									<div class="d-flex justify-content-center">
-										<button class="btn btn-primary btn-lg text-white font-weight-bold my-3" type="button" id="orderBtn">구매하기</button>
+										<button class="btn btn-primary btn-lg text-white font-weight-bold my-3" type="button" id="purchaseBtn">구매하기</button>
 									</div>
 								</div>
 							</div>
@@ -138,58 +138,7 @@
 	<script>
 		$(document).ready(function(){
 			
-			$("#orderBtn").on("click", function(){
-				// buyerOrderId 생성 > B + 오늘날짜 + 난수(6자리)
-				let now = new Date();
-				let year = now.getFullYear().toString();
-				let month = now.getMonth() + 1;
-				let day = now.getDate();
-				
-				// 만약에 월이 1~9월이면 문자열을 반환할 때 앞에 0을 붙여줌. 아니면 그냥 문자열 반환
-				if(month < 10){
-					month = "0" + month.toString();
-				}else{
-					month = month.toString();
-				}
-				
-				// 날짜도 위와 마찬가지 > 결국 yyyyMMdd를 맞춰줌
-				if(day < 10){
-					day = "0" + day.toString();
-				}else{
-					day = day.toString();
-				}
-				
-				// 혹시 buyer가 같은 날에 여러건을 구매할 수 있어서 5자리 난수 생성
-				let random = '';
-			    for (let i = 0; i < 5; i++) {
-			    	random += Math.floor(Math.random() * 10);
-			    }
-				
-			    
-				let buyerOrderId = "BC" + year + month + day + random;
-				
-				$.ajax({
-					type:"post"
-					, url:"/buyer/cart/cartDecision"
-					, data:{"buyerOrderId":buyerOrderId}
-					, success:function(data){
-						if(data.result == "success"){
-							location.href="/buyer/purchasing/view?buyerOrderId=" + buyerOrderId;
-						}else{
-							if(!confirm("미결제 주문건이 있습니다. 해당 주문건으로 넘어가겠어요?")){
-								alert("장바구니에 계속 담고 싶으시면 기존에 있던 장바구니를 모두 삭제하신 후 담아주세요!");
-							}else{
-								location.href="/buyer/purchasing/view?buyerOrderId=" + buyerOrderId;
-							}
-						}
-					}
-					, error:function(){
-						alert("구매하기 오류");
-					}
-				})
-			})
-			
-			
+						
 			$(".deleteBtn").on("click", function(){
 				let cartId = $(this).data("cart-id");
 				let productId = $(this).data("product-id");
@@ -210,21 +159,18 @@
 						alert("삭제 오류");
 					}
 				})
-				
-				$.ajax({
-					type:"post"
-					, url:"/buyer/cart/deleteDecision"
-					, data:{"cartId":cartId}
-					, success:function(data){
-						
-					}
-					, error:function(){
-						alert("삭제 오류1");
-					}
-				})
 			})
 			
-			
+			$("#purchaseBtn").on("click", function(){
+				let totalAmount = ${totalAmount};
+				
+				if(totalAmount > 0){
+					location.href="/buyer/purchasing/view";
+				}else{
+					alert("장바구니 비어있어요. 상품을 담고 다시 찾아주세요");
+					location.href="/product/main/view";
+				}
+			})
 		})
 	</script>
 </body>

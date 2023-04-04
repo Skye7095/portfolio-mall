@@ -11,8 +11,11 @@
 			`cart`
 		(
 			`buyerId`
+			, `sellerId`
 			, `productId`
+			, `productPrice`
 			, `productAmount`
+			, `productDeliveryPrice`
 			, `productSumPrice`
 			, `productTotalPrice`
 			, `createdAt`
@@ -21,35 +24,11 @@
 		VALUE
 		(
 			#{buyerId}
+			, #{sellerId}
 			, #{productId}
+			, #{productPrice}
 			, #{productAmount}
-			, #{productSumPrice}
-			, #{productTotalPrice}
-			, now()
-			, now()
-		)
-	</insert>
-
-	<!-- 장바구니 개별 cart 추가 -->
-	<insert id="insertCartDecision" parameterType="map">
-		INSERT INTO
-			`cartDecision`
-		(
-			`buyerId`
-			, `buyerOrderId`
-			, `productId`
-			, `productAmount`
-			, `productSumPrice`
-			, `productTotalPrice`
-			, `createdAt`
-			, `updatedAt`
-		)
-		VALUE
-		(
-			#{buyerId}
-			, #{buyerOrderId}
-			, #{productId}
-			, #{productAmount}
+			, #{productDeliveryPrice}
 			, #{productSumPrice}
 			, #{productTotalPrice}
 			, now()
@@ -67,23 +46,16 @@
 			`buyerId` = #{buyerId} AND `productId`= #{productId}
 	</select>
 	
-	<!-- 같은 buyer가 같은 product를 추가했는지 조회 -->
-	<select id="selectSameCartDecision" parameterType="map" resultType="int">
-		SELECT 
-			count(1)
-		FROM
-			`cartDecision`
-		WHERE
-			`buyerId` = #{buyerId} AND `productId`= #{productId}
-	</select>
-
 	<!-- 장바구니 페이지 상품 조회 -->
 	<select id="selectCartList" parameterType="int" resultType="com.portfolio.mall.cart.model.Cart">
 		SELECT
 			`id`
 			, `buyerId`
+			, `sellerId`
 			, `productId`
+			, `productPrice`
 			, `productAmount`
+			, `productDeliveryPrice`
 			, `productSumPrice`
 			, `productTotalPrice`
 			, `createdAt`
@@ -102,42 +74,6 @@
 			`id` = #{cartId}
 	</delete>
 	
-	<!-- 장바구니페이지 개별 상품 삭제하기 > cartDecision테이블에서-->
-	<delete id="deleteCartDecision" parameterType="int">
-		DELETE FROM
-			`cartDecision`
-		WHERE
-			`id` = #{cartId}
-	</delete>
-
-	<!-- cartDecision buyerOrderId 수정 -->
-	<update id="updateCartDecision" parameterType="map">
-		UPDATE
-			`cartDecision`
-		SET
-			`buyerOrderId` = #{buyerOrderId}
-		WHERE
-			`buyerId` = #{buyerId} AND `buyerOrderId` = '0'
-	</update>
-	
-	<!-- buyerOrderId로 cartDecisionList 조회 -->
-	<select id="selectCartDecisionList" parameterType="String" resultType="com.portfolio.mall.cart.model.CartDecision">
-		SELECT
-			`id`
-			, `buyerId`
-			, `buyerOrderId`
-			, `productId`
-			, `productAmount`
-			, `productSumPrice`
-			, `productTotalPrice`
-			, `createdAt`
-			, `updatedAt`
-		FROM
-			`cartDecision`
-		WHERE `buyerOrderId` = #{buyerOrderId}
-		ORDER BY `id` DESC
-	</select>
-	
 	<!-- 장바구니 결제완료 후 cart테이블 같은 buyerId 삭제 -->
 	<delete id="deleteCartList" parameterType="int">
 		DELETE FROM
@@ -145,4 +81,57 @@
 		WHERE
 			`buyerId` = #{buyerId}
 	</delete>
+	
+	<!-- 장바구니 페이지 상품 조회 -->
+	<select id="selectCart" parameterType="int" resultType="com.portfolio.mall.cart.model.Cart">
+		SELECT
+			`id`
+			, `buyerId`
+			, `sellerId`
+			, `productId`
+			, `productPrice`
+			, `productAmount`
+			, `productDeliveryPrice`
+			, `productSumPrice`
+			, `productTotalPrice`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`cart`
+		WHERE `id` = #{cartId}
+	</select>
+	
+	<!-- 결제완료시 장바구니를 buyerOrderDetail로 insert -->
+	<insert id="insertBuyerOrderDetail" parameterType="map">
+		INSERT INTO
+			`buyerOrderDetail`
+		(
+			`buyerId`
+			, `buyerOrderId`
+			, `sellerId`
+			, `productId`
+			, `productPrice`
+			, `productAmount`
+			, `productDeliveryPrice`
+			, `productSumPrice`
+			, `productTotalPrice`
+			, `status`
+			, `createdAt`
+			, `updatedAt`
+		)
+		SELECT
+			`buyerId`
+			, #{buyerOrderId}
+			, `sellerId`
+			, `productId`
+			, `productPrice`
+			, `productAmount`
+			, `productDeliveryPrice`
+			, `productSumPrice`
+			, `productTotalPrice`
+			, #{status}
+			, now()
+			, now()
+		FROM `cart`
+	</insert>
 </mapper>

@@ -33,18 +33,18 @@
 		
 		
 		<section class="purchaseCompleted-section container">
-			<div class="p-3" id="buyerOrderId" value="${buyerOrderDetail.buyerOrderId }">
+			<div class="p-3">
 				<div class="mt-3 text-center display-3"><i class="bi bi-bag-check-fill"></i></div>
 				<h5 class="font-weight-bold text-center mt-3">${buyer.name }님, 주문하신 소중한 상품을 곧 보내 드릴게요!</h5>
 				<div class="d-flex justify-content-center my-3">
-					<button class="btn btn-success" id="mainBtn">쇼핑 계속하기</button>
+					<button class="btn btn-success" id="mainBtn"><a class="text-white" href="/product/main/view">쇼핑 계속하기</a></button>
 				</div>
 				<div class="deliveryinfo container border bg-white">
 					<div class="d-flex justify-content-between align-items-end mt-3">
 						<h4 class="font-weight-bold text-success">배송정보</h4>
 					</div>
-					<h6 class="font-weight-bold">${buyerOrderDetail.receiverName } ${buyerOrderDetail.receiverPhoneNumber }</h6>
-				  	<h6>${buyerOrderDetail.receiverAddress }</h6>
+					<h6 class="font-weight-bold">${buyerOrder.receiverName } ${buyerOrder.receiverPhoneNumber }</h6>
+				  	<h6>${buyerOrder.receiverAddress }</h6>
 				</div>
 				<div class="paymentinfo container border bg-white my-3">
 					<div class="d-flex justify-content-between align-items-end mt-3">
@@ -52,11 +52,11 @@
 					</div>
 					<div class="d-flex justify-content-between align-items-center mt-3">
 						<h6 class="mr-3">주문번호</h6>
-						<h6>${buyerOrderDetail.buyerOrderId }</h6>
+						<h6>${buyerOrder.buyerOrderId }</h6>
 					</div>
 					<div class="d-flex justify-content-between align-items-center mt-3">
 						<h6 class="mr-3">총결제금액</h6>
-						<h6>${buyerOrderDetail.sum }원</h6>
+						<h6>${buyerOrder.sum }원</h6>
 					</div>
 				</div>
 			</div>	
@@ -67,10 +67,18 @@
 	<script>
 		$(document).ready(function(){
 			
-			$("#mainBtn").on("click", function(){
-				location.href="/product/main/view";
+			$.ajax({
+				type:"post"
+				, url:"/buyer/clearAllCart"
+				, data:{}
+				, success:function(data){
+
+				}
+				, error:function(){
+					alert("장바구니 전체삭제 에러");
+				}
 			})
-			
+
 		})
 	</script>
 </body>

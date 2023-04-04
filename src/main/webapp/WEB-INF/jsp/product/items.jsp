@@ -41,16 +41,8 @@
 							<div class="items-info d-flex">
 								<div class="col-9">
 									<h4>${product.name }</h4>
-									<div class="stars">
-										<i class="bi bi-star-fill"></i>
-										<i class="bi bi-star-fill"></i>
-										<i class="bi bi-star-fill"></i>
-										<i class="bi bi-star-half"></i>
-										<i class="bi bi-star"></i>
-										<span>(3.5)</span>
-									</div>
 									<div class="d-flex">
-										<h2> <fmt:formatNumber value="${product.price }" /></h2>
+										<h2 id="productPrice"> ${product.price }</h2>
 										<h4>원</h4>
 									</div>
 									
@@ -65,7 +57,7 @@
 								<i class="bi bi-truck"></i>
 								<div class="d-flex">
 									<p class="ml-3">배송비: </p>
-									<p><fmt:formatNumber value="${product.deliveryPrice }" /></p>
+									<p id="productDeliveryPrice">${product.deliveryPrice }</p>
 									<p>원</p>
 								</div>
 							</div>
@@ -74,6 +66,9 @@
 								<p class="ml-3">재고: <fmt:formatNumber value="${product.amount }" />개</p>
 							</div>
 							<hr>
+							<c:if test="${product.amount eq 0 }">
+								<h3 class="bg-secondary text-center text-white">재고소진으로 인해 판매종료</h3>
+							</c:if>
 						</div>		
 					</article>
 				</div>
@@ -166,10 +161,17 @@
 										</div>
 										<div class="d-flex justify-content-around mb-3">
 											<div class="amount d-flex align-items-end">
-												<c:if test="${product.amount ne 0 }">
+											<c:choose>
+												<c:when test="${product.amount eq 0 }">
+													<div class="bg-secondary text-center">
+														<span class="text-white">재고소진으로 인해 판매종료</span>
+													</div>
+												</c:when>
+												<c:otherwise>
 													<input type="number" value="1" min="1" max="${product.amount }" id="productAmountInput">
 													<button class="btn btn-sm" id="numberConfirmBtn">선택</button>
-												</c:if>												
+												</c:otherwise>
+											</c:choose>											
 											</div>
 										</div>
 										<div class="price bg-light d-flex justify-content-between">
@@ -279,36 +281,9 @@
 			if(numberChecked == false){
 				alert("수량 확인해주세요");
 				return;
-			}
-			
-			// buyerOrderId 생성 > B + 오늘날짜 + 난수(6자리)
-			let now = new Date();
-			let year = now.getFullYear().toString();
-			let month = now.getMonth() + 1;
-			let day = now.getDate();
-			
-			// 만약에 월이 1~9월이면 문자열을 반환할 때 앞에 0을 붙여줌. 아니면 그냥 문자열 반환
-			if(month < 10){
-				month = "0" + month.toString();
 			}else{
-				month = month.toString();
+				location.href="/buyer/purchasing/view";
 			}
-			
-			// 날짜도 위와 마찬가지 > 결국 yyyyMMdd를 맞춰줌
-			if(day < 10){
-				day = "0" + day.toString();
-			}else{
-				day = day.toString();
-			}
-			
-			// 혹시 buyer가 같은 날에 여러건을 구매할 수 있어서 5자리 난수 생성
-			let random = '';
-		    for (let i = 0; i < 5; i++) {
-		    	random += Math.floor(Math.random() * 10);
-		    }
-			
-		    
-			let buyerOrderId = "B" + year + month + day + random;
 			
 			let productId = ${product.id};
 			let productAmount = $("#productAmountInput").val();
@@ -318,17 +293,15 @@
 			
 			$.ajax({
 				type:"post"
-				, url:"/buyer/purchasing/createdOrderByPI"
-				, data:{"buyerOrderId":buyerOrderId, "productId":productId, "productAmount":productAmount, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
+				, url:"/buyer/cart/add"
+				, data:{"productId":productId, "productPrice":productPrice, "productAmount":productAmount, "productDeliveryPrice":productDeliveryPrice, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
 				, success:function(data){
 					if(data.result =="success"){
-						location.href="/buyer/purchasing/view?buyerOrderId=" + buyerOrderId;
-					}else{
-						alert("구매 실패");
+						location.href="/buyer/purchasing/view";
 					}
 				}
 				, error:function(){
-					alert("구매 에러");
+					alert("구매에러");
 				}
 			})
 		})
@@ -336,10 +309,11 @@
 		$("#buyerCartBtn").on("click", function(){
 
 			let productId = ${product.id};
+			let productPrice = parseInt($("#productPrice").text());
 			let productAmount = $("#productAmountInput").val();
-			let productSumPrice = $("#productSumPrice").text();
-			let productTotalPrice = $("#productTotalPrice").text();
-			
+			let productDeliveryPrice = parseInt($("#productDeliveryPrice").text());
+			let productSumPrice = productPrice * productAmount;
+			let productTotalPrice = productSumPrice + productDeliveryPrice;
 			
 			if(numberChecked == false){
 				alert("수량 확인해주세요");
@@ -349,7 +323,7 @@
 			$.ajax({
 				type:"post"
 				, url:"/buyer/cart/add"
-				, data:{"productId":productId, "productAmount":productAmount, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
+				, data:{"productId":productId, "productPrice":productPrice, "productAmount":productAmount, "productDeliveryPrice":productDeliveryPrice, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
 				, success:function(data){
 					if(data.result =="success"){
 						if(!confirm("장바구니에 추가성공. 장바구니로 이동하시겠어요?")){
@@ -372,17 +346,6 @@
 				}
 			})
 			
-			$.ajax({
-				type:"post"
-					, url:"/buyer/cart/addDecision"
-					, data:{"buyerOrderId":"0", "productId":productId, "productAmount":productAmount, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
-					, success:function(data){
-						
-					}
-					, error:function(){
-						alert("에러1");
-					}
-			})
 		})
 		
 		$("#detailsBox").show();

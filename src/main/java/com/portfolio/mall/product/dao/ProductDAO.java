@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.portfolio.mall.cart.model.Cart;
 import com.portfolio.mall.product.model.Product;
 
 @Repository
@@ -36,7 +35,7 @@ public interface ProductDAO {
 	public List<Product> selectProductByCategory(@Param("category") String category);
 	
 	// 상품 재고 0으로 수정하기 > seller가 판매중지하고 싶은 경우
-	public int updateProductAmountTo0(@Param("id") int id);
+	public int updateProductAmount(@Param("id") int id, @Param("amount") int amount);
 	
 	// 상품 수정
 	public int updateProduct(

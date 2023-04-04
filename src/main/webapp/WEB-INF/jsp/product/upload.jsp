@@ -28,7 +28,7 @@
 						<td>${sellerName }</td>
 					</tr>
 					<tr>
-						<td class="font-weight-bold col-3">상품 이미지</td>
+						<td class="font-weight-bold col-3">상품 이미지<br><span class="text-danger small font-weight-bold">＊추후 수정불가</span></td>
 						<td class="d-flex justify-content-center">
 							<div class="img-upload col-4">
 								<img width="300" id="productImg" src="${product.productImgPath }">
@@ -38,7 +38,8 @@
 					</tr>
 					<tr>
 						<td class="font-weight-bold col-3">카테고리</td>
-						<td><select class="form-select form-select-lg" id="categorySelect">
+						<td>
+							<select class="form-select form-select-lg" id="categorySelect">
 							  <option selected>전체 카테고리</option>
 							  <option value="1">패션·의류·잡화</option>
 							  <option value="2">식품·생필품</option>
@@ -83,7 +84,7 @@
 						<td class="font-weight-bold col-3">상품정보</td>
 						<td>
 							<textarea class="form-control" rows="20" id="introductionInput"></textarea>
-							<label>상세설명 이미지</label><input class="file mt-3" type="file" multiple id="detailsFileInput">
+							<span>상세설명 이미지</span><span class="text-danger small font-weight-bold">＊추후 수정불가</span><br><input class="file mt-3" type="file" multiple id="detailsFileInput">
 							<img width="500" id="detailsImg" src="${product.detailsImgPath }">
 						</td>
 					</tr>

@@ -119,11 +119,11 @@
 	</select>
 	
 	<!-- 상품 잔고 0으로 처리 -->
-	<update id="updateProductAmountTo0" parameterType="int">
+	<update id="updateProductAmount" parameterType="int">
 		UPDATE
 			`product`
 		SET
-			`amount` = 0
+			`amount` = #{amount}
 			, `updatedAt` = now()
 		WHERE
 			`id`=#{id}

@@ -28,7 +28,7 @@
 						<td>${sellerName }</td>
 					</tr>
 					<tr>
-						<td class="font-weight-bold col-3">상품 이미지</td>
+						<td class="font-weight-bold col-3">상품 이미지<br><span class="text-danger small font-weight-bold">＊수정불가</span></td>
 						<td class="d-flex justify-content-center">
 							<div class="img-upload col-4">
 								<img width="300" id="productImg" src="${product.productImgPath }">
@@ -83,7 +83,7 @@
 						<td>
 							<textarea class="form-control" rows="20" id="introductionInput" value="${product.introduction }"></textarea>
 							<div>
-								<p>상세설명 이미지</p>
+								<p>상세설명 이미지</p><span class="text-danger small font-weight-bold">＊수정불가</span><br>
 								<img width="500" id="detailsImg" src="${product.detailsImgPath }">
 							</div>
 						</td>

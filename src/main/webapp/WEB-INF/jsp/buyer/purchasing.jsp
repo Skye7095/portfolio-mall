@@ -90,7 +90,7 @@
 					</article>
 				</div>
 				
-				<div class="simple-paymentinfo2-card col-4 mb-3" id="buyerOrderId" value="${buyerOrderId }">
+				<div class="simple-paymentinfo2-card col-4 mb-3">
 					<aside class="border border-dark">
 						<div class="container my-3">
 							<div>
@@ -98,25 +98,25 @@
 							</div>
 							<hr>
 							<div class="details">
-								<div class="items">
-								<c:forEach var="cartDecisionDetail" items="${cartDecisionDetailList }">
+								<c:forEach var="cartDetail" items="${cartDetailList }">
+								<div class="items" id="cartId" data-cart-id="${cartDetail.productId }" value="${cartDetail.productId }">
 									<div class="d-flex">
-										<img width="100" height="100" src="${cartDecisionDetail.productImgPath }">
+										<img width="100" height="100" src="${cartDetail.productImgPath }">
 										<div>
-											<a class="text-dark" href="/product/items/view?id=${cartDecisionDetail.productId }">${cartDecisionDetail.productName }</a>
+											<a class="text-dark" href="/product/items/view?id=${cartDetail.productId }">${cartDetail.productOriginName }</a>
 											<div>
-												<span class="font-weight-bold">${cartDecisionDetail.productPrice }원</span>
-												<span> / ${cartDecisionDetail.productAmount }개</span>
+												<span class="font-weight-bold" id="productPrice">${cartDetail.productPrice }</span>원
+												<span> / </span><span id="productAmount">${cartDetail.productAmount }</span>개
 											</div>
 										</div>
 									</div>
 									<div class="bg-light d-flex justify-content-between">
 										<span>상품금액</span>
-										<span>${cartDecisionDetail.productSumPrice }원</span>
+										<span>${cartDetail.productSumPrice }원</span>
 									</div>
 									<div class="bg-light d-flex justify-content-between">
 										<span>배송비</span>
-										<span>${cartDecisionDetail.productDeliveryPrice }원</span>
+										<span>${cartDetail.productDeliveryPrice }원</span>
 									</div>
 								</div>
 								<hr>
@@ -165,12 +165,41 @@
 			})
 			
 			$("#purchaseBtn").on("click", function(){
-				let buyerOrderId = $("#buyerOrderId").attr("value");
+				
+				// buyerOrderId 생성 > B + 오늘날짜 + 난수(6자리)
+				let now = new Date();
+				let year = now.getFullYear().toString();
+				let month = now.getMonth() + 1;
+				let day = now.getDate();
+				
+				// 만약에 월이 1~9월이면 문자열을 반환할 때 앞에 0을 붙여줌. 아니면 그냥 문자열 반환
+				if(month < 10){
+					month = "0" + month.toString();
+				}else{
+					month = month.toString();
+				}
+				
+				// 날짜도 위와 마찬가지 > 결국 yyyyMMdd를 맞춰줌
+				if(day < 10){
+					day = "0" + day.toString();
+				}else{
+					day = day.toString();
+				}
+				
+				// 혹시 buyer가 같은 날에 여러건을 구매할 수 있어서 5자리 난수 생성
+				let random = '';
+			    for (let i = 0; i < 5; i++) {
+			    	random += Math.floor(Math.random() * 10);
+			    }
+				
+			    
+				let buyerOrderId = "B" + year + month + day + random;
+				
 				let receiverName = $("#receiverNameInput").val();
 				let receiverPhoneNumber = $("#receiverPhoneNumberInput").val();
 				let receiverAddress = $("#receiverAddressInput").val();
 				let depositorName = $("#depositorNameInput").val();
-				let sum = $("#sum").text().toString();
+				let sum = parseInt($("#sum").text());
 				
 				if(receiverName == ""){
 					alert("배송 이름 입력해주세요");
@@ -188,40 +217,43 @@
 					alert("입금자명 입력해주세요");
 					return;
 				}
-
-				$.ajax({
-					type:"post"
-					, url:"/buyer/purchasing/createOrder"
-					, data:{"buyerOrderId":buyerOrderId, "receiverName":receiverName, "receiverPhoneNumber":receiverPhoneNumber, "receiverAddress":receiverAddress, "depositorName":depositorName, "sum":sum}
-					, success:function(data){
-						if(data.result == "success"){
-							location.href="/buyer/purchaseCompleted/view?buyerOrderId=" + buyerOrderId;
-						}else if(data.result == "exists"){
-							alert("이미 결제했습니다");
-							return;
-						}else{
-							alert("결제 실패");
-						}
-					}
-					, error:function(){
-						alert("결제 에러");
-					}
-				})
 				
+				// 총 주문갯수가 0개면 주문 못하게
+				let totalAmount = ${totalAmount};
+				if(totalAmount > 0){
+					$.ajax({
+						type:"post"
+						, url:"/buyer/purchasing/createOrder"
+						, data:{"buyerOrderId":buyerOrderId, "receiverName":receiverName, "receiverPhoneNumber":receiverPhoneNumber, "receiverAddress":receiverAddress, "depositorName":depositorName, "sum":sum}
+						, success:function(data){
+							if(data.result == "success"){
+								location.href="/buyer/purchaseCompleted/view?buyerOrderId=" + buyerOrderId;
+							}else{
+								alert("결제 실패");
+							}
+						}
+						, error:function(){
+							alert("결제 에러");
+						}
+					}) 	
+				}
+	
 				$.ajax({
 					type:"post"
-					, url:"/buyer/clearAllCart"
-					, data:{}
-					, success:function(data){
-						if(data.result == "success"){
-						}else{
-							alert("장바구니 전체 삭제 실패");
-						}
-					}
-					, error:function(){
-						alert("장바구니 전체삭제 에러");
-					}
-				})
+					, url:"/buyer/cart/createOrder"
+					, data:{"buyerOrderId":buyerOrderId, "status":"결제확인중"}
+				 	, success:function(data){
+				 		if(data.result == "fail"){
+				 			alert("주문실패");
+				 			return;
+				 		}
+				 	}
+				 	, error:function(){
+				 		alert("주문 에러");
+				 	}
+				}) 
+				
+				
 			})
 		})
 	</script>

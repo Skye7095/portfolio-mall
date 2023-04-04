@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.portfolio.mall.cart.model.Cart;
 import com.portfolio.mall.common.FileManagerService;
 import com.portfolio.mall.product.dao.ProductDAO;
 import com.portfolio.mall.product.model.Product;
@@ -53,6 +52,13 @@ public class ProductBO {
 	// 상품을 카테고리 별로 조회
 	public List<Product> getProductByCategory(String category){
 		return productDAO.selectProductByCategory(category);
+	}
+	
+	// 상품 재고수량 수정
+	public int updateProductAmount(
+			int id
+			, int amount) {
+		return productDAO.updateProductAmount(id, amount);
 	}
 	
 	// 상품 수정
