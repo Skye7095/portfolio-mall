@@ -82,27 +82,19 @@ public interface BuyerDAO {
 			, @Param("receiverPhoneNumber") String receiverPhoneNumber
 			, @Param("receiverAddress") String receiverAddress
 			, @Param("depositorName") String depositorName
-			, @Param("sum") int sum
-			, @Param("status") String status);
+			, @Param("sum") int sum);
 	
 	// 같은 orderId가 여러번 결제됐는지 확인
 	public Integer sameOrder(
 			@Param("buyerId") int buyerId
 			, @Param("buyerOrderId") String buyerOrderId);
 	
-	// buyerOrderDetail 조회하기
-	public BuyerOrderDetail selectBuyerOrderDetail(@Param("buyerOrderId") String buyerOrderId);
-	
 	// buyerId로 전체 구매내역 list 조회
-	public List<BuyerOrder> selectOrderHistory(@Param("buyerId") int buyerId);
+	public List<BuyerOrder> selectBuyerOrderList(@Param("buyerId") int buyerId);
 	
-	// buyer 개별상품 주문하기
-	public int insertBuyerOrderByPI(
-			@Param("buyerId") int buyerId
-			, @Param("buyerOrderId") String buyerOrderId
-			, @Param("productId") int productId
-			, @Param("productAmount") int productAmount
-			, @Param("productSumPrice") int productSumPrice
-			, @Param("productTotalPrice") int productTotalPrice);
+	// buyer 상세주문내역 조회
+	public List<BuyerOrderDetail> selectBuyerOrderDetailList(@Param("buyerOrderId") String buyerOrderId);
 
+	// buyerOrderId를 통해 buyerOrder테이블 조회
+	public BuyerOrder selectBuyerOrder(@Param("buyerOrderId") String buyerOrderId);
 }

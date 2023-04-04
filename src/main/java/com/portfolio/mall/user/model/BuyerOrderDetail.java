@@ -1,62 +1,35 @@
 package com.portfolio.mall.user.model;
 
 import java.util.Date;
-import java.util.List;
-
-import com.portfolio.mall.cart.model.CartDecisionDetail;
 
 public class BuyerOrderDetail {
 	private int id;
 	private int buyerId;
 	private String buyerOrderId;
-	private String buyerName;
-	private String buyerPhoneNumber;
-	private String receiverName;
-	private String receiverPhoneNumber;
-	private String receiverAddress;
-	private String depositorName;
-	private int sum;
-	private List<CartDecisionDetail> cartDecisionDetailList;
+	private int sellerId;
+	private int productId;
+	private int productPrice;
+	private int productAmount;
+	private int productDeliveryPrice;
+	private int productSumPrice;
+	private int productTotalPrice;
 	private String status;
 	private Date createdAt;
 	private Date updatedAt;
+	private String productImgPath;
+	private String productName;
 	
-	
-	public List<CartDecisionDetail> getCartDecisionDetailList() {
-		return cartDecisionDetailList;
+	public String getProductImgPath() {
+		return productImgPath;
 	}
-	public void setCartDecisionDetailList(List<CartDecisionDetail> cartDecisionDetailList) {
-		this.cartDecisionDetailList = cartDecisionDetailList;
+	public void setProductImgPath(String productImgPath) {
+		this.productImgPath = productImgPath;
 	}
-	public String getBuyerOrderId() {
-		return buyerOrderId;
+	public String getProductName() {
+		return productName;
 	}
-	public void setBuyerOrderId(String buyerOrderId) {
-		this.buyerOrderId = buyerOrderId;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-	public String getBuyerName() {
-		return buyerName;
-	}
-	public void setBuyerName(String buyerName) {
-		this.buyerName = buyerName;
-	}
-	public String getBuyerPhoneNumber() {
-		return buyerPhoneNumber;
-	}
-	public void setBuyerPhoneNumber(String buyerPhoneNumber) {
-		this.buyerPhoneNumber = buyerPhoneNumber;
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 	public int getId() {
 		return id;
@@ -70,42 +43,71 @@ public class BuyerOrderDetail {
 	public void setBuyerId(int buyerId) {
 		this.buyerId = buyerId;
 	}
-	public String getReceiverName() {
-		return receiverName;
+	public String getBuyerOrderId() {
+		return buyerOrderId;
 	}
-	public void setReceiverName(String receiverName) {
-		this.receiverName = receiverName;
+	public void setBuyerOrderId(String buyerOrderId) {
+		this.buyerOrderId = buyerOrderId;
 	}
-	public String getReceiverPhoneNumber() {
-		return receiverPhoneNumber;
+	public int getSellerId() {
+		return sellerId;
 	}
-	public void setReceiverPhoneNumber(String receiverPhoneNumber) {
-		this.receiverPhoneNumber = receiverPhoneNumber;
+	public void setSellerId(int sellerId) {
+		this.sellerId = sellerId;
 	}
-	public String getReceiverAddress() {
-		return receiverAddress;
+	public int getProductId() {
+		return productId;
 	}
-	public void setReceiverAddress(String receiverAddress) {
-		this.receiverAddress = receiverAddress;
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
-	public String getDepositorName() {
-		return depositorName;
+	public int getProductPrice() {
+		return productPrice;
 	}
-	public void setDepositorName(String depositorName) {
-		this.depositorName = depositorName;
+	public void setProductPrice(int productPrice) {
+		this.productPrice = productPrice;
 	}
-
-	public int getSum() {
-		return sum;
+	public int getProductAmount() {
+		return productAmount;
 	}
-	public void setSum(int sum) {
-		this.sum = sum;
+	public void setProductAmount(int productAmount) {
+		this.productAmount = productAmount;
+	}
+	public int getProductDeliveryPrice() {
+		return productDeliveryPrice;
+	}
+	public void setProductDeliveryPrice(int productDeliveryPrice) {
+		this.productDeliveryPrice = productDeliveryPrice;
+	}
+	public int getProductSumPrice() {
+		return productSumPrice;
+	}
+	public void setProductSumPrice(int productSumPrice) {
+		this.productSumPrice = productSumPrice;
+	}
+	public int getProductTotalPrice() {
+		return productTotalPrice;
+	}
+	public void setProductTotalPrice(int productTotalPrice) {
+		this.productTotalPrice = productTotalPrice;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	public Date getCreatedAt() {
 		return createdAt;
 	}
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	
 	

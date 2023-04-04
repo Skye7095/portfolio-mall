@@ -1,5 +1,6 @@
 package com.portfolio.mall.user.bo;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,14 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.portfolio.mall.cart.bo.CartBO;
-import com.portfolio.mall.cart.model.CartDecisionDetail;
 import com.portfolio.mall.common.EncryptUtils;
 import com.portfolio.mall.common.randomPW;
-import com.portfolio.mall.product.dao.ProductDAO;
+import com.portfolio.mall.product.bo.ProductBO;
+import com.portfolio.mall.product.model.Product;
 import com.portfolio.mall.user.dao.BuyerDAO;
 import com.portfolio.mall.user.model.Buyer;
 import com.portfolio.mall.user.model.BuyerOrder;
 import com.portfolio.mall.user.model.BuyerOrderDetail;
+import com.portfolio.mall.user.model.OrderDetail;
 
 @Service
 public class BuyerBO {
@@ -24,7 +26,7 @@ public class BuyerBO {
 	public BuyerDAO buyerDAO;
 	
 	@Autowired
-	public ProductDAO productDAO;
+	public ProductBO productBO;
 	
 	@Autowired
 	public CartBO cartBO;
@@ -162,78 +164,61 @@ public class BuyerBO {
 			, String receiverPhoneNumber
 			, String receiverAddress
 			, String depositorName
-			, int sum
-			, String status) {
-		int count = 0;
-		
-		if(buyerDAO.sameOrder(buyerId, buyerOrderId) == null) {
-			// 최초 결제
-			count = buyerDAO.insertBuyerOrder(buyerId, buyerOrderId, receiverName, receiverPhoneNumber, receiverAddress, depositorName, sum, status);
-		}else {
-			// 이미 결제했음
-			count = -1;
-		}
-
-		return count;
+			, int sum) {
+		return buyerDAO.insertBuyerOrder(buyerId, buyerOrderId, receiverName, receiverPhoneNumber, receiverAddress, depositorName, sum);
 	}
 	
-	// buyerOrderId로 구매내역 조회
-	public BuyerOrderDetail getBuyerOrderDetail(String buyerOrderId) {
-		return buyerDAO.selectBuyerOrderDetail(buyerOrderId);
-	}
-	
-	// buyerId로 전체 구매내역 list 조회
-	public List<BuyerOrderDetail> getOrderHistoryList(int buyerId){
-		List<BuyerOrder> buyerOrderList = buyerDAO.selectOrderHistory(buyerId);
+	// buyer 주문내역 조회
+	public List<OrderDetail> getBuyerOrderList(int buyerId){	
 		
-		List<BuyerOrderDetail> buyerOrderDetailList = new ArrayList<>();
+		List<BuyerOrder> buyerOrderList = buyerDAO.selectBuyerOrderList(buyerId);
+		
+		List<OrderDetail> orderDetailList = new ArrayList<>();
 		for(BuyerOrder buyerOrder:buyerOrderList) {
-			BuyerOrderDetail buyerOrderDetail = new BuyerOrderDetail();
-			
-			int id = buyerOrder.getId();
-			buyerOrderDetail.setId(id);
+			OrderDetail orderDetail = new OrderDetail();
 			
 			String buyerOrderId = buyerOrder.getBuyerOrderId();
-			buyerOrderDetail.setBuyerOrderId(buyerOrderId);
+			orderDetail.setBuyerOrderId(buyerOrderId);
 			
 			String receiverName = buyerOrder.getReceiverName();
-			buyerOrderDetail.setReceiverName(receiverName);
+			orderDetail.setReceiverName(receiverName);
 			
 			String receiverPhoneNumber = buyerOrder.getReceiverPhoneNumber();
-			buyerOrderDetail.setReceiverPhoneNumber(receiverPhoneNumber);
+			orderDetail.setReceiverPhoneNumber(receiverPhoneNumber);
 			
 			String receiverAddress = buyerOrder.getReceiverAddress();
-			buyerOrderDetail.setReceiverAddress(receiverAddress);
+			orderDetail.setReceiverAddress(receiverAddress);
 			
 			String depositorName = buyerOrder.getDepositorName();
-			buyerOrderDetail.setDepositorName(depositorName);
+			orderDetail.setDepositorName(depositorName);
 			
 			int sum = buyerOrder.getSum();
-			buyerOrderDetail.setSum(sum);
-			
-			List<CartDecisionDetail> cartDecisionDetailList = cartBO.getCartDecisionDetailList(buyerOrderId);
-			buyerOrderDetail.setCartDecisionDetailList(cartDecisionDetailList);
-			
-			String status = buyerOrder.getStatus();
-			buyerOrderDetail.setStatus(status);
+			orderDetail.setSum(sum);
 			
 			Date createdAt = buyerOrder.getCreatedAt();
-			buyerOrderDetail.setCreatedAt(createdAt);
+			orderDetail.setCreatedAt(createdAt);
+				
+			List<BuyerOrderDetail> buyerOrderDetailList = buyerDAO.selectBuyerOrderDetailList(buyerOrderId);
+			for(BuyerOrderDetail buyerOrderDetail:buyerOrderDetailList) {
+				int productId = buyerOrderDetail.getProductId();
+				Product product = productBO.getProductById(productId);
+				
+				String productImgPath = product.getProductImgPath();
+				String productName = product.getName();
+				
+				buyerOrderDetail.setProductImgPath(productImgPath);
+				buyerOrderDetail.setProductName(productName);
+			}
+			orderDetail.setBuyerOrderDetailList(buyerOrderDetailList);
 			
-			buyerOrderDetailList.add(buyerOrderDetail);
+			orderDetailList.add(orderDetail);
 		}
 		
-		return buyerOrderDetailList;
+		return orderDetailList;
 	}
 	
-	// buyer 개별상품 주문하기
-	public int addBuyerOrderByPI(
-			int buyerId
-			, String buyerOrderId
-			, int productId
-			, int productAmount
-			, int productSumPrice
-			, int productTotalPrice) {
-		return buyerDAO.insertBuyerOrderByPI(buyerId, buyerOrderId, productId, productAmount, productSumPrice, productTotalPrice);
+	// buyerOrderId를 통해 buyerOrder테이블 조회
+	public BuyerOrder getBuyerOrder(String buyerOrderId) {
+		return buyerDAO.selectBuyerOrder(buyerOrderId);
 	}
 }

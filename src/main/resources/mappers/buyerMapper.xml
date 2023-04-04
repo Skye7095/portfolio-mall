@@ -185,7 +185,6 @@
 			, `receiverAddress`
 			, `depositorName`
 			, `sum`
-			, `status`
 			, `createdAt`
 			, `updatedAt`
 		)
@@ -198,7 +197,6 @@
 			, #{receiverAddress}
 			, #{depositorName}
 			, #{sum}
-			, #{status}
 			, now()
 			, now()
 		)
@@ -223,7 +221,29 @@
 	</select>
 	
 	<!-- buyerOrderDetail 조회 -->
-	<select id="selectBuyerOrderDetail" parameterType="string" resultType="com.portfolio.mall.user.model.BuyerOrderDetail">
+	<select id="selectBuyerOrderDetailList" parameterType="string" resultType="com.portfolio.mall.user.model.BuyerOrderDetail">
+		SELECT
+			`id`
+			, `buyerId`
+			, `buyerOrderId`
+			, `sellerId`
+			, `productId`
+			, `productPrice`
+			, `productAmount`
+			, `productDeliveryPrice`
+			, `productSumPrice`
+			, `productTotalPrice`
+			, `status`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`buyerOrderDetail`
+		WHERE
+			`buyerOrderId` = #{buyerOrderId}
+	</select>
+	
+	<!-- buyerId로 전체 구매내역 list 조회 -->
+ 	<select id="selectBuyerOrderList" parameterType="int" resultType="com.portfolio.mall.user.model.BuyerOrder">
 		SELECT
 			`id`
 			, `buyerId`
@@ -233,7 +253,26 @@
 			, `receiverAddress`
 			, `depositorName`
 			, `sum`
-			, `status`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`buyerOrder`
+		WHERE
+			`buyerId` = #{buyerId}
+		ORDER BY `id` DESC
+	</select>
+	
+	<!-- buyerOrderId를 통해 buyerOrder테이블 조회 -->
+	<select id="selectBuyerOrder" parameterType="String" resultType="com.portfolio.mall.user.model.BuyerOrder">
+		SELECT
+			`id`
+			, `buyerId`
+			, `buyerOrderId`
+			, `receiverName`
+			, `receiverPhoneNumber`
+			, `receiverAddress`
+			, `depositorName`
+			, `sum`
 			, `createdAt`
 			, `updatedAt`
 		FROM
@@ -241,51 +280,4 @@
 		WHERE
 			`buyerOrderId` = #{buyerOrderId}
 	</select>
-	
-	<!-- buyerId로 전체 구매내역 list 조회 -->
-	<select id="selectOrderHistory" parameterType="int" resultType="com.portfolio.mall.user.model.BuyerOrder">
-		SELECT
-			`id`
-			, `buyerId`
-			, `buyerOrderId`
-			, `receiverName`
-			, `receiverPhoneNumber`
-			, `receiverAddress`
-			, `depositorName`
-			, `sum`
-			, `status`
-			, `createdAt`
-			, `updatedAt`
-		FROM
-			`buyerOrder`
-		WHERE
-			`buyerId` = #{buyerId}
-	</select>
-	
-	<!-- buyer 개별상품 주문하기 -->
-	<insert id="insertBuyerOrderByPI" parameterType="map">
-		INSERT INTO
-			`cartDecision`
-		(
-			`buyerId`
-			, `buyerOrderId`
-			, `productId`
-			, `productAmount`
-			, `productSumPrice`
-			, `productTotalPrice`
-			, `createdAt`
-			, `updatedAt`
-		)
-		VALUE
-		(
-			#{buyerId}
-			, #{buyerOrderId}
-			, #{productId}
-			, #{productAmount}
-			, #{productSumPrice}
-			, #{productTotalPrice}
-			, now()
-			, now()
-		)
-	</insert>
 </mapper>

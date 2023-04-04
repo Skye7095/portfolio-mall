@@ -3,8 +3,8 @@ package com.portfolio.mall.user.model;
 import java.util.Date;
 import java.util.List;
 
-public class BuyerOrder {
-	
+public class OrderDetail {
+
 	private int id;
 	private int buyerId;
 	private String buyerOrderId;
@@ -13,9 +13,22 @@ public class BuyerOrder {
 	private String receiverAddress;
 	private String depositorName;
 	private int sum;
+	private List<BuyerOrderDetail> buyerOrderDetailList;
 	private Date createdAt;
 	private Date updatedAt;
-
+	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 	public int getId() {
 		return id;
 	}
@@ -64,18 +77,13 @@ public class BuyerOrder {
 	public void setSum(int sum) {
 		this.sum = sum;
 	}
-	public Date getCreatedAt() {
-		return createdAt;
+	public List<BuyerOrderDetail> getBuyerOrderDetailList() {
+		return buyerOrderDetailList;
 	}
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
+	public void setBuyerOrderDetailList(List<BuyerOrderDetail> buyerOrderDetailList) {
+		this.buyerOrderDetailList = buyerOrderDetailList;
 	}
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
+	
 	
 	
 }

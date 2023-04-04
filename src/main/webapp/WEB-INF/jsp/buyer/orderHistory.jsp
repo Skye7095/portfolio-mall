@@ -63,27 +63,26 @@
 						</thead>
 											
 						<tbody>
-						<c:forEach var="buyerOrderDetail" items="${buyerOrderDetailList }" >
+						<c:forEach var="orderDetail" items="${orderDetailList }" >
 						<tr>
 							<td class="text-center">
-								<span><fmt:formatDate value="${buyerOrderDetail.createdAt }" pattern="yyyy-MM-dd" /></span>
-								<p>주문번호: ${buyerOrderDetail.buyerOrderId }</p>
+								<span><fmt:formatDate value="${orderDetail.createdAt }" pattern="yyyy-MM-dd" /></span>
+								<p>주문번호: ${orderDetail.buyerOrderId }</p>
 							</td>
-						
+							
 							<td>
 								<table width="100%">
-									<c:forEach var="cartDecisionDetail" items="${buyerOrderDetail.cartDecisionDetailList }" >
 									<tbody>
-
+									<c:forEach var="buyerOrderDetail" items="${orderDetail.buyerOrderDetailList }" >
 										<td class="d-flex">
-											<img width="100" height="100" src="${cartDecisionDetail.productImgPath }">
+											<img width="100" height="100" src="${buyerOrderDetail.productImgPath }">
 											<div>
 												<div>
-													<a class="text-dark" href="/product/items/view?id=${cartDecisionDetail.productId }">${cartDecisionDetail.productName }</a>
-													<p>수량: ${cartDecisionDetail.productAmount }개 / ${cartDecisionDetail.productPrice }원</p>
+													<a class="text-dark" href="/product/items/view?id=${buyerOrderDetail.productId }">${buyerOrderDetail.productName }</a>
+													<p>수량: ${buyerOrderDetail.productAmount }개 / ${buyerOrderDetail.productPrice }원</p>
 												</div>
 												<div>
-													<h4>${cartDecisionDetail.productSumPrice }원</h4>
+													<h4>${buyerOrderDetail.productSumPrice }원</h4>
 												</div>
 											</div>
 										</td>	
@@ -94,6 +93,7 @@
 									</c:forEach>
 								</table>
 							</td>
+							
 						</tr>
 						</c:forEach>
 						</tbody>

@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.portfolio.mall.cart.bo.CartBO;
-import com.portfolio.mall.cart.model.CartDecisionDetail;
+import com.portfolio.mall.cart.model.CartDetail;
 import com.portfolio.mall.user.bo.BuyerBO;
 import com.portfolio.mall.user.model.Buyer;
+import com.portfolio.mall.user.model.BuyerOrder;
 import com.portfolio.mall.user.model.BuyerOrderDetail;
+import com.portfolio.mall.user.model.OrderDetail;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -86,9 +88,9 @@ public class BuyerController {
 			, Model model) {
 		HttpSession session = request.getSession();
 		int buyerId = (Integer)session.getAttribute("buyerId");
-		
-		List<BuyerOrderDetail> buyerOrderDetailList = buyerBO.getOrderHistoryList(buyerId);
-		model.addAttribute("buyerOrderDetailList", buyerOrderDetailList);
+		 
+		List<OrderDetail> orderDetailList = buyerBO.getBuyerOrderList(buyerId);
+		model.addAttribute("orderDetailList", orderDetailList);
 		
 		return "/buyer/orderHistory";
 	}
@@ -96,8 +98,7 @@ public class BuyerController {
 	// 구매회원 주문결제 페이지
 	@GetMapping("/purchasing/view")
 	public String buyerPurchasingView(
-			@RequestParam(value="buyerOrderId", defaultValue="") String buyerOrderId
-			, HttpServletRequest request
+			HttpServletRequest request
 			, Model model) {		
 		HttpSession session = request.getSession();
 		int buyerId = (Integer)session.getAttribute("buyerId");
@@ -105,26 +106,24 @@ public class BuyerController {
 		Buyer buyer = buyerBO.getBuyerById(buyerId);
 		model.addAttribute("buyer", buyer);
 		
-		List<CartDecisionDetail> cartDecisionDetailList = cartBO.getCartDecisionDetailList(buyerOrderId);
-		model.addAttribute("cartDecisionDetailList", cartDecisionDetailList);
-		
+		List<CartDetail> cartDetailList = cartBO.getCartDetailList(buyerId);
+		model.addAttribute("cartDetailList", cartDetailList);
+			
 		int totalAmount = 0;
 		int totalProductPrice = 0;
 		int totalDeliveryPrice = 0;
 		int sum = 0;
-		for(int i = 0; i < cartDecisionDetailList.size(); i++) {
-			totalAmount += cartDecisionDetailList.get(i).getProductAmount();
-			totalProductPrice += cartDecisionDetailList.get(i).getProductSumPrice();
-			totalDeliveryPrice += cartDecisionDetailList.get(i).getProductDeliveryPrice();
+		for(int i = 0; i < cartDetailList.size(); i++) {
+			totalAmount += cartDetailList.get(i).getProductAmount();
+			totalProductPrice += cartDetailList.get(i).getProductSumPrice();
+			totalDeliveryPrice += cartDetailList.get(i).getProductDeliveryPrice();
 			sum = totalProductPrice + totalDeliveryPrice;
 		}
-		
 		model.addAttribute("totalAmount", totalAmount);
 		model.addAttribute("totalProductPrice", totalProductPrice);
 		model.addAttribute("totalDeliveryPrice", totalDeliveryPrice);
 		model.addAttribute("sum", sum);
-		model.addAttribute("buyerOrderId", buyerOrderId);
-	
+		
 		return "/buyer/purchasing";
 	}
 	
@@ -140,8 +139,8 @@ public class BuyerController {
 		Buyer buyer = buyerBO.getBuyerById(buyerId);
 		model.addAttribute("buyer", buyer);
 		
-		BuyerOrderDetail buyerOrderDetail = buyerBO.getBuyerOrderDetail(buyerOrderId);
-		model.addAttribute("buyerOrderDetail", buyerOrderDetail);
+		BuyerOrder buyerOrder = buyerBO.getBuyerOrder(buyerOrderId);
+		model.addAttribute("buyerOrder", buyerOrder);
 		
 		model.addAttribute("buyerOrderId", buyerOrderId);
 		

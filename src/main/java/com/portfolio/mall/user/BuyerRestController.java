@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.portfolio.mall.cart.bo.CartBO;
 import com.portfolio.mall.product.bo.ProductBO;
+import com.portfolio.mall.product.model.Product;
 import com.portfolio.mall.user.bo.BuyerBO;
 import com.portfolio.mall.user.model.Buyer;
 
@@ -187,15 +188,12 @@ public class BuyerRestController {
 			, HttpServletRequest request){
 		HttpSession session = request.getSession();
 		int buyerId = (Integer)session.getAttribute("buyerId");
-		
-		String status = "결제완료";
-		int count = buyerBO.addBuyerOrder(buyerId, buyerOrderId, receiverName, receiverPhoneNumber, receiverAddress, depositorName, sum, status);
+			
+		int count = buyerBO.addBuyerOrder(buyerId, buyerOrderId, receiverName, receiverPhoneNumber, receiverAddress, depositorName, sum);
 		
 		Map<String, String> result = new HashMap<>();
 		
-		if(count == -1) {
-			result.put("result", "exists");
-		}else if(count == 1) {
+		if(count == 1) {
 			result.put("result", "success");
 		}else {
 			result.put("result", "fail");
@@ -224,28 +222,5 @@ public class BuyerRestController {
 		return result;	
 	}
 	
-	// buyer개별상품 구매
-	@PostMapping("/purchasing/createdOrderByPI")
-	public Map<String, String> createBuyerOrderByPI(
-			@RequestParam("buyerOrderId") String buyerOrderId
-			, @RequestParam("productId") int productId
-			, @RequestParam("productAmount") int productAmount
-			, @RequestParam("productSumPrice") int productSumPrice
-			, @RequestParam("productTotalPrice") int productTotalPrice
-			, HttpServletRequest request){
-		HttpSession session = request.getSession();
-		int buyerId = (Integer)session.getAttribute("buyerId");
-		
-		int count = buyerBO.addBuyerOrderByPI(buyerId, buyerOrderId, productId, productAmount,productSumPrice, productTotalPrice);
-		
-		Map<String, String> result = new HashMap<>();
-		
-		if(count == 1) {
-			result.put("result", "success");
-		}else {
-			result.put("result", "fail");
-		}
-		
-		return result;		
-	}
+
 }
