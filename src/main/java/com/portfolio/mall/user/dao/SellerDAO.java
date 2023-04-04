@@ -1,10 +1,13 @@
 package com.portfolio.mall.user.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.portfolio.mall.user.model.Buyer;
+import com.portfolio.mall.user.model.BuyerOrderDetail;
 import com.portfolio.mall.user.model.Seller;
+import com.portfolio.mall.user.model.SellerContract;
 
 @Repository
 public interface SellerDAO {
@@ -69,4 +72,12 @@ public interface SellerDAO {
 			, @Param("password") String password
 			, @Param("phoneNumber") String phoneNumber
 			, @Param("email") String email);
+	
+	// 판매내역 조회
+	public List<SellerContract> selectSellerContractList(@Param("sellerId") int sellerId);
+	
+	// order 상태변경
+	public int updateStatus(
+			@Param("buyerOrderId") String buyerOrderId
+			, @Param("status") String status);
 }

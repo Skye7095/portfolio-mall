@@ -81,7 +81,7 @@
 		$(".deleteBtn").on("click", function(){
 			let productId = $(this).data("product-id");
 
-			if(!confirm("판매종료되면 해당 상품 더이상 판매할 수 없습니다. 진짜 판매종료하시겠어요?")){
+			if(!confirm("판매종료되면 해당 상품 재고가 0이되며 판매할 수 없습니다. 진짜 판매종료하시겠어요?")){
 				return;
 			}else{
 				$.ajax({

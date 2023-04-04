@@ -13,6 +13,7 @@ import com.portfolio.mall.product.bo.ProductBO;
 import com.portfolio.mall.product.model.Product;
 import com.portfolio.mall.user.bo.SellerBO;
 import com.portfolio.mall.user.model.Seller;
+import com.portfolio.mall.user.model.SellerContractDetail;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -79,7 +80,21 @@ public class SellerController {
 	
 	// 판매회원 판매내역 페이지
 	@GetMapping("/contract/view")
-	public String sellerContract() {
+	public String sellerContract(
+			HttpServletRequest request
+			, Model model) {
+		HttpSession session = request.getSession();
+		int sellerId = (Integer)session.getAttribute("sellerId");
+		
+		List<SellerContractDetail> sellerContractDetailList = sellerBO.getSellerContractDetailList(sellerId);
+		model.addAttribute("sellerContractDetailList", sellerContractDetailList);
+		
+		int income = 0;
+		for(int i = 0; i < sellerContractDetailList.size(); i++) {
+			income += sellerContractDetailList.get(i).getProductTotalPrice();
+		}
+		model.addAttribute("income", income);
+		
 		return "/seller/contract";
 	}
 	

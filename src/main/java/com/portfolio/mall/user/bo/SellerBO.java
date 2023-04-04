@@ -1,13 +1,21 @@
 package com.portfolio.mall.user.bo;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.portfolio.mall.common.EncryptUtils;
 import com.portfolio.mall.common.randomPW;
-import com.portfolio.mall.product.dao.ProductDAO;
+import com.portfolio.mall.product.bo.ProductBO;
+import com.portfolio.mall.product.model.Product;
 import com.portfolio.mall.user.dao.SellerDAO;
+import com.portfolio.mall.user.model.BuyerOrder;
 import com.portfolio.mall.user.model.Seller;
+import com.portfolio.mall.user.model.SellerContract;
+import com.portfolio.mall.user.model.SellerContractDetail;
 
 @Service
 public class SellerBO {
@@ -16,7 +24,10 @@ public class SellerBO {
 	public SellerDAO sellerDAO;
 	
 	@Autowired
-	public ProductDAO productDAO;
+	public ProductBO productBO;
+	
+	@Autowired
+	public BuyerBO buyerBO;
 	
 	// seller 회원가입
 	public int addSeller(
@@ -142,7 +153,62 @@ public class SellerBO {
 	}
 	
 	// 상품관리페이지에서  판매중지 버튼 누르면 잔고가 0으로 수정 > 그럼 해당 상품페이지에서 수량 체크 못하고 구매 못함
-	public int udpateProductAmountTo0(int id) {
-		return productDAO.updateProductAmountTo0(id);
+	public int upateProductAmount(int id, int amount) {
+		return productBO.updateProductAmount(id, amount);
+	}
+	
+	// 판매내역 조회
+	public List<SellerContractDetail> getSellerContractDetailList(int sellerId) {
+		List<SellerContract> sellerContractList = sellerDAO.selectSellerContractList(sellerId);
+		
+		List<SellerContractDetail> sellerContractDetailList = new ArrayList<>();
+		for(SellerContract sellerContract:sellerContractList) {
+			SellerContractDetail sellerContractDetail = new SellerContractDetail();
+			
+			String buyerOrderId = sellerContract.getBuyerOrderId();
+			sellerContractDetail.setBuyerOrderId(buyerOrderId);
+			
+			int productId = sellerContract.getProductId();
+			sellerContractDetail.setProductId(productId);
+			
+			int productAmount = sellerContract.getProductAmount();
+			sellerContractDetail.setProductAmount(productAmount);
+			
+			int productTotalPrice = sellerContract.getProductTotalPrice();
+			sellerContractDetail.setProductTotalPrice(productTotalPrice);
+			
+			String status = sellerContract.getStatus();
+			sellerContractDetail.setStatus(status);
+			
+			Product product = productBO.getProductById(productId);
+			
+			String productImgPath = product.getProductImgPath();
+			sellerContractDetail.setProductImgPath(productImgPath);
+			
+			String productName = product.getName();
+			sellerContractDetail.setProductName(productName);
+			
+			BuyerOrder buyerOrder = buyerBO.getBuyerOrder(buyerOrderId);
+			String receiverName = buyerOrder.getReceiverName();
+			sellerContractDetail.setReceiverName(receiverName);
+			
+			String receiverPhoneNumber = buyerOrder.getReceiverPhoneNumber();
+			sellerContractDetail.setReceiverPhoneNumber(receiverPhoneNumber);
+			
+			String receiverAddress = buyerOrder.getReceiverAddress();
+			sellerContractDetail.setReceiverAddress(receiverAddress);
+			
+			Date createdAt = sellerContract.getCreatedAt();
+			sellerContractDetail.setCreatedAt(createdAt);
+			
+			sellerContractDetailList.add(sellerContractDetail);
+		}
+		
+		return sellerContractDetailList;
+	}
+	
+	// order 상태 변경
+	public int updateStatus(String buyerOrderId, String status) {
+		return sellerDAO.updateStatus(buyerOrderId, status);
 	}
 }

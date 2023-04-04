@@ -170,4 +170,36 @@
 		WHERE
 			`id`=#{id}
 	</update>
+	
+	<!-- 판매내역 조회 -->
+	<select id="selectSellerContractList" parameterType="int" resultType="com.portfolio.mall.user.model.SellerContract">
+		SELECT
+			`id`
+			, `buyerId`
+			, `buyerOrderId`
+			, `sellerId`
+			, `productId`
+			, `productPrice`
+			, `productAmount`
+			, `productDeliveryPrice`
+			, `productSumPrice`
+			, `productTotalPrice`
+			, `status`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`buyerOrderDetail`
+		WHERE `sellerId` = #{sellerId}
+	</select>
+	
+	<!-- order 상태변경 -->
+	<update id="updateStatus" parameterType="map">
+		UPDATE
+			`buyerOrderDetail`
+		SET
+			`status` = #{status}
+			, `updatedAt` = now()
+		WHERE
+			`buyerOrderId`=#{buyerOrderId}
+	</update>
 </mapper>

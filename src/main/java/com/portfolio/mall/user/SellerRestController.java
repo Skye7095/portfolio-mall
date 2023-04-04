@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.portfolio.mall.product.bo.ProductBO;
 import com.portfolio.mall.user.bo.SellerBO;
 import com.portfolio.mall.user.model.Seller;
 
@@ -170,7 +169,8 @@ public class SellerRestController {
 	public Map<String, String> salesEnd(
 			@RequestParam("productId") int productId){
 		
-		int count = sellerBO.udpateProductAmountTo0(productId);
+		int amount = 0;
+		int count = sellerBO.upateProductAmount(productId, amount);
 		
 		Map<String, String> result = new HashMap<>();
 		
@@ -181,6 +181,24 @@ public class SellerRestController {
 		}
 		
 		return result;
+	}
+	
+	// 주문건 상태 변경
+	@PostMapping("/contract/modifyStatus")
+	public Map<String, String> updateStatus(
+			@RequestParam("buyerOrderId") String buyerOrderId
+			, @RequestParam("status") String status){
 		
+		int count = sellerBO.updateStatus(buyerOrderId, status);
+		
+		Map<String, String> result = new HashMap<>();
+		
+		if(count >= 1) {
+			result.put("result", "success");
+		}else {
+			result.put("result", "fail");
+		}
+		
+		return result;
 	}
 }

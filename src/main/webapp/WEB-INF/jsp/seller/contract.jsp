@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,8 +29,7 @@
 					<div class="d-flex justify-content-between">
 						<h3>판매내역</h3>
 						<div class="col-4 d-flex justify-content-between align-items-end">
-							<div>정산금액: 586,000원</div>
-							<button class="btn btn-primary">정산하기</button>
+							<div>정산금액: <fmt:formatNumber value="${income }" />원</div>
 						</div>
 					</div>
 					
@@ -44,23 +44,118 @@
 							</tr>
 						</thead>
 						
+						<c:forEach var="sellerContractDetail" items="${sellerContractDetailList }">
 						<tbody class="border">
-							<tr>
-								<th class="text-center">00020012</th>
-								<th class="d-flex align-items-start">
-									<img width="50" height="50" src="https://m.worldwideworld.kr/web/product/tiny/202209/4be7381e5e91bbd41126eb391dd4ee38.jpg">
-									<a href="#">1+1 1989 뉴욕 자수로고 버킷햇</a>
+							<tr id="info" data-order-id=${sellerContractDetail.buyerOrderId }>
+								<th class="text-center">
+									<p>${sellerContractDetail.buyerOrderId }</p>
+									<div data-toggle="modal" data-target="#infoCheckModal" class="mr-2 info-btn" data-order-id="${sellerContractDetail.buyerOrderId }"><button class="btn btn-sm btn-light">배송정보 확인</button></div>
 								</th>
-								<th class="text-center">1</th>
-								<th class="text-center">9,900원</th>
-								<th class="text-center">구매확정</th>		
+								<th class="d-flex align-items-start">
+									<img width="50" height="50" src="${sellerContractDetail.productImgPath }">
+									<a href="#">${sellerContractDetail.productName }</a>
+								</th>
+								<th class="text-center">${sellerContractDetail.productAmount }</th>
+								<th class="text-center">${sellerContractDetail.productTotalPrice }원</th>
+								<th class="text-center">
+									<h6 class="font-weight-bold">${sellerContractDetail.status }</h6>
+									<div class="d-flex">
+										<select class="form-select form-select-lg statusSelect" id="statusSelect" data-order-id="${sellerContractDetail.buyerOrderId }">
+										  <option selected>결제확인중</option>
+										  <option value="1">결제완료</option>
+										  <option value="2">배송중</option>
+										  <option value="3">배송완료</option>
+										</select>
+										<input class="form-control deliveryNumberInput" placeholder="배송장 번호 입력해주세요" data-order-id="${sellerContractDetail.buyerOrderId }">
+										<button class="btn btn-sm btn-primary text-white statusBtn">확인</button>
+									</div>
+								</th>		
 							</tr>
 						</tbody>
+						</c:forEach>
 					</table>
 				</aside>
 			</div>
 		</section>
 		<c:import url="/WEB-INF/jsp/common/footer.jsp" />
 	</div>
+	
+	<!-- modal -->
+	
+	<c:forEach var="sellerContractDetail" items="${sellerContractDetailList }">
+	<div class="modal fade infoCheckModal" id="infoCheckModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	    
+	      <div class="modal-body" id="info" data-order-id="${sellerContractDetail.buyerOrderId }">
+	        	<div class="d-flex">
+	        		<h6 class="col-4">수취인 이름</h6>
+	        		<h6>${sellerContractDetail.receiverName }</h6>
+	        	</div>
+	        	<div class="d-flex">
+	        		<h6 class="col-4">수취인 전화번호</h6>
+	        		<h6>${sellerContractDetail.receiverPhoneNumber }</h6>
+	        	</div>
+	        	<div class="d-flex">
+	        		<h6 class="col-4">수취인 주소</h6>
+	        		<h6>${sellerContractDetail.receiverAddress }</h6>
+	        	</div>
+	      </div>
+	
+	    </div>
+	  </div>
+	</div>
+	</c:forEach>
+	
+	<script>
+	$(document).ready(function(){
+		$(".deliveryNumberInput").hide();
+				
+		$(".statusSelect").change(function(){
+			var orderId = $(this).data("order-id");
+			let statusSelect = $(".statusSelect").val();
+			
+			if(statusSelect == "2"){
+				$(".deliveryNumberInput").show();
+			}else{
+				$(".deliveryNumberInput").hide();
+			}
+		})
+		
+		/* $(".statusBtn").on("click", function(){
+			let orderId = $(this).data("order-id");
+			
+			let statusSelect = $(".statusSelect").val();
+			let status = "";
+			let deliveryNumber = $(".deliveryNumberInput").val();
+			
+			if(statusSelect == "1"){
+				status = "결제완료";
+			}else if(statusSelect == "2"){
+				status = "배송중";
+				if(deliveryNumber = ""){
+					alert("운송장번호 입력해주세요");
+					return;
+				}
+			}else if(statusSelect == "3"){
+				status = "배송완료";
+			}
+			
+		})
+		
+		$(".info-btn").on("click", function(){
+			// 해당 info-btn 태그에 있는 order-id를 모달의 a태그에 넣는다.
+			let buyerOrderId = $(this).data("order-id");
+			
+			// data-order-id=""
+			$("#info").data("order-id", buyerOrderId);
+		});
+		
+		$(".infoCheckModal").on("click", function(){
+			let buyerOrderId = $(this).data("order-id");
+
+		})  */
+	})
+	</script>
 </body>
 </html>
