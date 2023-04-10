@@ -62,9 +62,9 @@
 				<h3 class="font-weight-bold">최신 상품</h3>
 				<div class="container contents d-flex flex-wrap justify-content-center">
 				<c:forEach var="product" items="${productList }">
-					<div class="content border text-center my-3 my-2">
+					<div class="itemContent border text-center my-3 my-2">
 						<a href="/product/items/view?id=${product.id }">
-	                        <img class="img-thumbnail mt-2" src="${product.productImgPath }">
+	                        <img width=200px class="img-thumbnail mt-2" src="${product.productImgPath }">
 	                        <div class="name mt-2">${product.name }</div>
 	                        <div class="price mt-2"><h4 class="font-weight-bold">${product.price }원</h4></div>
                         </a>

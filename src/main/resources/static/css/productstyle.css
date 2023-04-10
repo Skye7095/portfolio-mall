@@ -39,24 +39,13 @@
 	width: 150px;
 }
 
-/* category */
+/* category, keyword */
 .itemContent{
 	height: 300px;
 	width:300px;
 }
 
 .content > .thumnail{
-	height: 150px;
-	width: 150px;
-}
-
-/* keyword */
-.itemContent {
-	height: 300px;
-	width: 300px;
-}
-
-.itemContent > .thumnail{
 	height: 150px;
 	width: 150px;
 }
