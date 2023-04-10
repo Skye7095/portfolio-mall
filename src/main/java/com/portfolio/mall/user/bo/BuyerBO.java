@@ -15,8 +15,8 @@ import com.portfolio.mall.product.bo.ProductBO;
 import com.portfolio.mall.product.model.Product;
 import com.portfolio.mall.user.dao.BuyerDAO;
 import com.portfolio.mall.user.model.Buyer;
-import com.portfolio.mall.user.model.BuyerOrder;
-import com.portfolio.mall.user.model.BuyerOrderDetail;
+import com.portfolio.mall.user.model.OrderReceiver;
+import com.portfolio.mall.user.model.OrderItems;
 import com.portfolio.mall.user.model.OrderDetail;
 
 @Service
@@ -157,59 +157,60 @@ public class BuyerBO {
 	}
 	
 	// buyer 결제정보
-	public int addBuyerOrder(
+	public int addOrderReceiver(
 			int buyerId
-			, String buyerOrderId
+			, String orderId
 			, String receiverName
 			, String receiverPhoneNumber
 			, String receiverAddress
 			, String depositorName
 			, int sum) {
-		return buyerDAO.insertBuyerOrder(buyerId, buyerOrderId, receiverName, receiverPhoneNumber, receiverAddress, depositorName, sum);
+		return buyerDAO.insertOrderReceiver(buyerId, orderId, receiverName, receiverPhoneNumber, receiverAddress, depositorName, sum);
 	}
 	
 	// buyer 주문내역 조회
-	public List<OrderDetail> getBuyerOrderList(int buyerId){	
+	public List<OrderDetail> getOrderDetailList(int buyerId){	
 		
-		List<BuyerOrder> buyerOrderList = buyerDAO.selectBuyerOrderList(buyerId);
+		List<OrderReceiver> orderReceiverList = buyerDAO.selectOrderReceiverList(buyerId);
 		
 		List<OrderDetail> orderDetailList = new ArrayList<>();
-		for(BuyerOrder buyerOrder:buyerOrderList) {
+		for(OrderReceiver orderReceiver:orderReceiverList) {
 			OrderDetail orderDetail = new OrderDetail();
 			
-			String buyerOrderId = buyerOrder.getBuyerOrderId();
-			orderDetail.setBuyerOrderId(buyerOrderId);
+			String orderId = orderReceiver.getOrderId();
+			orderDetail.setOrderId(orderId);
 			
-			String receiverName = buyerOrder.getReceiverName();
+			String receiverName = orderReceiver.getReceiverName();
 			orderDetail.setReceiverName(receiverName);
 			
-			String receiverPhoneNumber = buyerOrder.getReceiverPhoneNumber();
+			String receiverPhoneNumber = orderReceiver.getReceiverPhoneNumber();
 			orderDetail.setReceiverPhoneNumber(receiverPhoneNumber);
 			
-			String receiverAddress = buyerOrder.getReceiverAddress();
+			String receiverAddress = orderReceiver.getReceiverAddress();
 			orderDetail.setReceiverAddress(receiverAddress);
 			
-			String depositorName = buyerOrder.getDepositorName();
+			String depositorName = orderReceiver.getDepositorName();
 			orderDetail.setDepositorName(depositorName);
 			
-			int sum = buyerOrder.getSum();
+			int sum = orderReceiver.getSum();
 			orderDetail.setSum(sum);
 			
-			Date createdAt = buyerOrder.getCreatedAt();
+			Date createdAt = orderReceiver.getCreatedAt();
 			orderDetail.setCreatedAt(createdAt);
 				
-			List<BuyerOrderDetail> buyerOrderDetailList = buyerDAO.selectBuyerOrderDetailList(buyerOrderId);
-			for(BuyerOrderDetail buyerOrderDetail:buyerOrderDetailList) {
-				int productId = buyerOrderDetail.getProductId();
+			List<OrderItems> orderItemsList = buyerDAO.selectOrderItemsList(orderId);
+			for(OrderItems orderItems:orderItemsList) {
+				int productId = orderItems.getProductId();
 				Product product = productBO.getProductById(productId);
 				
 				String productImgPath = product.getProductImgPath();
 				String productName = product.getName();
 				
-				buyerOrderDetail.setProductImgPath(productImgPath);
-				buyerOrderDetail.setProductName(productName);
+				orderItems.setProductImgPath(productImgPath);
+				orderItems.setProductName(productName);
+				
 			}
-			orderDetail.setBuyerOrderDetailList(buyerOrderDetailList);
+			orderDetail.setOrderItemsList(orderItemsList);
 			
 			orderDetailList.add(orderDetail);
 		}
@@ -217,8 +218,8 @@ public class BuyerBO {
 		return orderDetailList;
 	}
 	
-	// buyerOrderId를 통해 buyerOrder테이블 조회
-	public BuyerOrder getBuyerOrder(String buyerOrderId) {
-		return buyerDAO.selectBuyerOrder(buyerOrderId);
+	// orderId를 통해 buyerOrder테이블 조회
+	public OrderReceiver getOrderReceiver(String orderId) {
+		return buyerDAO.selectOrderReceiver(orderId);
 	}
 }

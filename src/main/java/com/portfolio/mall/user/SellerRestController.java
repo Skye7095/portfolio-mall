@@ -3,6 +3,9 @@ package com.portfolio.mall.user;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.portfolio.mall.user.bo.SellerBO;
 import com.portfolio.mall.user.model.Seller;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/seller")
@@ -186,10 +186,11 @@ public class SellerRestController {
 	// 주문건 상태 변경
 	@PostMapping("/contract/modifyStatus")
 	public Map<String, String> updateStatus(
-			@RequestParam("buyerOrderId") String buyerOrderId
-			, @RequestParam("status") String status){
+			@RequestParam("id") int id
+			, @RequestParam("status") String status
+			, @RequestParam(value="deliveryNumber", defaultValue="") String deliveryNumber){
 		
-		int count = sellerBO.updateStatus(buyerOrderId, status);
+		int count = sellerBO.updateStatus(id, status, deliveryNumber);
 		
 		Map<String, String> result = new HashMap<>();
 		

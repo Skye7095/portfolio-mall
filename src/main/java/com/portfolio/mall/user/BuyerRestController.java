@@ -3,6 +3,9 @@ package com.portfolio.mall.user;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,12 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.portfolio.mall.cart.bo.CartBO;
 import com.portfolio.mall.product.bo.ProductBO;
-import com.portfolio.mall.product.model.Product;
 import com.portfolio.mall.user.bo.BuyerBO;
 import com.portfolio.mall.user.model.Buyer;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 
 
@@ -179,7 +178,7 @@ public class BuyerRestController {
 	// buyer 결제정보 입력하기
 	@PostMapping("/purchasing/createOrder")
 	public Map<String, String> createBuyerOrder(
-			@RequestParam("buyerOrderId") String buyerOrderId
+			@RequestParam("orderId") String orderId
 			, @RequestParam("receiverName") String receiverName
 			, @RequestParam("receiverPhoneNumber") String receiverPhoneNumber
 			, @RequestParam("receiverAddress") String receiverAddress
@@ -189,7 +188,7 @@ public class BuyerRestController {
 		HttpSession session = request.getSession();
 		int buyerId = (Integer)session.getAttribute("buyerId");
 			
-		int count = buyerBO.addBuyerOrder(buyerId, buyerOrderId, receiverName, receiverPhoneNumber, receiverAddress, depositorName, sum);
+		int count = buyerBO.addOrderReceiver(buyerId, orderId, receiverName, receiverPhoneNumber, receiverAddress, depositorName, sum);
 		
 		Map<String, String> result = new HashMap<>();
 		

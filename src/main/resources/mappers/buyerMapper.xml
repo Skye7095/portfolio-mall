@@ -174,12 +174,12 @@
 	</update>
 	
 	<!-- buyer 결제 -->
-	<insert id="insertBuyerOrder" parameterType="map">
+	<insert id="insertOrderReceiver" parameterType="map">
 		INSERT INTO
-			`buyerOrder`
+			`orderReceiver`
 		(
 			`buyerId`
-			, `buyerOrderId`
+			, `orderId`
 			, `receiverName`
 			, `receiverPhoneNumber`
 			, `receiverAddress`
@@ -191,7 +191,7 @@
 		VALUE
 		(
 			#{buyerId}
-			, #{buyerOrderId}
+			, #{orderId}
 			, #{receiverName}
 			, #{receiverPhoneNumber}
 			, #{receiverAddress}
@@ -206,7 +206,7 @@
 	<select id="sameOrder" parameterType="map" resultType="Integer">
 		SELECT
 			`buyerId`
-			, `buyerOrderId`
+			, `orderId`
 			, `receiverName`
 			, `receiverPhoneNumber`
 			, `receiverAddress`
@@ -215,17 +215,17 @@
 			, `createdAt`
 			, `updatedAt`
 		FROM
-			`buyerOrder`
+			`orderReceiver`
 		WHERE
-			`buyerId` = #{buyerId} AND `buyerOrderId` = #{buyerOrderId}
+			`buyerId` = #{buyerId} AND `orderId` = #{orderId}
 	</select>
 	
-	<!-- buyerOrderDetail 조회 -->
-	<select id="selectBuyerOrderDetailList" parameterType="string" resultType="com.portfolio.mall.user.model.BuyerOrderDetail">
+	<!-- orderItems 조회 -->
+	<select id="selectOrderItemsList" parameterType="string" resultType="com.portfolio.mall.user.model.OrderItems">
 		SELECT
 			`id`
 			, `buyerId`
-			, `buyerOrderId`
+			, `orderId`
 			, `sellerId`
 			, `productId`
 			, `productPrice`
@@ -234,20 +234,21 @@
 			, `productSumPrice`
 			, `productTotalPrice`
 			, `status`
+			, `deliveryNumber`
 			, `createdAt`
 			, `updatedAt`
 		FROM
-			`buyerOrderDetail`
+			`orderItems`
 		WHERE
-			`buyerOrderId` = #{buyerOrderId}
+			`orderId` = #{orderId}
 	</select>
 	
 	<!-- buyerId로 전체 구매내역 list 조회 -->
- 	<select id="selectBuyerOrderList" parameterType="int" resultType="com.portfolio.mall.user.model.BuyerOrder">
+ 	<select id="selectOrderReceiverList" parameterType="int" resultType="com.portfolio.mall.user.model.OrderReceiver">
 		SELECT
 			`id`
 			, `buyerId`
-			, `buyerOrderId`
+			, `orderId`
 			, `receiverName`
 			, `receiverPhoneNumber`
 			, `receiverAddress`
@@ -256,18 +257,18 @@
 			, `createdAt`
 			, `updatedAt`
 		FROM
-			`buyerOrder`
+			`orderReceiver`
 		WHERE
 			`buyerId` = #{buyerId}
 		ORDER BY `id` DESC
 	</select>
 	
-	<!-- buyerOrderId를 통해 buyerOrder테이블 조회 -->
-	<select id="selectBuyerOrder" parameterType="String" resultType="com.portfolio.mall.user.model.BuyerOrder">
+	<!-- orderId를 통해 orderReceiver테이블 조회 -->
+	<select id="selectOrderReceiver" parameterType="String" resultType="com.portfolio.mall.user.model.OrderReceiver">
 		SELECT
 			`id`
 			, `buyerId`
-			, `buyerOrderId`
+			, `orderId`
 			, `receiverName`
 			, `receiverPhoneNumber`
 			, `receiverAddress`
@@ -276,8 +277,8 @@
 			, `createdAt`
 			, `updatedAt`
 		FROM
-			`buyerOrder`
+			`orderReceiver`
 		WHERE
-			`buyerOrderId` = #{buyerOrderId}
+			`orderId` = #{orderId}
 	</select>
 </mapper>

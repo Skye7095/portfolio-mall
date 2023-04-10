@@ -2,6 +2,9 @@ package com.portfolio.mall.user;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,12 +16,8 @@ import com.portfolio.mall.cart.bo.CartBO;
 import com.portfolio.mall.cart.model.CartDetail;
 import com.portfolio.mall.user.bo.BuyerBO;
 import com.portfolio.mall.user.model.Buyer;
-import com.portfolio.mall.user.model.BuyerOrder;
-import com.portfolio.mall.user.model.BuyerOrderDetail;
 import com.portfolio.mall.user.model.OrderDetail;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import com.portfolio.mall.user.model.OrderReceiver;
 
 @Controller
 @RequestMapping("/buyer")
@@ -88,8 +87,8 @@ public class BuyerController {
 			, Model model) {
 		HttpSession session = request.getSession();
 		int buyerId = (Integer)session.getAttribute("buyerId");
-		 
-		List<OrderDetail> orderDetailList = buyerBO.getBuyerOrderList(buyerId);
+		
+		List<OrderDetail> orderDetailList = buyerBO.getOrderDetailList(buyerId);
 		model.addAttribute("orderDetailList", orderDetailList);
 		
 		return "/buyer/orderHistory";
@@ -130,7 +129,7 @@ public class BuyerController {
 	// buyer주문완료 페이지
 	@GetMapping("/purchaseCompleted/view")
 	public String purchasingCompletedView(
-			@RequestParam(value="buyerOrderId", defaultValue="") String buyerOrderId
+			@RequestParam(value="orderId", defaultValue="") String orderId
 			, HttpServletRequest request
 			, Model model) {
 		HttpSession session = request.getSession();
@@ -139,10 +138,10 @@ public class BuyerController {
 		Buyer buyer = buyerBO.getBuyerById(buyerId);
 		model.addAttribute("buyer", buyer);
 		
-		BuyerOrder buyerOrder = buyerBO.getBuyerOrder(buyerOrderId);
-		model.addAttribute("buyerOrder", buyerOrder);
+		OrderReceiver orderReceiver = buyerBO.getOrderReceiver(orderId);
+		model.addAttribute("orderReceiver", orderReceiver);
 		
-		model.addAttribute("buyerOrderId", buyerOrderId);
+		model.addAttribute("orderId", orderId);
 		
 		return "/buyer/purchaseCompleted";
 	}

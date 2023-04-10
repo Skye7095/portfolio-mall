@@ -99,24 +99,39 @@
 							<hr>
 							<div class="details">
 								<c:forEach var="cartDetail" items="${cartDetailList }">
-								<div class="items" id="cartId" data-cart-id="${cartDetail.productId }" value="${cartDetail.productId }">
+								<div class="items" id="cartId" data-cart-id="${cartDetail.productId }">
 									<div class="d-flex">
 										<img width="100" height="100" src="${cartDetail.productImgPath }">
 										<div>
-											<a class="text-dark" href="/product/items/view?id=${cartDetail.productId }">${cartDetail.productOriginName }</a>
+											<div class="d-flex justify-content-around">
+												<a class="text-dark" href="/product/items/view?id=${cartDetail.productId }">${cartDetail.productOriginName }</a>
+												<button class="btn btn-sm btn-danger deleteBtn" data-cart-id="${cartDetail.id }" data-product-id="${cartDetail.productId }">x</button>
+											</div>
 											<div>
-												<span class="font-weight-bold" id="productPrice">${cartDetail.productPrice }</span>원
-												<span> / </span><span id="productAmount">${cartDetail.productAmount }</span>개
+												<span class="font-weight-bold productPrice${cartDetail.id }">${cartDetail.productPrice }</span>원
+												<div class="d-flex justify-content-center">
+												<c:choose>
+													<c:when test="${cartDetail.productInventory <= 0 }">
+														<div class="bg-secondary text-center">
+															<span class="text-white">재고소진으로 인해 판매종료</span>
+														</div>
+													</c:when>
+													<c:otherwise>
+													<input type="number" value="${cartDetail.productAmount }" min="1" max="${cartDetail.productInventory }" class="productAmountInput${cartDetail.id } productAmount${cartDetail.productId}">
+													<button class="btn btn-sm numberConfirmBtn" data-cart-id="${cartDetail.id }" data-product-id="${cartDetail.productId }">선택</button>
+													</c:otherwise>
+												</c:choose>
+												</div>
 											</div>
 										</div>
 									</div>
 									<div class="bg-light d-flex justify-content-between">
 										<span>상품금액</span>
-										<span>${cartDetail.productSumPrice }원</span>
+										<span class="productSumPrice${cartDetail.id }">${cartDetail.productSumPrice }원</span>
 									</div>
 									<div class="bg-light d-flex justify-content-between">
 										<span>배송비</span>
-										<span>${cartDetail.productDeliveryPrice }원</span>
+										<span class="productDeliveryPrice${cartDetail.id }">${cartDetail.productDeliveryPrice }원</span>
 									</div>
 								</div>
 								<hr>
@@ -152,6 +167,56 @@
 	
 	<script>
 		$(document).ready(function(){
+			$(".deleteBtn").on("click", function(){
+				let cartId = $(this).data("cart-id");
+				let productId = $(this).data("product-id");
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/cart/delete"
+					, data:{"cartId":cartId}
+					, success:function(data){
+						if(data.result == "success"){
+							location.reload();
+						}else{
+							alert("삭제 실패");
+							return;
+						}
+					}
+					, error:function(){
+						alert("삭제 오류");
+					}
+				})
+			})
+			
+			$(".numberConfirmBtn").on("click", function(){
+				let cartId = $(this).data("cart-id");
+				let productId = $(this).data("product-id");
+				
+				var productAmount = $(".productAmountInput"+cartId).val();
+				var productPrice = parseInt($(".productPrice"+cartId).text());
+				var productDeliveryPrice = parseInt($(".productDeliveryPrice"+cartId).text());
+				var productSumPrice = productAmount * productPrice;
+				var productTotalPrice = productPrice * productAmount + productDeliveryPrice;
+				$(".productTotalPrice"+cartId).text(productTotalPrice);
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/cart/update"
+					, data:{"productId":productId, "productAmount":productAmount, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
+					, success:function(data){
+						if(data.result == "success"){
+							location.reload();
+						}else{
+							alert("수정실패");
+						}
+					}
+					, error:function(){
+						alert("수정에러");
+					}
+				})
+			})
+			
 			$("#sameCheck").on("change", function(){
 				
 				if($(this).is(":checked")){
@@ -166,7 +231,7 @@
 			
 			$("#purchaseBtn").on("click", function(){
 				
-				// buyerOrderId 생성 > B + 오늘날짜 + 난수(6자리)
+				// orderId 생성 > B + 오늘날짜 + 난수(6자리)
 				let now = new Date();
 				let year = now.getFullYear().toString();
 				let month = now.getMonth() + 1;
@@ -193,7 +258,7 @@
 			    }
 				
 			    
-				let buyerOrderId = "B" + year + month + day + random;
+				let orderId = "B" + year + month + day + random;
 				
 				let receiverName = $("#receiverNameInput").val();
 				let receiverPhoneNumber = $("#receiverPhoneNumberInput").val();
@@ -224,10 +289,10 @@
 					$.ajax({
 						type:"post"
 						, url:"/buyer/purchasing/createOrder"
-						, data:{"buyerOrderId":buyerOrderId, "receiverName":receiverName, "receiverPhoneNumber":receiverPhoneNumber, "receiverAddress":receiverAddress, "depositorName":depositorName, "sum":sum}
+						, data:{"orderId":orderId, "receiverName":receiverName, "receiverPhoneNumber":receiverPhoneNumber, "receiverAddress":receiverAddress, "depositorName":depositorName, "sum":sum}
 						, success:function(data){
 							if(data.result == "success"){
-								location.href="/buyer/purchaseCompleted/view?buyerOrderId=" + buyerOrderId;
+								location.href="/buyer/purchaseCompleted/view?orderId=" + orderId;
 							}else{
 								alert("결제 실패");
 							}
@@ -237,11 +302,11 @@
 						}
 					}) 	
 				}
-	
+				
 				$.ajax({
 					type:"post"
 					, url:"/buyer/cart/createOrder"
-					, data:{"buyerOrderId":buyerOrderId, "status":"결제확인중"}
+					, data:{"orderId":orderId, "status":"결제확인중"}
 				 	, success:function(data){
 				 		if(data.result == "fail"){
 				 			alert("주문실패");
@@ -252,8 +317,6 @@
 				 		alert("주문 에러");
 				 	}
 				}) 
-				
-				
 			})
 		})
 	</script>

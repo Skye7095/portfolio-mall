@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.portfolio.mall.common.FileManagerService;
 import com.portfolio.mall.product.dao.ProductDAO;
 import com.portfolio.mall.product.model.Product;
+import com.portfolio.mall.user.model.OrderItems;
 
 @Service
 public class ProductBO {
@@ -54,6 +55,11 @@ public class ProductBO {
 		return productDAO.selectProductByCategory(category);
 	}
 	
+	// 상품 키워드로 검색
+	public List<Product> getProductByKeyword(String keyword){
+		return productDAO.selectProductByKeyword(keyword);
+	}
+	
 	// 상품 재고수량 수정
 	public int updateProductAmount(
 			int id
@@ -73,5 +79,15 @@ public class ProductBO {
 			, String introduction) {
 		
 		return productDAO.updateProduct(id, sellerId, category, name, price, amount, deliveryPrice, introduction);
+	}
+	
+	// 판매된 상품들 조회
+	public List<OrderItems> getOrderItemsListById(int productId){
+		return productDAO.selectOrderItemsListById(productId);
+	}
+	
+	// 판매된 상품 전체 조회
+	public List<OrderItems> getOrderItemsList(String orderId){
+		return productDAO.selectOrderItemsList(orderId);
 	}
 }

@@ -57,12 +57,24 @@ public class productController {
 	// 카테고리
 	@GetMapping("/category/view")
 	public String categoryView(
-			@RequestParam(value="category", defaultValue="패션·의류·잡화") String category
-			, Model model) {		
+			@RequestParam(value="category", defaultValue="") String category
+			, Model model) {
+		
 		List<Product> productList = productBO.getProductByCategory(category);
 		model.addAttribute("productList", productList);
 		
 		return "/product/category";
 	}
 	
+	// 키워드
+	@GetMapping("/keyword/view")
+	public String keywordView(
+			@RequestParam(value="keyword", defaultValue="") String keyword
+			, Model model) {		
+		List<Product> productList = productBO.getProductByKeyword(keyword);
+		
+		model.addAttribute("productList", productList);
+		
+		return "/product/keyword";
+	}
 }

@@ -3,11 +3,11 @@ package com.portfolio.mall.user.model;
 import java.util.Date;
 import java.util.List;
 
-public class BuyerOrder {
+public class OrderReceiver {
 	
 	private int id;
 	private int buyerId;
-	private String buyerOrderId;
+	private String orderId;
 	private String receiverName;
 	private String receiverPhoneNumber;
 	private String receiverAddress;
@@ -28,11 +28,12 @@ public class BuyerOrder {
 	public void setBuyerId(int buyerId) {
 		this.buyerId = buyerId;
 	}
-	public String getBuyerOrderId() {
-		return buyerOrderId;
+
+	public String getOrderId() {
+		return orderId;
 	}
-	public void setBuyerOrderId(String buyerOrderId) {
-		this.buyerOrderId = buyerOrderId;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 	public String getReceiverName() {
 		return receiverName;

@@ -66,7 +66,7 @@
 						<td class="font-weight-bold col-3">판매수량</td>
 						<td>
 							<div class="input-group">
-							  <input type="text" class="form-control" id="amountInput" value="${product.amount }">개<span class="text-primary">(최대 99,999개)</span>
+							  <input type="text" class="form-control" id="amountInput" value="${product.amount }"><span class="text-primary">(최대 99,999개)</span>
 							</div>
 						</td>
 					</tr>
@@ -122,6 +122,9 @@
 				category = "컴퓨터·가전제품";
 			}else if(categorySelect == "0"){
 				category = "기타";
+			}else{
+				alert("카테고리 선택하세요");
+				return;
 			}
 			
 			if(name == ""){

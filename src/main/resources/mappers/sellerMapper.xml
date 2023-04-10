@@ -156,6 +156,8 @@
 			, `updatedAt`
 		FROM
 			`seller`
+		WHERE
+			`id` = #{sellerId}
 	</select>
 	
 	<!-- seller 개인정보 변경 -->
@@ -172,11 +174,11 @@
 	</update>
 	
 	<!-- 판매내역 조회 -->
-	<select id="selectSellerContractList" parameterType="int" resultType="com.portfolio.mall.user.model.SellerContract">
+	<select id="selectOrderItemsList" parameterType="int" resultType="com.portfolio.mall.user.model.OrderItems" >
 		SELECT
 			`id`
 			, `buyerId`
-			, `buyerOrderId`
+			, `orderId`
 			, `sellerId`
 			, `productId`
 			, `productPrice`
@@ -185,21 +187,23 @@
 			, `productSumPrice`
 			, `productTotalPrice`
 			, `status`
+			, `deliveryNumber`
 			, `createdAt`
 			, `updatedAt`
 		FROM
-			`buyerOrderDetail`
+			`orderItems`
 		WHERE `sellerId` = #{sellerId}
 	</select>
 	
 	<!-- order 상태변경 -->
 	<update id="updateStatus" parameterType="map">
 		UPDATE
-			`buyerOrderDetail`
+			`orderItems`
 		SET
 			`status` = #{status}
+			, `deliveryNumber` = #{deliveryNumber}
 			, `updatedAt` = now()
 		WHERE
-			`buyerOrderId`=#{buyerOrderId}
+			`id` = #{id}
 	</update>
 </mapper>

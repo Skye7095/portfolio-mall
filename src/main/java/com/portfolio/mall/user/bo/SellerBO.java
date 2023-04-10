@@ -1,7 +1,6 @@
 package com.portfolio.mall.user.bo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +11,10 @@ import com.portfolio.mall.common.randomPW;
 import com.portfolio.mall.product.bo.ProductBO;
 import com.portfolio.mall.product.model.Product;
 import com.portfolio.mall.user.dao.SellerDAO;
-import com.portfolio.mall.user.model.BuyerOrder;
+import com.portfolio.mall.user.model.OrderItems;
+import com.portfolio.mall.user.model.OrderReceiver;
 import com.portfolio.mall.user.model.Seller;
 import com.portfolio.mall.user.model.SellerContract;
-import com.portfolio.mall.user.model.SellerContractDetail;
 
 @Service
 public class SellerBO {
@@ -158,57 +157,60 @@ public class SellerBO {
 	}
 	
 	// 판매내역 조회
-	public List<SellerContractDetail> getSellerContractDetailList(int sellerId) {
-		List<SellerContract> sellerContractList = sellerDAO.selectSellerContractList(sellerId);
+	public List<SellerContract> getSellerContractList(int sellerId){
+		List<OrderItems> orderItemsList = sellerDAO.selectOrderItemsList(sellerId);
 		
-		List<SellerContractDetail> sellerContractDetailList = new ArrayList<>();
-		for(SellerContract sellerContract:sellerContractList) {
-			SellerContractDetail sellerContractDetail = new SellerContractDetail();
+		List<SellerContract> sellerContractList = new ArrayList<>();
+		for(OrderItems orderItems:orderItemsList) {
+			SellerContract sellerContract = new SellerContract();
 			
-			String buyerOrderId = sellerContract.getBuyerOrderId();
-			sellerContractDetail.setBuyerOrderId(buyerOrderId);
+			int id = orderItems.getId();
+			sellerContract.setId(id);
 			
-			int productId = sellerContract.getProductId();
-			sellerContractDetail.setProductId(productId);
+			String orderId = orderItems.getOrderId();
+			sellerContract.setOrderId(orderId);
 			
-			int productAmount = sellerContract.getProductAmount();
-			sellerContractDetail.setProductAmount(productAmount);
+			int productId = orderItems.getProductId();
+			sellerContract.setProductId(productId);
 			
-			int productTotalPrice = sellerContract.getProductTotalPrice();
-			sellerContractDetail.setProductTotalPrice(productTotalPrice);
+			int productPrice = orderItems.getProductDeliveryPrice();
+			sellerContract.setProductPrice(productPrice);
 			
-			String status = sellerContract.getStatus();
-			sellerContractDetail.setStatus(status);
+			int productAmount = orderItems.getProductAmount();
+			sellerContract.setProductAmount(productAmount);
+			
+			int productDeliveryPrice =orderItems.getProductDeliveryPrice();
+			sellerContract.setProductDeliveryPrice(productDeliveryPrice);
+			
+			int productSumPrice = orderItems.getProductSumPrice();
+			sellerContract.setProductSumPrice(productSumPrice);
+			
+			int productTotalPrice = orderItems.getProductTotalPrice();
+			sellerContract.setProductTotalPrice(productTotalPrice);
+			
+			String status = orderItems.getStatus();
+			sellerContract.setStatus(status);
+			
+			OrderReceiver orderReceiver = buyerBO.getOrderReceiver(orderId);
+			sellerContract.setOrderReceiver(orderReceiver);
 			
 			Product product = productBO.getProductById(productId);
-			
 			String productImgPath = product.getProductImgPath();
-			sellerContractDetail.setProductImgPath(productImgPath);
+			sellerContract.setProductImgPath(productImgPath);
 			
 			String productName = product.getName();
-			sellerContractDetail.setProductName(productName);
+			sellerContract.setProductName(productName);
 			
-			BuyerOrder buyerOrder = buyerBO.getBuyerOrder(buyerOrderId);
-			String receiverName = buyerOrder.getReceiverName();
-			sellerContractDetail.setReceiverName(receiverName);
+			String deliveryNumber = orderItems.getDeliveryNumber();
+			sellerContract.setDeliveryNumber(deliveryNumber);
 			
-			String receiverPhoneNumber = buyerOrder.getReceiverPhoneNumber();
-			sellerContractDetail.setReceiverPhoneNumber(receiverPhoneNumber);
-			
-			String receiverAddress = buyerOrder.getReceiverAddress();
-			sellerContractDetail.setReceiverAddress(receiverAddress);
-			
-			Date createdAt = sellerContract.getCreatedAt();
-			sellerContractDetail.setCreatedAt(createdAt);
-			
-			sellerContractDetailList.add(sellerContractDetail);
+			sellerContractList.add(sellerContract);
 		}
-		
-		return sellerContractDetailList;
+		return sellerContractList;
 	}
 	
 	// order 상태 변경
-	public int updateStatus(String buyerOrderId, String status) {
-		return sellerDAO.updateStatus(buyerOrderId, status);
+	public int updateStatus(int id, String status, String deliveryNumber) {
+		return sellerDAO.updateStatus(id, status, deliveryNumber);
 	}
 }

@@ -33,7 +33,7 @@
 		$("#searchBtn").on("click", function(){
 			let keyword = $("#searchInput").val();
 			
-			
+			location.href="/product/keyword/view?keyword="+keyword;
 		})
 		
 	})

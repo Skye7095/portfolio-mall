@@ -3,6 +3,7 @@ package com.portfolio.mall.cart.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,17 @@ public class CartBO {
 
 		return cartCount;
 	}
+	
+	// buyerId 같은 productId를 장바구니 페이지에서 수정
+	public int updateCart(
+			int buyerId
+			, int productId
+			, int productAmount
+			, int productSumPrice
+			, int productTotalPrice) {
+		
+		return cartDAO.updateCart(buyerId, productId, productAmount, productSumPrice, productTotalPrice);
+	}
 
 	// buyerId 기반으로 장바구니 페이지에 상품들 조회하기
 	public List<CartDetail> getCartDetailList(int buyerId){
@@ -71,6 +83,9 @@ public class CartBO {
 			String productOriginName = product.getName();
 			cartDetail.setProductOriginName(productOriginName);
 			
+			int productInventory = product.getAmount();
+			cartDetail.setProductInventory(productInventory);
+			
 			int productPrice = cart.getProductPrice();
 			cartDetail.setProductPrice(productPrice);
 			
@@ -80,10 +95,10 @@ public class CartBO {
 			int productDeliveryPrice = cart.getProductDeliveryPrice();
 			cartDetail.setProductDeliveryPrice(productDeliveryPrice);
 			
-			int productSumPrice = cart.getProductSumPrice();
+			int productSumPrice = productPrice * productAmount;
 			cartDetail.setProductSumPrice(productSumPrice);
 
-			int productTotalPrice = cart.getProductTotalPrice();
+			int productTotalPrice = productDeliveryPrice + productSumPrice;
 			cartDetail.setProductTotalPrice(productTotalPrice);
 			
 			cartDetailList.add(cartDetail);
@@ -107,11 +122,11 @@ public class CartBO {
 		return cartDAO.selectCart(cartId);
 	}
 	
-	// 결제완료후 장바구니 리스트를 buyerOrderDetail 테이블에 insert
-	public int addBuyerOrderDetail(
-			String buyerOrderId
+	// 결제완료후 장바구니 리스트를 orderItems 테이블에 insert
+	public int addOrderItems(
+			String orderId
 			, String status) {
 		
-		return cartDAO.insertBuyerOrderDetail(buyerOrderId, status);
+		return cartDAO.insertOrderItems(orderId, status);
 	}
 }

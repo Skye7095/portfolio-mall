@@ -2,6 +2,8 @@ package com.portfolio.mall.cart.model;
 
 import java.util.Date;
 
+import com.portfolio.mall.product.model.Product;
+
 public class CartDetail {
 	private int id;
 	private int buyerId;
@@ -10,6 +12,7 @@ public class CartDetail {
 	private int productOriginPrice;
 	private String productImgPath;
 	private String productOriginName;
+	private int productInventory;
 	private int productPrice;
 	private int productAmount;
 	private int productDeliveryPrice;
@@ -17,8 +20,13 @@ public class CartDetail {
 	private int productTotalPrice;
 	private Date createdAt;
 	private Date updatedAt;
-	
-	
+
+	public int getProductInventory() {
+		return productInventory;
+	}
+	public void setProductInventory(int productInventory) {
+		this.productInventory = productInventory;
+	}
 	public int getSellerId() {
 		return sellerId;
 	}

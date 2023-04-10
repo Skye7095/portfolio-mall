@@ -49,7 +49,7 @@
 					
 					<tbody class="border cartDetail">
 					<c:forEach var="cartDetail" items="${cartDetailList }">
-						<tr data-cart-id="${cartDetail.id }">
+						<tr class="tr" data-cart-id="${cartDetail.id }">
 							<th class="d-flex">
 								<img width="100" height="100" src="${cartDetail.productImgPath }">
 								<div>
@@ -58,25 +58,34 @@
 							</th>
 							<th>
 								<div class="d-flex justify-content-center">
-									<h4 id="productCount">${cartDetail.productAmount }</h4>
-									<h4>개</h4>
+								<c:choose>
+									<c:when test="${cartDetail.productInventory <= 0 }">
+										<div class="bg-secondary text-center">
+											<span class="text-white">재고소진으로 인해 판매종료</span>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<input type="number" value="${cartDetail.productAmount }" min="1" max="${cartDetail.productInventory }" class="productAmountInput${cartDetail.id }">
+										<button class="btn btn-sm numberConfirmBtn" data-cart-id="${cartDetail.id }" data-product-id="${cartDetail.productId }">선택</button>
+									</c:otherwise>
+								</c:choose>
 								</div>
 							</th>
 							<th>
 								<div class="d-flex justify-content-center">
-									<h4>${cartDetail.productPrice }</h4>
+									<h4 class="productPrice${cartDetail.id }">${cartDetail.productPrice }</h4>
 									<h4>원</h4>
 								</div>
 							</th>
 							<th>
 								<div class="d-flex justify-content-center">
-									<h4>${cartDetail.productDeliveryPrice }</h4>
+									<h4 class="productDeliveryPrice${cartDetail.id }">${cartDetail.productDeliveryPrice }</h4>
 									<h4>원</h4>
 								</div>
 							</th>
 							<th>
 								<div class="d-flex justify-content-center">
-									<h4>${cartDetail.productSumPrice }</h4>
+									<h4 class="productTotalPrice${cartDetail.id }">${cartDetail.productTotalPrice }</h4>
 									<h4>원</h4>
 								</div>
 							</th>
@@ -138,7 +147,34 @@
 	<script>
 		$(document).ready(function(){
 			
-						
+			$(".numberConfirmBtn").on("click", function(){
+				let cartId = $(this).data("cart-id");
+				let productId = $(this).data("product-id");
+				
+				var productAmount = $(".productAmountInput"+cartId).val();
+				var productPrice = Number($(".productPrice"+cartId).text());
+				var productDeliveryPrice = Number($(".productDeliveryPrice"+cartId).text());
+				var productSumPrice = productAmount * productPrice;
+				var productTotalPrice = productPrice * productAmount + productDeliveryPrice;
+				$(".productTotalPrice"+cartId).text(productTotalPrice);
+				
+				$.ajax({
+					type:"post"
+					, url:"/buyer/cart/update"
+					, data:{"productId":productId, "productAmount":productAmount, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
+					, success:function(data){
+						if(data.result == "success"){
+							location.reload();
+						}else{
+							alert("수정실패");
+						}
+					}
+					, error:function(){
+						alert("수정에러");
+					}
+				})
+			})
+			
 			$(".deleteBtn").on("click", function(){
 				let cartId = $(this).data("cart-id");
 				let productId = $(this).data("product-id");
@@ -170,6 +206,7 @@
 					alert("장바구니 비어있어요. 상품을 담고 다시 찾아주세요");
 					location.href="/product/main/view";
 				}
+				
 			})
 		})
 	</script>

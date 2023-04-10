@@ -46,6 +46,19 @@
 			`buyerId` = #{buyerId} AND `productId`= #{productId}
 	</select>
 	
+	<!-- cart에 있는 상품 수량 수정 -->
+	<update id="updateCart" parameterType="map">
+		UPDATE
+			`cart`
+		SET
+			`productAmount` = #{productAmount}
+			, `productSumPrice` = #{productSumPrice}
+			, `productTotalPrice` = #{productTotalPrice}			
+			, `updatedAt` = now()
+		WHERE
+			`buyerId` = #{buyerId} AND `productId`=#{productId}
+	</update>
+	
 	<!-- 장바구니 페이지 상품 조회 -->
 	<select id="selectCartList" parameterType="int" resultType="com.portfolio.mall.cart.model.Cart">
 		SELECT
@@ -101,13 +114,13 @@
 		WHERE `id` = #{cartId}
 	</select>
 	
-	<!-- 결제완료시 장바구니를 buyerOrderDetail로 insert -->
-	<insert id="insertBuyerOrderDetail" parameterType="map">
+	<!-- 결제완료시 장바구니를 orderItems로 insert -->
+	<insert id="insertOrderItems" parameterType="map">
 		INSERT INTO
-			`buyerOrderDetail`
+			`orderItems`
 		(
 			`buyerId`
-			, `buyerOrderId`
+			, `orderId`
 			, `sellerId`
 			, `productId`
 			, `productPrice`
@@ -121,7 +134,7 @@
 		)
 		SELECT
 			`buyerId`
-			, #{buyerOrderId}
+			, #{orderId}
 			, `sellerId`
 			, `productId`
 			, `productPrice`

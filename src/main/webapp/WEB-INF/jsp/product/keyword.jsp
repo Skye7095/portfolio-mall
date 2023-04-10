@@ -28,18 +28,18 @@
 		    	<button class="btn btn-success btn-lg"><a class="text-white" href="/product/category/view?category=컴퓨터·가전제품">컴퓨터·가전제품</a></button>
 		    	<button class="btn btn-success btn-lg"><a class="text-white" href="/product/category/view?category=기타">기타</a></button>
 			</div>
-			<article class="categoryListBox d-flex d-none">
-			<div class="container contents d-flex flex-wrap justify-content-center">
-				<c:forEach var="product" items="${productList }">
+			<article class="keywordBox d-flex d-none">
+				<div class="container contents d-flex flex-wrap justify-content-center">
+				<c:forEach var="product" items="${productList }">					
 					<div class="itemContent border text-center my-3 my-2">
 						<a href="/product/items/view?id=${product.id }">
 	                        <img width= 200px class="img-thumbnail mt-2" src="${product.productImgPath }">
 	                        <div class="name mt-2">${product.name }</div>
 	                        <div class="price mt-2"><h4 class="font-weight-bold">${product.price }원</h4></div>
                         </a>
-                    </div>
+                    </div>					
 				</c:forEach>
-			</div>
+				</div>
 			</article>
 		</section>
 		<c:import url="/WEB-INF/jsp/common/footer.jsp" />

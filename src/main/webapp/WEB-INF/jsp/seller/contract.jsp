@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +29,7 @@
 					<div class="d-flex justify-content-between">
 						<h3>판매내역</h3>
 						<div class="col-4 d-flex justify-content-between align-items-end">
+							<div>판매금액: <fmt:formatNumber value="${salesAmount }" />원</div>
 							<div>정산금액: <fmt:formatNumber value="${income }" />원</div>
 						</div>
 					</div>
@@ -43,31 +44,35 @@
 								<th>상태</th>							
 							</tr>
 						</thead>
-						
-						<c:forEach var="sellerContractDetail" items="${sellerContractDetailList }">
+						<c:forEach var="sellerContract" items="${sellerContractList }" varStatus="vs">
 						<tbody class="border">
-							<tr id="info" data-order-id=${sellerContractDetail.buyerOrderId }>
+							<tr id="info" data-order-id=${sellerContract.orderId }>
 								<th class="text-center">
-									<p>${sellerContractDetail.buyerOrderId }</p>
-									<div data-toggle="modal" data-target="#infoCheckModal" class="mr-2 info-btn" data-order-id="${sellerContractDetail.buyerOrderId }"><button class="btn btn-sm btn-light">배송정보 확인</button></div>
+									<p id="orderId">${sellerContract.orderId }</p>
+									<p id="orderItemsId" class="d-none" data-id="${sellerContract.id }">${sellerContract.id }</p>
+									<div data-toggle="modal" data-target="#infoCheckModal${vs.index }" class="mr-2 info-btn" data-order-id="${sellerContract.orderId }"><button class="btn btn-sm btn-light">배송정보 확인</button></div>
 								</th>
 								<th class="d-flex align-items-start">
-									<img width="50" height="50" src="${sellerContractDetail.productImgPath }">
-									<a href="#">${sellerContractDetail.productName }</a>
+									<img width="50" height="50" src="${sellerContract.productImgPath }">
+									<a href="#">${sellerContract.productName }</a>
 								</th>
-								<th class="text-center">${sellerContractDetail.productAmount }</th>
-								<th class="text-center">${sellerContractDetail.productTotalPrice }원</th>
+								<th class="text-center">${sellerContract.productAmount }</th>
+								<th class="text-center">${sellerContract.productTotalPrice }원</th>
 								<th class="text-center">
-									<h6 class="font-weight-bold">${sellerContractDetail.status }</h6>
+									<div class="d-flex justify-content-around">
+										<h6 class="font-weight-bold">${sellerContract.status }</h6>
+											<p id="deliveryNumber${sellerContract.id }">${sellerContract.deliveryNumber }</p>				
+										</div>
 									<div class="d-flex">
-										<select class="form-select form-select-lg statusSelect" id="statusSelect" data-order-id="${sellerContractDetail.buyerOrderId }">
+										<select class="form-select form-select-lg statusSelect" data-orderitems-id="${sellerContract.id }" id="statusSelect${sellerContract.id }">
 										  <option selected>결제확인중</option>
-										  <option value="1">결제완료</option>
-										  <option value="2">배송중</option>
-										  <option value="3">배송완료</option>
+										  <option value="1">주문취소</option>
+										  <option value="2">결제완료</option>
+										  <option value="3">배송중</option>
+										  <option value="4">배송완료</option>
 										</select>
-										<input class="form-control deliveryNumberInput" placeholder="배송장 번호 입력해주세요" data-order-id="${sellerContractDetail.buyerOrderId }">
-										<button class="btn btn-sm btn-primary text-white statusBtn">확인</button>
+										<input class="form-control d-none" placeholder="배송장 번호 입력해주세요" id="deliveryNumberInput${sellerContract.id }">
+										<button class="btn btn-sm btn-primary text-white statusBtn" data-orderitems-id="${sellerContract.id }" id="statusBtn${sellerContract.id }">확인</button>
 									</div>
 								</th>		
 							</tr>
@@ -82,23 +87,23 @@
 	
 	<!-- modal -->
 	
-	<c:forEach var="sellerContractDetail" items="${sellerContractDetailList }">
-	<div class="modal fade infoCheckModal" id="infoCheckModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<c:forEach var="sellerContract" items="${sellerContractList }" varStatus="vs">
+	<div class="modal fade" id="infoCheckModal${vs.index }" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	    
-	      <div class="modal-body" id="info" data-order-id="${sellerContractDetail.buyerOrderId }">
+	      <div class="modal-body" id="info" data-order-id="${sellerContract.orderId }">
 	        	<div class="d-flex">
 	        		<h6 class="col-4">수취인 이름</h6>
-	        		<h6>${sellerContractDetail.receiverName }</h6>
+	        		<h6>${sellerContract.orderReceiver.receiverName }</h6>
 	        	</div>
 	        	<div class="d-flex">
 	        		<h6 class="col-4">수취인 전화번호</h6>
-	        		<h6>${sellerContractDetail.receiverPhoneNumber }</h6>
+	        		<h6>${sellerContract.orderReceiver.receiverPhoneNumber }</h6>
 	        	</div>
 	        	<div class="d-flex">
 	        		<h6 class="col-4">수취인 주소</h6>
-	        		<h6>${sellerContractDetail.receiverAddress }</h6>
+	        		<h6>${sellerContract.orderReceiver.receiverAddress }</h6>
 	        	</div>
 	      </div>
 	
@@ -109,52 +114,81 @@
 	
 	<script>
 	$(document).ready(function(){
-		$(".deliveryNumberInput").hide();
-				
-		$(".statusSelect").change(function(){
-			var orderId = $(this).data("order-id");
-			let statusSelect = $(".statusSelect").val();
+		
+		$(".statusSelect").change(function(){	
 			
-			if(statusSelect == "2"){
-				$(".deliveryNumberInput").show();
+			let id = $(this).data("orderitems-id");
+			let statusSelect = $(this).val();
+			
+			if(statusSelect == "3"){
+				$("#deliveryNumberInput" + id).removeClass("d-none");
 			}else{
-				$(".deliveryNumberInput").hide();
+				$("#deliveryNumberInput" + id).addClass("d-none");
 			}
 		})
-		
-		/* $(".statusBtn").on("click", function(){
-			let orderId = $(this).data("order-id");
-			
-			let statusSelect = $(".statusSelect").val();
+	
+		$(".statusBtn").on("click", function(){
+			let id = $(this).data("orderitems-id");
+
+			let statusSelect = $("#statusSelect" + id).val();
 			let status = "";
-			let deliveryNumber = $(".deliveryNumberInput").val();
+			let deliveryNumber = "";
 			
 			if(statusSelect == "1"){
-				status = "결제완료";
+				status = "주문취소";
 			}else if(statusSelect == "2"){
+				status = "결제완료";
+				
+			}else if(statusSelect == "3"){
 				status = "배송중";
 				if(deliveryNumber = ""){
 					alert("운송장번호 입력해주세요");
 					return;
+				}else{
+					deliveryNumber = $("#deliveryNumberInput"+id).val();
+					$("#deliveryNumber"+id).text(deliveryNumber);
 				}
-			}else if(statusSelect == "3"){
-				status = "배송완료";
 			}
 			
-		})
-		
-		$(".info-btn").on("click", function(){
-			// 해당 info-btn 태그에 있는 order-id를 모달의 a태그에 넣는다.
-			let buyerOrderId = $(this).data("order-id");
+			$.ajax({
+				type:"post"
+				, url:"/seller/contract/modifyStatus"
+				, data:{"id":id, "status":status, "deliveryNumber":deliveryNumber}
+				, success:function(data){
+					if(data.result == "success"){
+						alert("성공");
+						location.reload();
+					}else{
+						alert("실패");
+					}
+				}
+				, error:function(){
+					alert("에러");
+				}
+			})
 			
-			// data-order-id=""
-			$("#info").data("order-id", buyerOrderId);
-		});
-		
-		$(".infoCheckModal").on("click", function(){
-			let buyerOrderId = $(this).data("order-id");
-
-		})  */
+			if(statusSelect == "4"){
+				status= "배송완료";
+				deliveryNumber = $("#deliveryNumber"+id).text();
+				
+				$.ajax({
+					type:"post"
+					, url:"/seller/contract/modifyStatus"
+					, data:{"id":id, "status":status, "deliveryNumber":deliveryNumber}
+					, success:function(data){
+						if(data.result == "success"){
+							alert("성공");
+							location.reload();
+						}else{
+							alert("실패");
+						}
+					}
+					, error:function(){
+						alert("에러");
+					}
+				})
+			}
+		})
 	})
 	</script>
 </body>

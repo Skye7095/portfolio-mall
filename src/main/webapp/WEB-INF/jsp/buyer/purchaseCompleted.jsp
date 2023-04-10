@@ -43,8 +43,8 @@
 					<div class="d-flex justify-content-between align-items-end mt-3">
 						<h4 class="font-weight-bold text-success">배송정보</h4>
 					</div>
-					<h6 class="font-weight-bold">${buyerOrder.receiverName } ${buyerOrder.receiverPhoneNumber }</h6>
-				  	<h6>${buyerOrder.receiverAddress }</h6>
+					<h6 class="font-weight-bold">${orderReceiver.receiverName } ${orderReceiver.receiverPhoneNumber }</h6>
+				  	<h6>${orderReceiver.receiverAddress }</h6>
 				</div>
 				<div class="paymentinfo container border bg-white my-3">
 					<div class="d-flex justify-content-between align-items-end mt-3">
@@ -52,11 +52,11 @@
 					</div>
 					<div class="d-flex justify-content-between align-items-center mt-3">
 						<h6 class="mr-3">주문번호</h6>
-						<h6>${buyerOrder.buyerOrderId }</h6>
+						<h6 id="orderId">${orderReceiver.orderId }</h6>
 					</div>
 					<div class="d-flex justify-content-between align-items-center mt-3">
 						<h6 class="mr-3">총결제금액</h6>
-						<h6>${buyerOrder.sum }원</h6>
+						<h6>${orderReceiver.sum }원</h6>
 					</div>
 				</div>
 			</div>	
@@ -78,7 +78,22 @@
 					alert("장바구니 전체삭제 에러");
 				}
 			})
-
+			
+			var orderId = $("#orderId").text();
+			
+			$.ajax({
+				type:"post"
+				, url:"/product/modifyInventory"
+				, data:{"orderId":orderId}
+				, success:function(data){
+					if(data.result == "fail"){
+						alert("재고 감소 실패");
+					}
+				}
+				, error:function(data){
+					alert("재고 감소 에러");
+				}
+			})			
 		})
 	</script>
 </body>

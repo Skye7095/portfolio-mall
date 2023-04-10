@@ -48,7 +48,7 @@
 								<th class="text-center">${product.id }</th>
 								<th class="d-flex align-items-start">
 									<img width="50" height="50" src="${product.productImgPath }">
-									<a href="http://localhost:8080/product/items/view?id=${product.id }">${product.name }</a>
+									<a href="/product/items/view?id=${product.id }">${product.name }</a>
 								</th>
 								<th class="text-center">${product.amount }</th>
 								<th class="text-center"><fmt:formatNumber value="${product.price }" />원</th>

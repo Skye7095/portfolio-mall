@@ -5,9 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.portfolio.mall.user.model.BuyerOrderDetail;
+import com.portfolio.mall.user.model.OrderItems;
 import com.portfolio.mall.user.model.Seller;
-import com.portfolio.mall.user.model.SellerContract;
 
 @Repository
 public interface SellerDAO {
@@ -74,10 +73,11 @@ public interface SellerDAO {
 			, @Param("email") String email);
 	
 	// 판매내역 조회
-	public List<SellerContract> selectSellerContractList(@Param("sellerId") int sellerId);
+	public List<OrderItems> selectOrderItemsList(@Param("sellerId") int sellerId);
 	
 	// order 상태변경
 	public int updateStatus(
-			@Param("buyerOrderId") String buyerOrderId
-			, @Param("status") String status);
+			@Param("id") int id
+			, @Param("status") String status
+			, @Param("deliveryNumber") String deliveryNumber);
 }

@@ -6,8 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.portfolio.mall.user.model.Buyer;
-import com.portfolio.mall.user.model.BuyerOrder;
-import com.portfolio.mall.user.model.BuyerOrderDetail;
+import com.portfolio.mall.user.model.OrderReceiver;
+import com.portfolio.mall.user.model.OrderItems;
 
 @Repository
 public interface BuyerDAO {
@@ -75,9 +75,9 @@ public interface BuyerDAO {
 			, @Param("email") String email);
 	
 	// buyer 결제정보 insert
-	public int insertBuyerOrder(
+	public int insertOrderReceiver(
 			@Param("buyerId") int buyerId
-			, @Param("buyerOrderId") String buyerOrderId
+			, @Param("orderId") String orderId
 			, @Param("receiverName") String receiverName
 			, @Param("receiverPhoneNumber") String receiverPhoneNumber
 			, @Param("receiverAddress") String receiverAddress
@@ -87,14 +87,14 @@ public interface BuyerDAO {
 	// 같은 orderId가 여러번 결제됐는지 확인
 	public Integer sameOrder(
 			@Param("buyerId") int buyerId
-			, @Param("buyerOrderId") String buyerOrderId);
+			, @Param("orderId") String orderId);
 	
 	// buyerId로 전체 구매내역 list 조회
-	public List<BuyerOrder> selectBuyerOrderList(@Param("buyerId") int buyerId);
+	public List<OrderReceiver> selectOrderReceiverList(@Param("buyerId") int buyerId);
 	
 	// buyer 상세주문내역 조회
-	public List<BuyerOrderDetail> selectBuyerOrderDetailList(@Param("buyerOrderId") String buyerOrderId);
+	public List<OrderItems> selectOrderItemsList(@Param("orderId") String orderId);
 
 	// buyerOrderId를 통해 buyerOrder테이블 조회
-	public BuyerOrder selectBuyerOrder(@Param("buyerOrderId") String buyerOrderId);
+	public OrderReceiver selectOrderReceiver(@Param("orderId") String orderId);
 }

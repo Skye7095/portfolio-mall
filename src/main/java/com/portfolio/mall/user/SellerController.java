@@ -2,6 +2,9 @@ package com.portfolio.mall.user;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +16,7 @@ import com.portfolio.mall.product.bo.ProductBO;
 import com.portfolio.mall.product.model.Product;
 import com.portfolio.mall.user.bo.SellerBO;
 import com.portfolio.mall.user.model.Seller;
-import com.portfolio.mall.user.model.SellerContractDetail;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import com.portfolio.mall.user.model.SellerContract;
 
 @Controller
 @RequestMapping("/seller")
@@ -86,13 +86,20 @@ public class SellerController {
 		HttpSession session = request.getSession();
 		int sellerId = (Integer)session.getAttribute("sellerId");
 		
-		List<SellerContractDetail> sellerContractDetailList = sellerBO.getSellerContractDetailList(sellerId);
-		model.addAttribute("sellerContractDetailList", sellerContractDetailList);
+		List<SellerContract> sellerContractList = sellerBO.getSellerContractList(sellerId);		
+		model.addAttribute("sellerContractList", sellerContractList);
 		
-		int income = 0;
-		for(int i = 0; i < sellerContractDetailList.size(); i++) {
-			income += sellerContractDetailList.get(i).getProductTotalPrice();
+		int salesAmount = 0;	// 판매 금액 > 주문생성되면 판매금액 누적
+		int income = 0;		// 배송완료된 상태인 주문들의 금액 누적
+		for(int i = 0; i < sellerContractList.size(); i++) {
+			salesAmount += sellerContractList.get(i).getProductTotalPrice();
+			
+			String status = sellerContractList.get(i).getStatus();
+			if(status == "배송완료") {
+				income += sellerContractList.get(i).getProductTotalPrice();
+			}
 		}
+		model.addAttribute("salesAmount", salesAmount);
 		model.addAttribute("income", income);
 		
 		return "/seller/contract";

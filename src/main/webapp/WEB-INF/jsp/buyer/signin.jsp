@@ -125,11 +125,9 @@
 			
 			 $("input[name=identity]").on('change', function() {
 	                if($(this).val() == 'buyer') {
-	                	location.href="http://localhost:8080/buyer/signin/view";
-	                } else if($(this).val() == 'seller'){
-	                	location.href="http://localhost:8080/seller/signin/view";
-	                } else{
-	                	location.href="http://localhost:8080/buyer/non-member/lookup/view";
+	                	location.href="/buyer/signin/view";
+	                }else{
+	                	location.href="/seller/signin/view";
 	                }
 	         });
 		})

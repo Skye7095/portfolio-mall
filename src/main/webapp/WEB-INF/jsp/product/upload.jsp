@@ -144,6 +144,9 @@
 				category = "컴퓨터·가전제품";
 			}else if(categorySelect == "0"){
 				category = "기타";
+			}else{
+				alert("카테고리 선택하세요");
+				return;
 			}
 			
 			if(name == ""){

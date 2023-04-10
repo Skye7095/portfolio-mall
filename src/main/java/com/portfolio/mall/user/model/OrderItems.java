@@ -2,10 +2,10 @@ package com.portfolio.mall.user.model;
 
 import java.util.Date;
 
-public class BuyerOrderDetail {
+public class OrderItems {
 	private int id;
 	private int buyerId;
-	private String buyerOrderId;
+	private String orderId;
 	private int sellerId;
 	private int productId;
 	private int productPrice;
@@ -14,11 +14,18 @@ public class BuyerOrderDetail {
 	private int productSumPrice;
 	private int productTotalPrice;
 	private String status;
+	private String deliveryNumber;
 	private Date createdAt;
 	private Date updatedAt;
 	private String productImgPath;
 	private String productName;
 	
+	public String getDeliveryNumber() {
+		return deliveryNumber;
+	}
+	public void setDeliveryNumber(String deliveryNumber) {
+		this.deliveryNumber = deliveryNumber;
+	}
 	public String getProductImgPath() {
 		return productImgPath;
 	}
@@ -43,11 +50,12 @@ public class BuyerOrderDetail {
 	public void setBuyerId(int buyerId) {
 		this.buyerId = buyerId;
 	}
-	public String getBuyerOrderId() {
-		return buyerOrderId;
+
+	public String getOrderId() {
+		return orderId;
 	}
-	public void setBuyerOrderId(String buyerOrderId) {
-		this.buyerOrderId = buyerOrderId;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 	public int getSellerId() {
 		return sellerId;

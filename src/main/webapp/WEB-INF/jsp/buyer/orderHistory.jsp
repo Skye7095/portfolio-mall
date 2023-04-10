@@ -67,27 +67,30 @@
 						<tr>
 							<td class="text-center">
 								<span><fmt:formatDate value="${orderDetail.createdAt }" pattern="yyyy-MM-dd" /></span>
-								<p>주문번호: ${orderDetail.buyerOrderId }</p>
+								<p>주문번호: ${orderDetail.orderId }</p>
 							</td>
 							
 							<td>
 								<table width="100%">
 									<tbody>
-									<c:forEach var="buyerOrderDetail" items="${orderDetail.buyerOrderDetailList }" >
+									<c:forEach var="orderItems" items="${orderDetail.orderItemsList }" >
 										<td class="d-flex">
-											<img width="100" height="100" src="${buyerOrderDetail.productImgPath }">
+											<img width="100" height="100" src="${orderItems.productImgPath }">
 											<div>
 												<div>
-													<a class="text-dark" href="/product/items/view?id=${buyerOrderDetail.productId }">${buyerOrderDetail.productName }</a>
-													<p>수량: ${buyerOrderDetail.productAmount }개 / ${buyerOrderDetail.productPrice }원</p>
+													<a class="text-dark" href="/product/items/view?id=${orderItems.productId }">${buyerOrderDetail.productName }</a>
+													<p>수량: ${orderItems.productAmount }개 / ${orderItems.productPrice }원</p>
 												</div>
 												<div>
-													<h4>${buyerOrderDetail.productSumPrice }원</h4>
+													<h4>${orderItems.productSumPrice }원</h4>
 												</div>
 											</div>
 										</td>	
 										<td class="text-center">
-											<h4>${buyerOrderDetail.status }</h4>
+											<h4>${orderItems.status }</h4>
+											<c:if test="${orderItems.status eq '배송중' || orderItems.status eq '배송완료'}">
+												<h6>${orderItems.deliveryNumber }</h6>
+											</c:if>
 										</td>
 									</tbody>
 									</c:forEach>

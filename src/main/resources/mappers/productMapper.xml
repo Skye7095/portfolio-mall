@@ -94,9 +94,9 @@
 			, `updatedAt`
 		FROM
 			`product`
-		ORDER BY `id` DESC LIMIT 4;
+		ORDER BY `id` DESC LIMIT 3
 	</select>
-	
+
 	<!-- 카테고리 -->
 	<select id="selectProductByCategory" parameterType="String" resultType="com.portfolio.mall.product.model.Product">
 		SELECT
@@ -116,6 +116,27 @@
 			`product`
 		WHERE 
 			`category` = #{category}
+	</select>
+	
+	<!-- 키워드조회 -->
+	<select id="selectProductByKeyword" parameterType="String" resultType="com.portfolio.mall.product.model.Product">
+		SELECT
+			`id`
+			, `sellerId`
+			, `productImgPath`
+			, `category`
+			, `name`
+			, `price`
+			, `amount`
+			, `deliveryPrice`
+			, `introduction`
+			, `detailsImgPath`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`product`
+		WHERE 
+			`name` LIKE CONCAT('%', #{keyword}, '%')
 	</select>
 	
 	<!-- 상품 잔고 0으로 처리 -->
@@ -144,4 +165,48 @@
 		WHERE
 			`id`=#{id} AND `sellerId` = #{sellerId}
 	</update>
+	
+	<!-- 판매된 상품 조회 -->
+	<select id="selectOrderItemsListById" parameterType="int" resultType="com.portfolio.mall.user.model.OrderItems">
+		SELECT
+			`id`
+			, `buyerId`
+			, `orderId`
+			, `sellerId`
+			, `productId`
+			, `productPrice`
+			, `productAmount`
+			, `productDeliveryPrice`
+			, `productSumPrice`
+			, `productTotalPrice`
+			, `status`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`orderItems`
+		WHERE
+			`productId` = #{productId}
+	</select>
+	
+	<!-- 판매된 상품 전체 조회 -->
+	<select id="selectOrderItemsList" parameterType="string" resultType="com.portfolio.mall.user.model.OrderItems">
+		SELECT
+			`id`
+			, `buyerId`
+			, `orderId`
+			, `sellerId`
+			, `productId`
+			, `productPrice`
+			, `productAmount`
+			, `productDeliveryPrice`
+			, `productSumPrice`
+			, `productTotalPrice`
+			, `status`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`orderItems`
+		WHERE
+			`orderId` = #{orderId}
+	</select>
 </mapper>

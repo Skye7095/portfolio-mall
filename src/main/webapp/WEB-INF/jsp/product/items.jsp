@@ -33,10 +33,10 @@
 						</div>
 						
 						<div class="payment-info ml-3">
-							<btn class="btn btn-white">
+							<button class="btn btn-white">
 								<i class="bi bi-shop-window"></i>
 								<span>${seller.name }</span>
-							</btn>
+							</button>
 							<hr>
 							<div class="items-info d-flex">
 								<div class="col-9">
@@ -48,7 +48,7 @@
 									
 								</div>
 								<div class="like col-3 d-flex justify-content-center align-items-center">
-									<btn class="btn btn-white btn-lg rounded-circle border border-dark"><i class="bi bi-heart"></i></btn>
+									<button class="btn btn-white btn-lg rounded-circle border border-dark"><i class="bi bi-heart"></i></button>
 								</div>
 							</div>
 							<hr>
@@ -294,7 +294,7 @@
 			$.ajax({
 				type:"post"
 				, url:"/buyer/cart/add"
-				, data:{"productId":productId, "productPrice":productPrice, "productAmount":productAmount, "productDeliveryPrice":productDeliveryPrice, "productSumPrice":productSumPrice, "productTotalPrice":productTotalPrice}
+				, data:{"productId":productId, "productPrice":productPrice, "productAmount":productAmount, "productDeliveryPrice":productDeliveryPrice}
 				, success:function(data){
 					if(data.result =="success"){
 						location.href="/buyer/purchasing/view";
@@ -304,6 +304,7 @@
 					alert("구매에러");
 				}
 			})
+
 		})
 		
 		$("#buyerCartBtn").on("click", function(){

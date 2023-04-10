@@ -7,13 +7,13 @@ public class OrderDetail {
 
 	private int id;
 	private int buyerId;
-	private String buyerOrderId;
+	private String orderId;
 	private String receiverName;
 	private String receiverPhoneNumber;
 	private String receiverAddress;
 	private String depositorName;
 	private int sum;
-	private List<BuyerOrderDetail> buyerOrderDetailList;
+	private List<OrderItems> orderItemsList;
 	private Date createdAt;
 	private Date updatedAt;
 	
@@ -41,11 +41,12 @@ public class OrderDetail {
 	public void setBuyerId(int buyerId) {
 		this.buyerId = buyerId;
 	}
-	public String getBuyerOrderId() {
-		return buyerOrderId;
+
+	public String getOrderId() {
+		return orderId;
 	}
-	public void setBuyerOrderId(String buyerOrderId) {
-		this.buyerOrderId = buyerOrderId;
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 	public String getReceiverName() {
 		return receiverName;
@@ -77,13 +78,12 @@ public class OrderDetail {
 	public void setSum(int sum) {
 		this.sum = sum;
 	}
-	public List<BuyerOrderDetail> getBuyerOrderDetailList() {
-		return buyerOrderDetailList;
+	public List<OrderItems> getOrderItemsList() {
+		return orderItemsList;
 	}
-	public void setBuyerOrderDetailList(List<BuyerOrderDetail> buyerOrderDetailList) {
-		this.buyerOrderDetailList = buyerOrderDetailList;
+	public void setOrderItemsList(List<OrderItems> orderItemsList) {
+		this.orderItemsList = orderItemsList;
 	}
-	
-	
+
 	
 }

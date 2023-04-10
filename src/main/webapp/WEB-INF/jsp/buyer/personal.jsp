@@ -121,7 +121,7 @@
 			})
 			
 			$("#sellerSignUpBtn").on("click", function(){
-				location.href="http://localhost:8080/seller/signup/view";
+				location.href="/seller/signup/view";
 			});
 		})
 	</script>

@@ -26,6 +26,14 @@ public interface CartDAO {
 			@Param("buyerId") int buyerId
 			, @Param("productId") int productId);
 	
+	// 같은 product면 수량을 update할 수 있게 수정
+	public int updateCart(
+			@Param("buyerId") int buyerId
+			, @Param("productId") int productId
+			, @Param("productAmount") int productAmount
+			, @Param("productSumPrice") int productSumPrice
+			, @Param("productTotalPrice") int productTotalPrice);
+	
 	// buyerId로 cartList 조회하기
 	public List<Cart> selectCartList(@Param("buyerId") int buyerId);
 
@@ -39,8 +47,8 @@ public interface CartDAO {
 	// 개별 cart 조회
 	public Cart selectCart(@Param("cartId") int cartId);
 	
-	// 결제완료시 장바구니 리스트를 buyerOrderDetail테이블에 insert
-	public int insertBuyerOrderDetail(
-			@Param("buyerOrderId") String buyerOrderId
+	// 결제완료시 장바구니 리스트를 orderItems테이블에 insert
+	public int insertOrderItems(
+			@Param("orderId") String orderId
 			, @Param("status") String status);
 }
