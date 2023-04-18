@@ -112,7 +112,7 @@
 					, data:{"loginId":id, "password":password}
 					, success:function(data){
 						if(data.result == "success"){
-							location.href="/product/main/view";
+							location.href="/seller/contract/view";
 						}else{
 							alert("로그인 실패");
 						}

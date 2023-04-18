@@ -42,18 +42,8 @@
 						</ul>
 					</aside>
 					<div class="col-10 banners">
-						<aside>
-							<c:choose>
-								<c:when test="${not empty buyerId }">
-									<a class="text-dark" href="/buyer/personal/view">개인정보</a>
-								</c:when>
-								<c:when test="${not empty sellerId }">
-									<a class="text-dark" href="/seller/personal/view">개인정보</a>
-								</c:when>		
-							</c:choose>
-						</aside>
 						<article class="bannerImg">
-							<img width="100%" height="100%" src="https://cdn.pixabay.com/photo/2023/03/02/19/37/tunnel-7826204_960_720.jpg">
+							<img width="800px" height="300px" id="bannerImage" src="/static/images/banner1.jpg">
 						</article>
 					</div>
 				</div>	
@@ -62,7 +52,7 @@
 				<h3 class="font-weight-bold">최신 상품</h3>
 				<div class="container contents d-flex flex-wrap justify-content-center">
 				<c:forEach var="product" items="${productList }">
-					<div class="itemContent border text-center my-3 my-2">
+					<div class="itemContent border text-center mx-3 my-3">
 						<a href="/product/items/view?id=${product.id }">
 	                        <img width=200px class="img-thumbnail mt-2" src="${product.productImgPath }">
 	                        <div class="name mt-2">${product.name }</div>
@@ -75,5 +65,20 @@
 		</section>
 		<c:import url="/WEB-INF/jsp/common/footer.jsp" />
 	</div>
+	
+	<script>
+		$(document).ready(function(){
+			var bannerList = ["/static/images/banner1.jpg", "/static/images/banner2.jpg", "/static/images/banner3.jpg"];
+            var currentImageIndex = 0;
+            setInterval(function() {
+                $("#bannerImage").attr("src", bannerList[currentImageIndex]);
+                currentImageIndex++;
+
+                if(currentImageIndex == bannerList.length) {
+                    currentImageIndex = 0;
+                }
+            }, 3000); 
+		})
+	</script>
 </body>
 </html>

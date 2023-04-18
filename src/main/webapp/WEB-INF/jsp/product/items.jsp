@@ -66,7 +66,7 @@
 								<p class="ml-3">재고: <fmt:formatNumber value="${product.amount }" />개</p>
 							</div>
 							<hr>
-							<c:if test="${product.amount eq 0 }">
+							<c:if test="${product.amount <= 0 }">
 								<h3 class="bg-secondary text-center text-white">재고소진으로 인해 판매종료</h3>
 							</c:if>
 						</div>		
@@ -162,7 +162,7 @@
 										<div class="d-flex justify-content-around mb-3">
 											<div class="amount d-flex align-items-end">
 											<c:choose>
-												<c:when test="${product.amount eq 0 }">
+												<c:when test="${product.amount <= 0 }">
 													<div class="bg-secondary text-center">
 														<span class="text-white">재고소진으로 인해 판매종료</span>
 													</div>

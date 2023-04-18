@@ -25,27 +25,22 @@
 }
 
 .bannerImg{
-	height: 270px;
+	height: 300px;
 	width: 800px;
 }
 
-.content {
-	height: 300px;
-	width: 300px;
-}
-
-.content > .thumnail{
-	height: 150px;
-	width: 150px;
-}
-
-/* category, keyword */
+/* main, category, keyword */
 .itemContent{
 	height: 300px;
 	width:300px;
 }
 
-.content > .thumnail{
-	height: 150px;
-	width: 150px;
+.itemContent > .img-thumbnail{
+	height: 50%;
 }
+
+
+.itemContent > .name{
+	height: 25px;
+}
+
