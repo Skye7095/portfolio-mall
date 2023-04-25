@@ -67,9 +67,16 @@
 							<h6 class="font-weight-bold col-4">배송 전화번호</h6>
 							<input type="text" class="form-control" id="receiverPhoneNumberInput">
 						</div>
-						<div class="container d-flex align-items-end my-3">
+						<div class="container d-flex align-items-start my-3">
 							<h6 class="font-weight-bold col-4">배송 주소</h6>
-							<input type="text" class="form-control" id="receiverAddressInput">
+							<div>
+								<div class="d-flex">
+									<input type="text" class="form-control mb-3" id="postcode" placeholder="우편번호">
+									<input type="button" class="mb-3" onclick="execDaumPostcode()" value="우편번호 찾기">
+								</div>
+								<input type="text" class="form-control mb-3" id="address" placeholder="주소">
+								<input type="text" class="form-control" id="detailAddress" placeholder="상세주소">
+							</div>
 						</div>
 					</article>
 							
@@ -164,6 +171,32 @@
 		</section>
 		<c:import url="/WEB-INF/jsp/common/footer.jsp" />
 	</div>
+	
+	<!-- daum 주소 api -->
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('postcode').value = data.zonecode;
+                document.getElementById("address").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("detailAddress").focus();
+            }
+        }).open();
+    }
+	</script>
 	
 	<script>
 		$(document).ready(function(){
@@ -262,7 +295,7 @@
 				
 				let receiverName = $("#receiverNameInput").val();
 				let receiverPhoneNumber = $("#receiverPhoneNumberInput").val();
-				let receiverAddress = $("#receiverAddressInput").val();
+				let receiverAddress = $("#address").val() + " " + $("#detailAddress").val();
 				let depositorName = $("#depositorNameInput").val();
 				let sum = parseInt($("#sum").text());
 				
@@ -274,8 +307,8 @@
 					alert("배송 전화번호 입력해주세요");
 					return;
 				}
-				if(receiverAddress == ""){
-					alert("배송 주소 입력해주세요");
+				if($("#detailAddress").val() == ""){
+					alert("배송 상세주소 입력해주세요");
 					return;
 				}
 				if(depositorName == ""){
