@@ -12,7 +12,8 @@ public class FileManagerService {
 	
 	// 파일 저장
 		public static final String FILE_UPLOAD_PATH = "D:\\java web develop\\portfolio\\upload\\product";
-		
+//		public static final String FILE_UPLOAD_PATH = "/home/ec2-user/portfolioMall/upload/images";
+	
 		// 파일을 저장하고, 클라언트에서 접근가능한 주소를 만들어서 리턴하는 기능
 		public static String saveFile(int sellerId, MultipartFile file) {
 			

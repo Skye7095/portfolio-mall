@@ -20,7 +20,7 @@
 <body>
 	<div id="wrap">
 		<c:import url="/WEB-INF/jsp/common/smallheader.jsp"/>
-		<section class="container mt-3">
+		<section class="container my-3">
 			<div class="d-flex justify-content-center">
 				<div class="items-section">
 					<div class="section-header text-right">
@@ -42,13 +42,9 @@
 								<div class="col-9">
 									<h4>${product.name }</h4>
 									<div class="d-flex">
-										<h2 id="productPrice"> ${product.price }</h2>
+										<h2 id="productPrice"><fmt:formatNumber type="number" maxFractionDigits="3" value="${product.price}"/></h2>
 										<h4>원</h4>
 									</div>
-									
-								</div>
-								<div class="like col-3 d-flex justify-content-center align-items-center">
-									<button class="btn btn-white btn-lg rounded-circle border border-dark"><i class="bi bi-heart"></i></button>
 								</div>
 							</div>
 							<hr>
@@ -57,7 +53,7 @@
 								<i class="bi bi-truck"></i>
 								<div class="d-flex">
 									<p class="ml-3">배송비: </p>
-									<p id="productDeliveryPrice">${product.deliveryPrice }</p>
+									<p id="productDeliveryPrice"><fmt:formatNumber type="number" maxFractionDigits="3" value="${product.deliveryPrice}"/></p>
 									<p>원</p>
 								</div>
 							</div>
@@ -231,8 +227,8 @@
 		$("#productTotalPrice").text(productTotalPrice);
 		
 		$("#numberConfirmBtn").on("click", function(){			
-			let productAmount = $("#productAmountInput").val();
-			let productSumPrice = productPrice * productAmount;
+			var productAmount = $("#productAmountInput").val();
+			var productSumPrice = productPrice * productAmount;
 			$("#productSumPrice").text(productSumPrice);
 			let productTotalPrice = productSumPrice + productDeliveryPrice;
 			$("#productTotalPrice").text(productTotalPrice);
@@ -310,9 +306,9 @@
 		$("#buyerCartBtn").on("click", function(){
 
 			let productId = ${product.id};
-			let productPrice = parseInt($("#productPrice").text());
+			let productPrice = ${product.price};
 			let productAmount = $("#productAmountInput").val();
-			let productDeliveryPrice = parseInt($("#productDeliveryPrice").text());
+			let productDeliveryPrice = ${product.deliveryPrice};
 			let productSumPrice = productPrice * productAmount;
 			let productTotalPrice = productSumPrice + productDeliveryPrice;
 			

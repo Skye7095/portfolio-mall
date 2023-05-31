@@ -69,11 +69,6 @@
 					</div>
 				</div>
 			</div>
-			
-			<div class="other-signin d-flex justify-content-center">
-				<button class="btn btn-lg btn-warning mx-3" type="button" id="kakaoSignin">카카오로 시작하기</button>
-				<button class="btn btn-lg btn-success mx-3" type="button" id="naverSignin">네이버로 시작하기</button>
-			</div>
 		</section>
 		
 		<c:import url="/WEB-INF/jsp/common/footer.jsp" />
@@ -81,16 +76,6 @@
 	
 	<script>
 		$(document).ready(function(){
-			
-			$("#kakaoSignin").on("click", function(){
-				alert("아직 작업중입니다. 회원가입으로 진행해주세요");
-				return;
-			})
-			
-			$("#naverSignin").on("click", function(){
-				alert("아직 작업중입니다. 회원가입으로 진행해주세요");
-				return;
-			})
 			
 			$("#signinBtn").on("click", function(){
 				let id = $("#loginIdInput").val();

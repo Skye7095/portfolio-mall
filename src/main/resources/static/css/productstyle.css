@@ -20,27 +20,10 @@
 }
 
 /* main.jsp */
-.navBox{
-	height:300px;
-}
+
 
 .bannerImg{
 	height: 300px;
 	width: 800px;
-}
-
-/* main, category, keyword */
-.itemContent{
-	height: 300px;
-	width:300px;
-}
-
-.itemContent > .img-thumbnail{
-	height: 50%;
-}
-
-
-.itemContent > .name{
-	height: 25px;
 }
 

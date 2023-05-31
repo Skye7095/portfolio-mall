@@ -84,7 +84,7 @@
 		DELETE FROM
 			`cart`
 		WHERE
-			`id` = #{cartId}
+			`id` = #{cartId} 
 	</delete>
 	
 	<!-- 장바구니 결제완료 후 cart테이블 같은 buyerId 삭제 -->
@@ -146,5 +146,6 @@
 			, now()
 			, now()
 		FROM `cart`
+		WHERE `buyerId` = #{buyerId}
 	</insert>
 </mapper>

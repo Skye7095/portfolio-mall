@@ -125,8 +125,9 @@ public class CartBO {
 	// 결제완료후 장바구니 리스트를 orderItems 테이블에 insert
 	public int addOrderItems(
 			String orderId
+			, int buyerId
 			, String status) {
 		
-		return cartDAO.insertOrderItems(orderId, status);
+		return cartDAO.insertOrderItems(orderId, buyerId, status);
 	}
 }

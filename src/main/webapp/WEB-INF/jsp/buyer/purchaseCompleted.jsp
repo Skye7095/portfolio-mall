@@ -32,7 +32,7 @@
 		</div>
 		
 		
-		<section class="purchaseCompleted-section container">
+		<section class="purchaseCompleted-section container my-3">
 			<div class="p-3">
 				<div class="mt-3 text-center display-3"><i class="bi bi-bag-check-fill"></i></div>
 				<h5 class="font-weight-bold text-center mt-3">${buyer.name }님, 주문하신 소중한 상품을 곧 보내 드릴게요!</h5>
@@ -75,7 +75,7 @@
 
 				}
 				, error:function(){
-					alert("장바구니 전체삭제 에러");
+					alert("장바구니 삭제 에러");
 				}
 			})
 			

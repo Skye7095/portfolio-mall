@@ -192,7 +192,7 @@
 			, `updatedAt`
 		FROM
 			`orderItems`
-		WHERE `sellerId` = #{sellerId}
+		WHERE `sellerId` = #{sellerId} ORDER BY `createdAt` DESC
 	</select>
 	
 	<!-- order 상태변경 -->

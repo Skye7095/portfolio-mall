@@ -59,9 +59,12 @@ public class productController {
 	public String categoryView(
 			@RequestParam(value="category", defaultValue="") String category
 			, Model model) {
-		
 		List<Product> productList = productBO.getProductByCategory(category);
+		List<Product> newProductList = productBO.getProduct();
+		
 		model.addAttribute("productList", productList);
+		model.addAttribute("newProductList", newProductList);
+		model.addAttribute("category", category);
 		
 		return "/product/category";
 	}
@@ -72,8 +75,11 @@ public class productController {
 			@RequestParam(value="keyword", defaultValue="") String keyword
 			, Model model) {		
 		List<Product> productList = productBO.getProductByKeyword(keyword);
+		List<Product> newProductList = productBO.getProduct();
 		
 		model.addAttribute("productList", productList);
+		model.addAttribute("newProductList", newProductList);
+		model.addAttribute("keyword", keyword);
 		
 		return "/product/keyword";
 	}

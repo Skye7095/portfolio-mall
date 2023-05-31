@@ -35,111 +35,119 @@
 		
 		<section class="cart-section container">
 			<article class="container cart-card my-3">	
-				<table class="table">
-					<thead class="table-secondary text-center">
-						<tr>
-							<th>상품명</th>
-							<th>수량</th>
-							<th>단가</th>	
-							<th>배송비</th>
-							<th>상품 총금액</th>
-							<th></th>
-						</tr>
-					</thead>
-					
-					<tbody class="border cartDetail">
-					<c:forEach var="cartDetail" items="${cartDetailList }">
-						<tr class="tr" data-cart-id="${cartDetail.id }">
-							<th class="d-flex">
-								<img width="100" height="100" src="${cartDetail.productImgPath }">
-								<div>
-									<a class="text-dark" href="/product/items/view?id=${cartDetail.productId }">${cartDetail.productOriginName }</a>
-								</div>
-							</th>
-							<th>
-								<div class="d-flex justify-content-center">
-								<c:choose>
-									<c:when test="${cartDetail.productInventory <= 0 }">
-										<div class="bg-secondary text-center">
-											<span class="text-white">재고소진으로 인해 판매종료</span>
-										</div>
-									</c:when>
-									<c:otherwise>
-										<input type="number" value="${cartDetail.productAmount }" min="1" max="${cartDetail.productInventory }" class="productAmountInput${cartDetail.id }">
-										<button class="btn btn-sm numberConfirmBtn" data-cart-id="${cartDetail.id }" data-product-id="${cartDetail.productId }">선택</button>
-									</c:otherwise>
-								</c:choose>
-								</div>
-							</th>
-							<th>
-								<div class="d-flex justify-content-center">
-									<h4 class="productPrice${cartDetail.id }">${cartDetail.productPrice }</h4>
-									<h4>원</h4>
-								</div>
-							</th>
-							<th>
-								<div class="d-flex justify-content-center">
-									<h4 class="productDeliveryPrice${cartDetail.id }">${cartDetail.productDeliveryPrice }</h4>
-									<h4>원</h4>
-								</div>
-							</th>
-							<th>
-								<div class="d-flex justify-content-center">
-									<h4 class="productTotalPrice${cartDetail.id }">${cartDetail.productTotalPrice }</h4>
-									<h4>원</h4>
-								</div>
-							</th>
-							<th>
-								<button class="btn btn-sm btn-danger deleteBtn" data-cart-id="${cartDetail.id }" data-product-id="${cartDetail.productId }">삭제</button>
-							</th>
-						</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</article>
-			
-			<div class="simple-paymentinfo1-card container mb-3">
-				<aside class="border border-dark">
-					<div class="container my-3">
-						<h5 class="font-weight-bold">결제정보</h5>				
-						<hr>
-						<div class="d-flex">
-							<div class="d-flex justify-content-between col-6">
-								<div>
-									<p>상품수</p>
-									<p>상품금액</p>
-									<p>배송비</p>
-								</div>
-								<div class="text-right">
-									<div class="d-flex justify-content-end">
-										<p id="totalAmount">${totalAmount}</p>개
-									</div>
-									<div class="d-flex justify-content-end">
-										<p id="totalProductPrice">${totalProductPrice}</p>원
-									</div>
-									<div class="d-flex justify-content-end">
-										<p id="totalDeliveryPrice">${totalDeliveryPrice}</p>원
-									</div>
-								</div>
-							</div>
-							<div class="align-items-center col-6">
-								<div class="d-flex justify-content-between align-items-end">
-									<h5 class="font-weight-bold">전체 금액</h5>
-									<div class="d-flex justify-content-end align-items-end">
-										<h3 class="font-weight-bold" id="sum">${sum}</h3>
-										<h6>원</h6>
-									</div>
-								</div>
-								<div>
-									<div class="d-flex justify-content-center">
-										<button class="btn btn-primary btn-lg text-white font-weight-bold my-3" type="button" id="purchaseBtn">구매하기</button>
-									</div>
-								</div>
-							</div>
-						</div>
+			<c:choose>
+				<c:when test="${empty cartDetailList }">
+					<div class="d-flex justify-content-center align-items-center">
+						장바구니 비어있어요. 구매하실 상품 담아주세요~
 					</div>
-				</aside>
-			</div>
+				</c:when>
+				
+				<c:when test="${not empty cartDetailList }">
+					<table class="table">
+						<thead class="table-secondary text-center">
+							<tr>
+								<th>상품명</th>
+								<th>수량</th>
+								<th>단가</th>	
+								<th>배송비</th>
+								<th>상품 총금액</th>
+								<th></th>
+							</tr>
+						</thead>
+						
+						<tbody class="border cartDetail">
+						<c:forEach var="cartDetail" items="${cartDetailList }">
+							<tr class="tr" data-cart-id="${cartDetail.id }">
+								<th class="d-flex">
+									<img width="100" height="100" src="${cartDetail.productImgPath }">
+									<div>
+										<a class="text-dark" href="/product/items/view?id=${cartDetail.productId }">${cartDetail.productOriginName }</a>
+									</div>
+								</th>
+								<th>
+									<div class="d-flex justify-content-center">
+									<c:choose>
+										<c:when test="${cartDetail.productInventory <= 0 }">
+											<div class="bg-secondary text-center">
+												<span class="text-white">재고소진으로 인해 판매종료</span>
+											</div>
+										</c:when>
+										<c:otherwise>
+											<input type="number" value="${cartDetail.productAmount }" min="1" max="${cartDetail.productInventory }" class="productAmountInput${cartDetail.id }">
+											<button class="btn btn-sm numberConfirmBtn" data-cart-id="${cartDetail.id }" data-product-id="${cartDetail.productId }">선택</button>
+										</c:otherwise>
+									</c:choose>
+									</div>
+								</th>
+								<th>
+									<div class="d-flex justify-content-center">
+										<h4 class="productPrice${cartDetail.id }">${cartDetail.productPrice }원</h4>
+									</div>
+								</th>
+								<th>
+									<div class="d-flex justify-content-center">
+										<h4 class="productDeliveryPrice${cartDetail.id }"> ${cartDetail.productDeliveryPrice}원</h4>
+									</div>
+								</th>
+								<th>
+									<div class="d-flex justify-content-center">
+										<h4 class="productTotalPrice${cartDetail.id }">${cartDetail.productSumPrice }</h4>
+										<h4>원</h4>
+									</div>
+								</th>
+								<th>
+									<button class="btn btn-sm btn-danger deleteBtn" data-cart-id="${cartDetail.id }" data-product-id="${cartDetail.productId }">삭제</button>
+								</th>
+							</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+					
+					<div class="simple-paymentinfo1-card container mb-3">
+						<aside class="border border-dark">
+							<div class="container my-3">
+								<h5 class="font-weight-bold">결제정보</h5>				
+								<hr>
+								<div class="d-flex">
+									<div class="d-flex justify-content-between col-6">
+										<div>
+											<p>상품수</p>
+											<p>상품금액</p>
+											<p>배송비</p>
+										</div>
+										<div class="text-right">
+											<div class="d-flex justify-content-end">
+												<p id="totalAmount">${totalAmount}</p>개
+											</div>
+											<div class="d-flex justify-content-end">
+												<p id="totalProductPrice"><fmt:formatNumber type="number" maxFractionDigits="3" value="${totalProductPrice}"/>원</p>
+											</div>
+											<div class="d-flex justify-content-end">
+												<p id="totalDeliveryPrice"><fmt:formatNumber type="number" maxFractionDigits="3" value="${totalDeliveryPrice}"/>원</p>
+											</div>
+										</div>
+									</div>
+									<div class="align-items-center col-6">
+										<div class="d-flex justify-content-between align-items-end">
+											<h5 class="font-weight-bold">전체 금액</h5>
+											<div class="d-flex justify-content-end align-items-end">
+												<h3 class="font-weight-bold" id="sum"><fmt:formatNumber type="number" maxFractionDigits="3" value="${sum }"/></h3>
+												<h6>원</h6>
+											</div>
+										</div>
+										<div>
+											<div class="d-flex justify-content-center">
+												<button class="btn btn-primary btn-lg text-white font-weight-bold my-3" type="button" id="purchaseBtn">구매하기</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</aside>
+					</div>
+				</c:when>
+				</c:choose>
+			</article>
 		</section>
 		<c:import url="/WEB-INF/jsp/common/footer.jsp" />
 	</div>
@@ -148,12 +156,14 @@
 		$(document).ready(function(){
 			
 			$(".numberConfirmBtn").on("click", function(){
+				
+				
 				let cartId = $(this).data("cart-id");
 				let productId = $(this).data("product-id");
 				
 				var productAmount = $(".productAmountInput"+cartId).val();
-				var productPrice = Number($(".productPrice"+cartId).text());
-				var productDeliveryPrice = Number($(".productDeliveryPrice"+cartId).text());
+				var productPrice = parseInt($(".productPrice"+cartId).text());
+				var productDeliveryPrice = parseInt($(".productDeliveryPrice"+cartId).text());
 				var productSumPrice = productAmount * productPrice;
 				var productTotalPrice = productPrice * productAmount + productDeliveryPrice;
 				$(".productTotalPrice"+cartId).text(productTotalPrice);

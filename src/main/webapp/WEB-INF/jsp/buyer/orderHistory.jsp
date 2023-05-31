@@ -27,80 +27,90 @@
 				
 				<article class="container history-content">
 					<h3 class="mb-3">전체주문내역</h3>
-					<table class="table">
-						<thead class="table-secondary text-center">
-							<tr>
-								<th>
-									<table width="100%">
-										<thead class="text-center">
-											<tr>
-												주문날짜
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>주문번호</td>
-											</tr>
-										</tbody>
-									</table>
-								</th>
-								<th>
-									<table width="100%">
-										<thead class="text-center">
-											<tr>
-												주문정보
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>상품정보</td>
-												<td>주문상태</td>
-											</tr>
-										</tbody>
-									</table>
-								</th>
-							</tr>
-						</thead>
-											
-						<tbody>
-						<c:forEach var="orderDetail" items="${orderDetailList }" >
-						<tr>
-							<td class="text-center">
-								<span><fmt:formatDate value="${orderDetail.createdAt }" pattern="yyyy-MM-dd" /></span>
-								<p>주문번호: ${orderDetail.orderId }</p>
-							</td>
-							
-							<td>
-								<table width="100%">
-									<tbody>
-									<c:forEach var="orderItems" items="${orderDetail.orderItemsList }" >
-										<td class="d-flex">
-											<img width="100" height="100" src="${orderItems.productImgPath }">
-											<div>
-												<div>
-													<a class="text-dark" href="/product/items/view?id=${orderItems.productId }">${buyerOrderDetail.productName }</a>
-													<p>수량: ${orderItems.productAmount }개 / ${orderItems.productPrice }원</p>
-												</div>
-												<div>
-													<h4>${orderItems.productSumPrice }원</h4>
-												</div>
-											</div>
-										</td>	
-										<td class="text-center">
-											<h4>${orderItems.status }</h4>
-											<c:if test="${orderItems.status eq '배송중' || orderItems.status eq '배송완료'}">
-												<h6>${orderItems.deliveryNumber }</h6>
-											</c:if>
-										</td>
-									</tbody>
-									</c:forEach>
-								</table>
-							</td>
-							
-						</tr>
-						</c:forEach>
-						</tbody>
-					</table>
+					<c:choose>
+						<c:when test="${empty orderDetailList}">
+							<div class="d-flex justify-content-center align-items-center">
+								아직 주문내역이 없습니다.
+							</div>
+						</c:when>
+						
+						<c:when test="${not empty orderDetailList }">
+							<table class="table">
+								<thead class="table-secondary text-center">
+									<tr>
+										<th>
+											<table width="100%">
+												<thead class="text-center">
+													<tr>
+														주문날짜
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>주문번호</td>
+													</tr>
+												</tbody>
+											</table>
+										</th>
+										<th>
+											<table width="100%">
+												<thead class="text-center">
+													<tr>
+														주문정보
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>상품정보</td>
+														<td>주문상태</td>
+													</tr>
+												</tbody>
+											</table>
+										</th>
+									</tr>
+								</thead>
+													
+								<tbody>
+								<c:forEach var="orderDetail" items="${orderDetailList }" >
+								<tr>
+									<td class="text-center">
+										<span><fmt:formatDate value="${orderDetail.createdAt }" pattern="yyyy-MM-dd" /></span>
+										<p>주문번호: ${orderDetail.orderId }</p>
+									</td>
+									
+									<td>
+										<table width="100%">
+											<tbody>
+											<c:forEach var="orderItems" items="${orderDetail.orderItemsList }" >
+												<td class="d-flex">
+													<img width="100" height="100" src="${orderItems.productImgPath }">
+													<div class="ml-3">
+														<div>
+															<a class="text-dark" href="/product/items/view?id=${orderItems.productId }">${buyerOrderDetail.productName }</a>
+															<p>수량: ${orderItems.productAmount }개 / <fmt:formatNumber type="number" maxFractionDigits="3" value="${orderItems.productPrice}"/>원</p>
+														</div>
+														<div>
+															<h4><fmt:formatNumber type="number" maxFractionDigits="3" value="${orderItems.productSumPrice}"/>원</h4>
+														</div>
+													</div>
+												</td>	
+												<td class="text-center">
+													<h4>${orderItems.status }</h4>
+													<c:if test="${orderItems.status eq '배송중' || orderItems.status eq '배송완료'}">
+														<h6>${orderItems.deliveryNumber }</h6>
+													</c:if>
+												</td>
+											</tbody>
+											</c:forEach>
+										</table>
+									</td>
+									
+								</tr>
+								</c:forEach>
+								</tbody>
+							</table>
+						</c:when>
+					</c:choose>
 				</article>
 			</div>
 		</section>

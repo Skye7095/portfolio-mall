@@ -50,5 +50,6 @@ public interface CartDAO {
 	// 결제완료시 장바구니 리스트를 orderItems테이블에 insert
 	public int insertOrderItems(
 			@Param("orderId") String orderId
+			, @Param("buyerId") int buyerId
 			, @Param("status") String status);
 }

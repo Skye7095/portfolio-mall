@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,7 @@
 <body>
 	<div id="wrap">
 		<c:import url="/WEB-INF/jsp/common/smallheader.jsp" />
-		<section class="main container my-3">
+		<section class="container my-3">
 			<div class="bannerBox d-flex justify-content-center mb-3">	
 				<div class="navBox d-flex justify-content-center mb-3">
 					<aside class="col-2 bg-success">
@@ -56,7 +57,7 @@
 						<a href="/product/items/view?id=${product.id }">
 	                        <img width=200px class="img-thumbnail mt-2" src="${product.productImgPath }">
 	                        <div class="name mt-2">${product.name }</div>
-	                        <div class="price mt-2"><h4 class="font-weight-bold">${product.price }원</h4></div>
+	                        <div class="price mt-2"><h4 class="font-weight-bold"><fmt:formatNumber type="number" maxFractionDigits="3" value="${product.price}"/>원</h4></div>
                         </a>
                     </div>
                 </c:forEach>

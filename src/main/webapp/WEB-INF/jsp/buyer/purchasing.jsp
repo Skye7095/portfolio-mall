@@ -32,7 +32,7 @@
 		</div>
 		
 		
-		<section class="purchasing-section container">
+		<section class="purchasing-section container my-3">
 			<div class="d-flex mt-3">
 				<div class="container purchasing-card col-8 mx-3">
 					<article class="border container bg-light my-3">
@@ -109,12 +109,12 @@
 								<div class="items" id="cartId" data-cart-id="${cartDetail.productId }">
 									<div class="d-flex">
 										<img width="100" height="100" src="${cartDetail.productImgPath }">
-										<div>
+										<div class="ml-3">
 											<div class="d-flex justify-content-around">
 												<a class="text-dark" href="/product/items/view?id=${cartDetail.productId }">${cartDetail.productOriginName }</a>
 												<button class="btn btn-sm btn-danger deleteBtn" data-cart-id="${cartDetail.id }" data-product-id="${cartDetail.productId }">x</button>
 											</div>
-											<div>
+											<div >
 												<span class="font-weight-bold productPrice${cartDetail.id }">${cartDetail.productPrice }</span>원
 												<div class="d-flex justify-content-center">
 												<c:choose>
@@ -132,7 +132,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="bg-light d-flex justify-content-between">
+									<div class="bg-light d-flex justify-content-between mt-3">
 										<span>상품금액</span>
 										<span class="productSumPrice${cartDetail.id }">${cartDetail.productSumPrice }원</span>
 									</div>
@@ -333,7 +333,9 @@
 						, error:function(){
 							alert("결제 에러");
 						}
-					}) 	
+					})
+				}else{
+					alert("결제 수량 확인해주세요");
 				}
 				
 				$.ajax({
@@ -349,7 +351,8 @@
 				 	, error:function(){
 				 		alert("주문 에러");
 				 	}
-				}) 
+				})
+				
 			})
 		})
 	</script>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<footer class="d-flex justify-content-around align-items-start mt-3">
+<footer class="d-flex justify-content-around align-items-start mb-3">
 	<div class="company-address">
 		<h4>주식회사 몰</h4>
 		<span>서울특별시 강남구 테헤란로 152</span>

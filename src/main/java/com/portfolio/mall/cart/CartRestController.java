@@ -101,9 +101,12 @@ public class CartRestController {
 	@PostMapping("/createOrder")
 	public Map<String, String> createOrder(
 			@RequestParam("orderId") String orderId
-			, @RequestParam("status") String status){
+			, @RequestParam("status") String status
+			, HttpServletRequest request){
+		HttpSession session = request.getSession();
+		int buyerId = (Integer)session.getAttribute("buyerId");
 		
-		int count = cartBO.addOrderItems(orderId, status);
+		int count = cartBO.addOrderItems(orderId, buyerId, status);
 				
 		Map<String, String> result = new HashMap<>();
 		if(count >= 1) {
